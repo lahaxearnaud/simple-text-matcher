@@ -1,0 +1,6 @@
+/vendor
+composer.lock
+model_cache.json
+stemmer_cache.json
+coverage
+.idea

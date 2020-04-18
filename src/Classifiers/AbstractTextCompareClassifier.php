@@ -6,6 +6,7 @@ use alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Class TextCompareClassifier
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 abstract class AbstractTextCompareClassifier implements TrainingInterface
@@ -22,6 +23,7 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
 
     /**
      * AbstractTextCompareClassifier constructor.
+     *
      * @param Stemmer|null $stemmer
      */
     public function __construct(Stemmer $stemmer = null)
@@ -35,7 +37,7 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     protected $maxTrainingSize = 200;
 
     /**
-     * @param string $question
+     * @param  string $question
      * @return ClassificationResultsBag
      */
     public function classify(string $question): ClassificationResultsBag
@@ -65,16 +67,17 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     }
 
     /**
-     * @param string $question
-     * @param string $modelPhrase
+     * @param  string $question
+     * @param  string $modelPhrase
      * @return float
      */
-    protected abstract function executeComparison(string $question, string $modelPhrase):float;
+    abstract protected function executeComparison(string $question, string $modelPhrase):float;
 
     /**
      * @return float
      */
-    protected function getMinimumAcceptableScore() {
+    protected function getMinimumAcceptableScore()
+    {
         return 0.6;
     }
 

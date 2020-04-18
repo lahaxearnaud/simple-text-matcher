@@ -3,11 +3,11 @@
 
 namespace alahaxe\SimpleTextMatcher;
 
-
 use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
 
 /**
  * Class Message
+ *
  * @package alahaxe\SimpleTextMatcher
  */
 class Message implements \JsonSerializable
@@ -54,6 +54,7 @@ class Message implements \JsonSerializable
 
     /**
      * Message constructor.
+     *
      * @param string $rawMessage
      */
     public function __construct(string $rawMessage)

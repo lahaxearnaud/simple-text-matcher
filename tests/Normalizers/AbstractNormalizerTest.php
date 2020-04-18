@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class TypoNormalizerTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 abstract class AbstractNormalizerTest extends TestCase
@@ -20,7 +21,7 @@ abstract class AbstractNormalizerTest extends TestCase
     /**
      * @return array
      */
-    public abstract function correctProvider();
+    abstract public function correctProvider();
 
     /**
      * @param string $raw

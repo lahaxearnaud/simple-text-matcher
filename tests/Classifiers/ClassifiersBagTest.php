@@ -3,7 +3,6 @@
 
 namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-
 use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use alahaxe\SimpleTextMatcher\Stemmer;
@@ -22,7 +21,6 @@ class ClassifiersBagTest extends TestCase
         $bag[] = new TrainedRegexClassifier(new Stemmer());
         $this->assertEquals(1, $bag->count());
         $this->assertCount(1, $bag->all());
-
     }
 
     public function testAdd()

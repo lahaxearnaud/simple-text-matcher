@@ -6,6 +6,7 @@ use alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Class RegexClassifierTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 class RegexClassifierTest extends AbstractClassifierTest
@@ -43,7 +44,9 @@ class RegexClassifierTest extends AbstractClassifierTest
      */
     public function matchProvider()
     {
-        return array_merge(parent::matchProvider(), [
+        return array_merge(
+            parent::matchProvider(),
+            [
             // with small alteration
             ['dormirais a l hotel', 'dormir_dehors'],
             ['dormirais a hotel', 'dormir_dehors'],
@@ -51,6 +54,7 @@ class RegexClassifierTest extends AbstractClassifierTest
 
             // with extra spaces
             ['dormirais           hotel', 'dormir_dehors'],
-        ]);
+            ]
+        );
     }
 }

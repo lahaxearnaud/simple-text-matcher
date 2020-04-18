@@ -6,6 +6,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 
 /**
  * Class TypoNormalizerTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class TypoNormalizerTest extends AbstractNormalizerTest
@@ -18,9 +19,11 @@ class TypoNormalizerTest extends AbstractNormalizerTest
     {
         parent::setUp();
 
-        $this->normalizer = new TypoNormalizer([
+        $this->normalizer = new TypoNormalizer(
+            [
             'sncf'
-        ]);
+            ]
+        );
     }
 
     /**

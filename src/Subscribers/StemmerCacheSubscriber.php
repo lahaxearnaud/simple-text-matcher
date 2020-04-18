@@ -8,11 +8,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class StemmerCacheSubscriber
+ *
  * @package alahaxe\SimpleTextMatcher\Subscribers
  */
 class StemmerCacheSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @var string
      */
@@ -20,6 +20,7 @@ class StemmerCacheSubscriber implements EventSubscriberInterface
 
     /**
      * StemmerCacheSubscriber constructor.
+     *
      * @param string $cacheFilePath
      */
     public function __construct(string $cacheFilePath)

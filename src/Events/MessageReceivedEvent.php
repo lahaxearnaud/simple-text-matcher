@@ -7,6 +7,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class MessageReceivedEvent
+ *
  * @package alahaxe\SimpleTextMatcher\Events
  */
 class MessageReceivedEvent extends Event
@@ -18,6 +19,7 @@ class MessageReceivedEvent extends Event
 
     /**
      * MessageReceivedEvent constructor.
+     *
      * @param Message $message
      */
     public function __construct(Message $message)

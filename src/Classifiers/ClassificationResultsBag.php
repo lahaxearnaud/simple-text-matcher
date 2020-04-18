@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher\Classifiers;
 
 /**
  * Class ClassificationResultBag
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayAccess
@@ -66,7 +67,7 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
 
     /**
      * @inheritDoc
-     * @return ClassificationResult[]
+     * @return     ClassificationResult[]
      */
     public function all()
     {
@@ -74,7 +75,7 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
     }
 
     /**
-     * @param ClassificationResult|ClassificationResult[] $result
+     * @param  ClassificationResult|ClassificationResult[] $result
      * @return ClassificationResultsBag
      */
     public function add($result) :ClassificationResultsBag
@@ -88,7 +89,7 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
     }
 
     /**
-     * @param ClassificationResultsBag $bag
+     * @param  ClassificationResultsBag $bag
      * @return ClassificationResultsBag
      */
     public function merge(ClassificationResultsBag $bag) :ClassificationResultsBag
@@ -108,13 +109,19 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
      */
     public function getResultsWithMinimumScore(float $score = 0):ClassificationResultsBag
     {
-        $results = array_filter($this->results, static function (ClassificationResult $result) use ($score) {
-            return $result->getScore() >= $score;
-        });
+        $results = array_filter(
+            $this->results,
+            static function (ClassificationResult $result) use ($score) {
+                return $result->getScore() >= $score;
+            }
+        );
 
-        usort($results, static function(ClassificationResult $a, ClassificationResult $b) {
-            return $a->getScore() < $b->getScore();
-        });
+        usort(
+            $results,
+            static function (ClassificationResult $a, ClassificationResult $b) {
+                return $a->getScore() < $b->getScore();
+            }
+        );
 
         $bag = new ClassificationResultsBag();
         $bag->add($results);
@@ -123,8 +130,8 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
     }
 
     /**
-     * @param int $nb
-     * @param int $score
+     * @param  int $nb
+     * @param  int $score
      * @return ClassificationResultsBag
      */
     public function getTopIntents(int $nb, float $score):ClassificationResultsBag
@@ -150,7 +157,7 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
     }
 
     /**
-     * @param float $duration
+     * @param  float $duration
      * @return $this
      */
     public function setExecutionTime(float $duration)

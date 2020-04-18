@@ -62,8 +62,7 @@ class EngineTest extends TestCase
             ->add(new NaiveBayesClassifier($stemmer))
             ->add(new JaroWinklerClassifier($stemmer))
             ->add(new LevenshteinClassifier($stemmer))
-            ->add(new SmithWatermanGotohClassifier($stemmer))
-        ;
+            ->add(new SmithWatermanGotohClassifier($stemmer));
 
         $this->assertEquals(5, $classifierBag->count());
 
@@ -73,8 +72,7 @@ class EngineTest extends TestCase
             ->add(new UnaccentNormalizer())
             ->add(new UnpunctuateNormalizer())
             ->add(new QuotesNormalizer())
-            ->add(new TypoNormalizer())
-        ;
+            ->add(new TypoNormalizer());
 
         $this->assertEquals(6, $normalizerBag->count());
 
@@ -131,7 +129,6 @@ class EngineTest extends TestCase
      * @param $match
      *
      * @dataProvider matchProvider
-     *
      */
     public function testMatch($question, $match)
     {

@@ -8,6 +8,7 @@ use TextAnalysis\Tokenizers\GeneralTokenizer;
 
 /**
  * Class BayesClassifier
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 class NaiveBayesClassifier implements TrainingInterface
@@ -25,6 +26,7 @@ class NaiveBayesClassifier implements TrainingInterface
 
     /**
      * TrainedRegexClassifier constructor.
+     *
      * @param Stemmer $stemmer
      */
     public function __construct(Stemmer $stemmer = null)
@@ -33,7 +35,7 @@ class NaiveBayesClassifier implements TrainingInterface
     }
 
     /**
-     * @param string $question
+     * @param  string $question
      * @return ClassificationResultsBag
      */
     public function classify(string $question): ClassificationResultsBag
@@ -61,7 +63,7 @@ class NaiveBayesClassifier implements TrainingInterface
     }
 
     /**
-     * @param string $question
+     * @param  string $question
      * @return array
      */
     protected function tokenize(string $question)
@@ -71,12 +73,12 @@ class NaiveBayesClassifier implements TrainingInterface
     }
 
     /**
-     * @param array $tokens
+     * @param  array $tokens
      * @return array
      */
     protected function stemTokens(array $tokens)
     {
-        foreach($tokens as &$token) {
+        foreach ($tokens as &$token) {
             $token = $this->stemmer->stem($token);
         }
 

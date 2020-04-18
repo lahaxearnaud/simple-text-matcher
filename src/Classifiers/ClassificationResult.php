@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher\Classifiers;
 
 /**
  * Class ClassificationResult
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 class ClassificationResult implements \JsonSerializable
@@ -30,10 +31,11 @@ class ClassificationResult implements \JsonSerializable
 
     /**
      * ClassificationResult constructor.
+     *
      * @param string $classifier
      * @param string $intent
-     * @param float $score
-     * @param float $duration
+     * @param float  $score
+     * @param float  $duration
      */
     public function __construct(string $classifier, string $intent, float $score, float $duration = 0)
     {

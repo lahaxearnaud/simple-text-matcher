@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
  * Class NormalizerInterface
+ *
  * @package alahaxe\SimpleTextMatcher\Normalizer
  */
 interface NormalizerInterface

@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
  * Class UnpunctuateNormalizer
+ *
  * @package alahaxe\SimpleTextMatcher\Normalizer
  */
 class UnpunctuateNormalizer implements NormalizerInterface

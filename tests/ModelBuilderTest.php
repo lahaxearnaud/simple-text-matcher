@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ModelBuilderTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests
  */
 class ModelBuilderTest extends TestCase
@@ -35,8 +36,7 @@ class ModelBuilderTest extends TestCase
             ->add(new UnaccentNormalizer())
             ->add(new UnpunctuateNormalizer())
             ->add(new QuotesNormalizer())
-            ->add(new TypoNormalizer())
-        ;
+            ->add(new TypoNormalizer());
 
         $this->modelBuilder = new ModelBuilder($normalizerBag);
     }
@@ -95,9 +95,14 @@ class ModelBuilderTest extends TestCase
         $this->assertIsArray($model);
         $this->assertArrayHasKey('manger', $model);
 
-        $expected = array_product(array_map(static function ($phrases) {
-            return count($phrases);
-        }, $concepts));
+        $expected = array_product(
+            array_map(
+                static function ($phrases) {
+                    return count($phrases);
+                },
+                $concepts
+            )
+        );
 
         $this->assertEquals($expected, count($model['manger']));
     }

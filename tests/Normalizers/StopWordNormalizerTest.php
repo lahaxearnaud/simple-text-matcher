@@ -8,6 +8,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 
 /**
  * Class StopWordNormalizerTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class StopWordNormalizerTest extends AbstractNormalizerTest

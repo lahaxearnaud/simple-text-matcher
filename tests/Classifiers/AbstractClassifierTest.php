@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class AbtractTextCompareClassifier
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 abstract class AbstractClassifierTest extends TestCase
@@ -52,7 +53,6 @@ abstract class AbstractClassifierTest extends TestCase
      * @param $match
      *
      * @dataProvider matchProvider
-     *
      */
     public function testMatch($question, $match)
     {

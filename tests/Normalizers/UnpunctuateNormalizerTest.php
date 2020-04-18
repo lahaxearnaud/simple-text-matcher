@@ -8,6 +8,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 
 /**
  * Class UnpunctuateNormalizerTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class UnpunctuateNormalizerTest extends AbstractNormalizerTest

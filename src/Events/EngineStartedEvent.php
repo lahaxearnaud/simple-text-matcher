@@ -7,6 +7,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class EngineStartedEvent
+ *
  * @package alahaxe\SimpleTextMatcher\Events
  */
 class EngineStartedEvent extends Event
@@ -18,6 +19,7 @@ class EngineStartedEvent extends Event
 
     /**
      * EngineBuildEvent constructor.
+     *
      * @param Engine $engine
      */
     public function __construct(Engine $engine)

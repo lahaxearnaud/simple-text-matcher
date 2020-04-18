@@ -23,6 +23,7 @@ class Engine
 
     /**
      * Expanded training phases
+     *
      * @var array
      */
     protected $model = [];
@@ -61,11 +62,12 @@ class Engine
 
     /**
      * Engine constructor.
+     *
      * @param EventDispatcherInterface $eventDispatcher
-     * @param ModelBuilder $modelBuilder
-     * @param NormalizersBag $normalizers
-     * @param ClassifiersBag $classifiers
-     * @param Stemmer $stemmer
+     * @param ModelBuilder             $modelBuilder
+     * @param NormalizersBag           $normalizers
+     * @param ClassifiersBag           $classifiers
+     * @param Stemmer                  $stemmer
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
@@ -146,7 +148,7 @@ class Engine
                 break;
             }
         }
-        $question->setClassification($bag->getTopIntents(3,0.3));
+        $question->setClassification($bag->getTopIntents(3, 0.3));
 
         $bestResult = $question->getClassification()->offsetGet(0);
         if ($bestResult !== null) {

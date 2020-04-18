@@ -26,6 +26,7 @@ class TrainedRegexClassifier implements TrainingInterface
 
     /**
      * TrainedRegexClassifier constructor.
+     *
      * @param Stemmer|null $stemmer
      */
     public function __construct(Stemmer $stemmer = null)
@@ -34,7 +35,7 @@ class TrainedRegexClassifier implements TrainingInterface
     }
 
     /**
-     * @param string $question
+     * @param  string $question
      * @return ClassificationResultsBag
      */
     public function classify(string $question): ClassificationResultsBag
@@ -75,10 +76,12 @@ class TrainedRegexClassifier implements TrainingInterface
      */
     public function prepareModel(array $trainingData = []): void
     {
-        $builder = new Builder([
+        $builder = new Builder(
+            [
             'input' => 'Utf8',
             'output' => 'PHP'
-        ]);
+            ]
+        );
 
 
         foreach ($trainingData as $intent => $phrases) {

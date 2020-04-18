@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher\Classifiers;
 
 /**
  * Class ClassifiersBag
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 class ClassifiersBag implements \Countable, \ArrayAccess
@@ -24,7 +25,7 @@ class ClassifiersBag implements \Countable, \ArrayAccess
 
     /**
      * @inheritDoc
-     * @return ClassifierInterface[]
+     * @return     ClassifierInterface[]
      */
     public function all()
     {
@@ -70,16 +71,22 @@ class ClassifiersBag implements \Countable, \ArrayAccess
      */
     public function classifiersWithTraining()
     {
-        return array_values(array_filter($this->classifiers, static function (ClassifierInterface $classifier) {
-            return $classifier instanceof TrainingInterface;
-        }));
+        return array_values(
+            array_filter(
+                $this->classifiers,
+                static function (ClassifierInterface $classifier) {
+                    return $classifier instanceof TrainingInterface;
+                }
+            )
+        );
     }
 
     /**
-     * @param ClassifierInterface $classifier
+     * @param  ClassifierInterface $classifier
      * @return ClassifiersBag
      */
-    public function add(ClassifierInterface $classifier) :ClassifiersBag {
+    public function add(ClassifierInterface $classifier) :ClassifiersBag
+    {
         $this->classifiers[] = $classifier;
 
         return $this;

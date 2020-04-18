@@ -6,6 +6,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class ModelExpendedEvent
+ *
  * @package alahaxe\SimpleTextMatcher\Events
  */
 class ModelExpandedEvent extends Event
@@ -17,6 +18,7 @@ class ModelExpandedEvent extends Event
 
     /**
      * ModelExpendedEvent constructor.
+     *
      * @param array $model
      */
     public function __construct(array $model)

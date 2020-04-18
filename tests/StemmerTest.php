@@ -3,7 +3,6 @@
 
 namespace alahaxe\SimpleTextMatcher\Tests;
 
-
 use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
 use alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
@@ -58,12 +57,10 @@ class StemmerTest extends TestCase
         $classifierBag = new ClassifiersBag();
 
         $classifierBag
-            ->add(new TrainedRegexClassifier())
-        ;
+            ->add(new TrainedRegexClassifier());
 
         $normalizerBag
-            ->add(new LowerCaseNormalizer())
-        ;
+            ->add(new LowerCaseNormalizer());
 
         $eventDispatcher = new EventDispatcher();
 
@@ -76,12 +73,15 @@ class StemmerTest extends TestCase
             new Stemmer(),
             self::TRAINING_DATA_CACHE
         );
-        $engine->prepare([
+        $engine->prepare(
+            [
             'aaa' => [
                 'voitures chocolat',
                 'couraient voiture',
             ],
-        ], []);
+            ],
+            []
+        );
 
         $this->assertFileExists($cachePath);
 

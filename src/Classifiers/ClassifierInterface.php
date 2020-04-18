@@ -13,7 +13,7 @@ interface ClassifierInterface
 {
 
     /**
-     * @param string $question
+     * @param  string $question
      * @return ClassificationResultsBag
      */
     public function classify(string $question):ClassificationResultsBag;
@@ -24,7 +24,7 @@ interface ClassifierInterface
     public function getStemmer():Stemmer;
 
     /**
-     * @param Stemmer $stemmer
+     * @param  Stemmer $stemmer
      * @return ClassifierInterface
      */
     public function setStemmer(Stemmer $stemmer):ClassifierInterface;

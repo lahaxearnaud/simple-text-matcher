@@ -3,13 +3,12 @@
 
 namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-
-
 use alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
 use alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Class JaroWinklerClassifierTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 class JaroWinklerClassifierTest extends AbstractClassifierTest

@@ -9,6 +9,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 
 /**
  * Class LowerCaseNormalizerTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class LowerCaseNormalizerTest extends AbstractNormalizerTest

@@ -7,13 +7,14 @@ use Atomescrochus\StringSimilarities\Levenshtein;
 
 /**
  * Class LevenshteinClassifier
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 class LevenshteinClassifier extends AbstractTextCompareClassifier
 {
     /**
-     * @param string $question
-     * @param string $modelPhrase
+     * @param  string $question
+     * @param  string $modelPhrase
      * @return float
      */
     protected function executeComparison(string $question, string $modelPhrase): float
@@ -43,9 +44,12 @@ class LevenshteinClassifier extends AbstractTextCompareClassifier
         }
 
         foreach ($trainingData as $intent => $phrases) {
-            $trainingData[$intent] = array_map(static function ($phrase) use ($maxStringLength) {
-                return str_pad($phrase, $maxStringLength, ' ');
-            }, $phrases);
+            $trainingData[$intent] = array_map(
+                static function ($phrase) use ($maxStringLength) {
+                    return str_pad($phrase, $maxStringLength, ' ');
+                },
+                $phrases
+            );
         }
 
         parent::prepareModel($trainingData);

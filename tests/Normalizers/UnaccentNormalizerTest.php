@@ -7,6 +7,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 
 /**
  * Class UnaccentNormalizerTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class UnaccentNormalizerTest extends AbstractNormalizerTest

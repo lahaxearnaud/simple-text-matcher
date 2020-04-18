@@ -12,6 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class LogSubscriber
+ *
  * @package alahaxe\SimpleTextMatcher\Subscribers
  */
 class LogSubscriber implements EventSubscriberInterface
@@ -24,6 +25,7 @@ class LogSubscriber implements EventSubscriberInterface
 
     /**
      * LogSubscriber constructor.
+     *
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)

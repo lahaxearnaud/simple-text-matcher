@@ -13,8 +13,7 @@ $classifiers
     ->add(new \alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())
     ->add(new \alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())
     ->add(new \alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier())
-;
+    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier());
 
 
 $normalizers = new \alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
@@ -24,8 +23,7 @@ $normalizers->add(new \alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
-;
+    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer());
 
 $concepts = [
     '~hotel' => [
@@ -164,8 +162,10 @@ foreach ($questions as $question) {
     echo 'Intent: ' . $message->getIntentDetected() . PHP_EOL;
 
     foreach ($message->getClassification()->all() as $classificationResult) {
-        echo sprintf("    - %s %s %f en %s", $classificationResult->getIntent(), $classificationResult->getClassifier(),
-                $classificationResult->getScore(), $classificationResult->getDuration()) . PHP_EOL;
+        echo sprintf(
+            "    - %s %s %f en %s", $classificationResult->getIntent(), $classificationResult->getClassifier(),
+            $classificationResult->getScore(), $classificationResult->getDuration()
+        ) . PHP_EOL;
     }
 
     echo 'Performance: '.var_export($message->jsonSerialize()['performance'], true);

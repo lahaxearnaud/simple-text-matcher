@@ -7,6 +7,7 @@ use voku\helper\StopWordsLanguageNotExists;
 
 /**
  * Class StopwordsNormalizer
+ *
  * @package alahaxe\SimpleTextMatcher\Normalizer
  */
 class StopwordsNormalizer implements NormalizerInterface
@@ -18,10 +19,10 @@ class StopwordsNormalizer implements NormalizerInterface
 
     /**
      * StopwordsNormalizer constructor.
-     * @param string $lang
      *
+     * @param string $lang
      */
-    public function __construct(string $lang =  'fr')
+    public function __construct(string $lang = 'fr')
     {
         try {
             $this->stopwords = (new StopWords())->getStopWordsFromLanguage($lang);

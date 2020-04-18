@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
  * Class LowerCaseNormalizer
+ *
  * @package alahaxe\SimpleTextMatcher\Normalizer
  */
 class LowerCaseNormalizer implements NormalizerInterface

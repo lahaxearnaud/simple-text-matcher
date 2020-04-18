@@ -8,6 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class ModelCacheSubscriber
+ *
  * @package alahaxe\SimpleTextMatcher\Subscribers
  */
 class ModelCacheSubscriber implements EventSubscriberInterface
@@ -20,6 +21,7 @@ class ModelCacheSubscriber implements EventSubscriberInterface
 
     /**
      * StemmerCacheSubscriber constructor.
+     *
      * @param string $cacheFilePath
      */
     public function __construct(string $cacheFilePath)
@@ -60,9 +62,15 @@ class ModelCacheSubscriber implements EventSubscriberInterface
     public function onEngineStarted(EngineStartedEvent $event)
     {
         $engine = $event->getEngine();
-        file_put_contents($this->cacheFilePath, json_encode([
-            'trainedModels' => $engine->exportTrainedModels(),
-            'model' => $engine->getModel()
-        ], JSON_PRETTY_PRINT));
+        file_put_contents(
+            $this->cacheFilePath,
+            json_encode(
+                [
+                'trainedModels' => $engine->exportTrainedModels(),
+                'model' => $engine->getModel()
+                ],
+                JSON_PRETTY_PRINT
+            )
+        );
     }
 }

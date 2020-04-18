@@ -6,6 +6,7 @@ use TextAnalysis\Stemmers\SnowballStemmer;
 
 /**
  * Class Stemmer
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 class Stemmer extends SnowballStemmer
@@ -17,6 +18,7 @@ class Stemmer extends SnowballStemmer
 
     /**
      * Stemmer constructor.
+     *
      * @param string $stemmerType
      */
     public function __construct($stemmerType = 'French')
@@ -39,7 +41,7 @@ class Stemmer extends SnowballStemmer
     }
 
     /**
-     * @param string $phrase
+     * @param  string $phrase
      * @return string
      */
     public function stemPhrase(string $phrase):string
@@ -48,13 +50,22 @@ class Stemmer extends SnowballStemmer
             return $this->cache[$phrase];
         }
 
-        return $this->cache[$phrase] = implode(' ', array_map(function(string $word) {
+        return $this->cache[$phrase] = implode(
+            ' ',
+            array_map(
+                function (string $word) {
 
-            return $this->stem($word);
-        }, array_filter(explode(' ', preg_replace('/\s+/', ' ', $phrase)), static function ($word) {
+                    return $this->stem($word);
+                },
+                array_filter(
+                    explode(' ', preg_replace('/\s+/', ' ', $phrase)),
+                    static function ($word) {
 
-            return strlen($word) > 1;
-        })));
+                        return strlen($word) > 1;
+                    }
+                )
+            )
+        );
     }
 
     /**

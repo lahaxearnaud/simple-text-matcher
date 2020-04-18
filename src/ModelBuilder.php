@@ -6,6 +6,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 
 /**
  * Class ModelBuilder
+ *
  * @package alahaxe\SimpleTextMatcher
  */
 class ModelBuilder
@@ -17,6 +18,7 @@ class ModelBuilder
 
     /**
      * Trainer constructor.
+     *
      * @param NormalizersBag $normalizers
      */
     public function __construct(NormalizersBag $normalizers)
@@ -25,8 +27,8 @@ class ModelBuilder
     }
 
     /**
-     * @param array $training
-     * @param array $synonyms
+     * @param  array $training
+     * @param  array $synonyms
      * @return array
      */
     public function build(array $training, array $synonyms):array
@@ -74,13 +76,19 @@ class ModelBuilder
                     }
                 }
             }
-
         }
 
         foreach ($training as $intent => &$phrases) {
-            $phrases = array_values(array_unique(array_filter($phrases, static function ($phrase) {
-                return strpos($phrase, '~') === false;
-            })));
+            $phrases = array_values(
+                array_unique(
+                    array_filter(
+                        $phrases,
+                        static function ($phrase) {
+                            return strpos($phrase, '~') === false;
+                        }
+                    )
+                )
+            );
         }
 
         return $training;

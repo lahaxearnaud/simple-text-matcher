@@ -3,7 +3,6 @@
 namespace alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
- *
  * Fix basic typo in a word
  *
  * @package alahaxe\SimpleTextMatcher\Normalizer
@@ -25,16 +24,20 @@ class TypoNormalizer implements NormalizerInterface
 
     /**
      * TypoNormalizer constructor.
-     * @param array $ignoreWords
+     *
+     * @param array  $ignoreWords
      * @param string $language
      */
-    public function __construct(array $ignoreWords = [], $language =  'fr')
+    public function __construct(array $ignoreWords = [], $language = 'fr')
     {
         $this->dictonnary = pspell_new('fr');
 
-        $this->ignoreWords = array_map(static function ($word) {
-            return strtolower($word);
-        }, $ignoreWords);
+        $this->ignoreWords = array_map(
+            static function ($word) {
+                return strtolower($word);
+            },
+            $ignoreWords
+        );
     }
 
 

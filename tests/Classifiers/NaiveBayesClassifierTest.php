@@ -7,6 +7,7 @@ use alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Class NaiveBayesClassifierTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 class NaiveBayesClassifierTest extends AbstractClassifierTest
@@ -45,7 +46,9 @@ class NaiveBayesClassifierTest extends AbstractClassifierTest
      */
     public function matchProvider()
     {
-        return array_merge(parent::matchProvider(), [
+        return array_merge(
+            parent::matchProvider(),
+            [
             // perfect match
             ['dormir a l hotel', 'dormir_dehors'],
             ['je dormir chez paul', 'dormir_amis'],
@@ -67,6 +70,7 @@ class NaiveBayesClassifierTest extends AbstractClassifierTest
 
             // with extra text
             ['je vais dormir a hotel rue mazagran', 'dormir_dehors'],
-        ]);
+            ]
+        );
     }
 }

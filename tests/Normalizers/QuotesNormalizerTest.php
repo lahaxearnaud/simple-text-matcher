@@ -7,6 +7,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 
 /**
  * Class QuotesNormalizerTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class QuotesNormalizerTest extends AbstractNormalizerTest

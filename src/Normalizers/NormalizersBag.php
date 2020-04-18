@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
  * Class NormalizerBag
+ *
  * @package alahaxe\SimpleTextMatcher\Classifiers
  */
 class NormalizersBag implements \Countable, \ArrayAccess
@@ -68,18 +69,22 @@ class NormalizersBag implements \Countable, \ArrayAccess
      */
     public function getOrderedByPriority() :array
     {
-        usort($this->normalizers, static function (NormalizerInterface $a, NormalizerInterface $b) {
-            return $a->getPriority() > $b->getPriority();
-        });
+        usort(
+            $this->normalizers,
+            static function (NormalizerInterface $a, NormalizerInterface $b) {
+                return $a->getPriority() > $b->getPriority();
+            }
+        );
 
         return array_values($this->normalizers);
     }
 
     /**
-     * @param NormalizerInterface $classifier
+     * @param  NormalizerInterface $classifier
      * @return NormalizersBag
      */
-    public function add(NormalizerInterface $classifier) :NormalizersBag {
+    public function add(NormalizerInterface $classifier) :NormalizersBag
+    {
         $this->normalizers[] = $classifier;
 
         return $this;

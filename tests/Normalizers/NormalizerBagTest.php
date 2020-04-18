@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class NormalizerBagTest
+ *
  * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class NormalizerBagTest extends TestCase
@@ -36,8 +37,7 @@ class NormalizerBagTest extends TestCase
             ->add(new UnaccentNormalizer())
             ->add(new UnpunctuateNormalizer())
             ->add(new QuotesNormalizer())
-            ->add(new TypoNormalizer())
-        ;
+            ->add(new TypoNormalizer());
     }
 
     public function testCount()

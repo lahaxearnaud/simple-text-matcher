@@ -4,7 +4,6 @@ namespace alahaxe\SimpleTextMatcher\Classifiers;
 
 use alahaxe\SimpleTextMatcher\Stemmer;
 use TextAnalysis\Classifiers\NaiveBayes;
-use TextAnalysis\Stemmers\SnowballStemmer;
 use TextAnalysis\Tokenizers\GeneralTokenizer;
 
 /**

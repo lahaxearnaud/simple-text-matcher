@@ -2,19 +2,18 @@
 
 require 'vendor/autoload.php';
 
-$stemmer = new \alahaxe\SimpleTextMatcher\Stemmer(__DIR__.'/stemmer_cache.json');
-
 $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
-//$dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber());
+$dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
+$dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
 
 $classifiers = new \alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
 
 $classifiers
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier($stemmer))
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier($stemmer))
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier($stemmer))
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier($stemmer))
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier($stemmer))
+    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier())
+    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())
+    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())
+    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())
+    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier())
 ;
 
 
@@ -141,7 +140,7 @@ $engine = new \alahaxe\SimpleTextMatcher\Engine(
     new \alahaxe\SimpleTextMatcher\ModelBuilder($normalizers),
     $normalizers,
     $classifiers,
-    __DIR__.'/model_cache.json'
+    new \alahaxe\SimpleTextMatcher\Stemmer()
 );
 
 $engine->prepare($model, $concepts);

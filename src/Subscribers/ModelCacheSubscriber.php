@@ -63,6 +63,6 @@ class ModelCacheSubscriber implements EventSubscriberInterface
         file_put_contents($this->cacheFilePath, json_encode([
             'trainedModels' => $engine->exportTrainedModels(),
             'model' => $engine->getModel()
-        ]));
+        ], JSON_PRETTY_PRINT));
     }
 }

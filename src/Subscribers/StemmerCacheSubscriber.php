@@ -59,6 +59,6 @@ class StemmerCacheSubscriber implements EventSubscriberInterface
     public function onEngineStarted(EngineStartedEvent $event)
     {
         $cache = $event->getEngine()->getStemmer()->getCache();
-        file_put_contents($this->cacheFilePath, json_encode($cache));
+        file_put_contents($this->cacheFilePath, json_encode($cache, JSON_PRETTY_PRINT));
     }
 }

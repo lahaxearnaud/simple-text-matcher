@@ -32,14 +32,12 @@
         "post-install-cmd": "./vendor/bin/cghooks add --ignore-lock",
         "post-update-cmd": "./vendor/bin/cghooks update",
         "check-style": "./vendor/bin/phpcs --standard=PSR2 tests src",
-        "static-analyse": "./vendor/bin/psalm.phar",
+        "static-analysis": "./vendor/bin/psalm.phar",
         "fix-style": " ./vendor/bin/phpcbf --standard=PSR2 tests src"
     },
     "extra": {
         "hooks": {
             "pre-commit": [
-                "composer fix-style",
-                "composer static-analyse",
                 "composer test"
             ],
             "post-merge": "composer install"

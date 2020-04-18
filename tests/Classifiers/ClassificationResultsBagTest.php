@@ -21,7 +21,8 @@ class ClassificationResultsBagTest extends TestCase
         $this->assertEquals(1, $bag->count());
         $this->assertTrue(isset($bag[11]));
         $this->assertEquals('A', $bag[11]->getClassifier());
-
+        unset($bag[11]);
+        $this->assertFalse(isset($bag[11]));
     }
 
     public function testTopMerge()

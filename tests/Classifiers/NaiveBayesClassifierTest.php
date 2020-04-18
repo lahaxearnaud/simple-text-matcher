@@ -11,7 +11,6 @@ use alahaxe\SimpleTextMatcher\Stemmer;
  */
 class NaiveBayesClassifierTest extends AbstractClassifierTest
 {
-
     const TRAINING_DATA = [
         "dormir_dehors" => [
             "dormir a l hotel",

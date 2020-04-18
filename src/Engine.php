@@ -76,7 +76,18 @@ class Engine
         $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
     }
 
+    /**
+     *
+     */
     public function __destruct()
+    {
+        $this->persistModels();
+    }
+
+    /**
+     *
+     */
+    public function persistModels():void
     {
         if (file_exists($this->modelCachePath)) {
             return;
@@ -89,7 +100,6 @@ class Engine
 
         file_put_contents($this->modelCachePath, json_encode($cache, JSON_PRETTY_PRINT));
     }
-
 
     /**
      * @param array $training

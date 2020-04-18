@@ -76,4 +76,12 @@ class Stemmer extends SnowballStemmer
             return strlen($word) > 1;
         })));
     }
+
+    /**
+     * @return string[]
+     */
+    public function getCache(): array
+    {
+        return $this->cache;
+    }
 }

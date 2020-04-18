@@ -107,6 +107,12 @@ Model
 Cache and performance
 ----
 
+The library provide the possibility to cache builded models and stemmer results.
+[ModelCacheSubscriber](https://github.com/lahaxearnaud/simple-text-matcher/blob/master/src/Subscribers/ModelCacheSubscriber.php)
+and [StemmerCacheSubscriber](https://github.com/lahaxearnaud/simple-text-matcher/blob/master/src/Subscribers/StemmerCacheSubscriber.php)
+are two working examples of cache implementation.
+You can use those subscribers or, if you want to store in an other cache provider you can implement your own subscriber.
+
 Events
 ----
 
@@ -212,9 +218,7 @@ class MyCustomeClassifier implements TrainingInterface
         $this->model = $modelData;
     }
 }
-
 ``` 
-
 
 Create custom normalizer
 ----
@@ -249,3 +253,8 @@ class MyCustomNormalizer implements NormalizerInterface
     }
 }
 ```
+
+License
+----
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

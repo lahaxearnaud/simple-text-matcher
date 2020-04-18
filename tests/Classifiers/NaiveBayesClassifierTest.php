@@ -4,18 +4,30 @@ namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
 use alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use alahaxe\SimpleTextMatcher\Stemmer;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class NaiveBayesClassifierTest
  * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
-class NaiveBayesClassifierTest extends TestCase
+class NaiveBayesClassifierTest extends AbstractClassifierTest
 {
-    /**
-     * @var NaiveBayesClassifier
-     */
-    protected $classifier;
+
+    const TRAINING_DATA = [
+        "dormir_dehors" => [
+            "dormir a l hotel",
+            "je vais dormir dans une auberge",
+            "passer la nuit au camping"
+        ],
+        "dormir_amis" => [
+            "avec jean on va dormir chez ses parent",
+            "je veux me coucher chez paul",
+            "je dormir chez jean",
+        ],
+        "acheter_voiture" => [
+            "je vais chez le concessionnaire",
+            "je ai repere une voiture je vais l'acheter",
+        ]
+    ];
 
     /**
      * @inheritDoc
@@ -26,23 +38,7 @@ class NaiveBayesClassifierTest extends TestCase
 
         $stemmer = new Stemmer();
         $this->classifier = new NaiveBayesClassifier($stemmer);
-        // already expanded and normalized model
-        $this->classifier->prepareModel([
-            "dormir_dehors" => [
-                "dormir a l hotel",
-                "je vais dormir dans une auberge",
-                "passer la nuit au camping"
-            ],
-            "dormir_amis" => [
-                "avec jean on va dormir chez ses parent",
-                "je veux me coucher chez paul",
-                "je dormir chez jean",
-            ],
-            "acheter_voiture" => [
-                "je vais chez le concessionnaire",
-                "je ai repere une voiture je vais l'acheter",
-            ]
-        ]);
+        $this->classifier->prepareModel(self::TRAINING_DATA);
     }
 
     /**
@@ -50,7 +46,7 @@ class NaiveBayesClassifierTest extends TestCase
      */
     public function matchProvider()
     {
-        return [
+        return array_merge(parent::matchProvider(), [
             // perfect match
             ['dormir a l hotel', 'dormir_dehors'],
             ['je dormir chez paul', 'dormir_amis'],
@@ -72,30 +68,6 @@ class NaiveBayesClassifierTest extends TestCase
 
             // with extra text
             ['je vais dormir a hotel rue mazagran', 'dormir_dehors'],
-        ];
-    }
-
-    /**
-     * @param $question
-     * @param $match
-     *
-     * @dataProvider matchProvider
-     *
-     */
-    public function testMatch($question, $match)
-    {
-        $result = $this->classifier->classify($question)->getResultsWithMinimumScore();
-        $this->assertNotEmpty($result);
-        $this->assertNotNull($result[0]);
-        $this->assertEquals(
-            $result[0]->getIntent(),
-            $match,
-            sprintf(
-                'Should match "%s" but match "%s" with score %f',
-                $match,
-                $result[0]->getIntent(),
-                $result[0]->getScore()
-            )
-        );
+        ]);
     }
 }

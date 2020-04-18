@@ -3,7 +3,6 @@
 namespace alahaxe\SimpleTextMatcher\Classifiers;
 
 use alahaxe\SimpleTextMatcher\Stemmer;
-use TextAnalysis\Stemmers\SnowballStemmer;
 
 /**
  * Class TextCompareClassifier

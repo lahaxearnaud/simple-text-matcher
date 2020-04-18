@@ -42,6 +42,10 @@ class NaiveBayesClassifier implements TrainingInterface
         $bag = new ClassificationResultsBag();
         $startTimer = microtime(true);
 
+        if (empty($question)) {
+            return $bag;
+        }
+
         $result = $this->model->predict($this->stemTokens($this->tokenize($question)));
 
         foreach ($result as $intent => $score) {
@@ -108,5 +112,13 @@ class NaiveBayesClassifier implements TrainingInterface
     public function reloadModel($modelData): void
     {
         $this->model = unserialize($modelData);
+    }
+
+    /**
+     * @return Stemmer
+     */
+    public function getStemmer(): Stemmer
+    {
+        return $this->stemmer;
     }
 }

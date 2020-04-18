@@ -53,7 +53,7 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
                     $bag->add(new ClassificationResult(get_class($this), $intent, $result));
                 }
 
-                if ($result === 1) {
+                if ($result === 1.) {
                     break 2;
                 }
             }
@@ -112,18 +112,18 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     }
 
     /**
-     * @return string
-     */
-    public function getMaxTrainingSize(): string
-    {
-        return $this->maxTrainingSize;
-    }
-
-    /**
      * @param string $maxTrainingSize
      */
     public function setMaxTrainingSize(string $maxTrainingSize): void
     {
         $this->maxTrainingSize = $maxTrainingSize;
+    }
+
+    /**
+     * @return Stemmer
+     */
+    public function getStemmer(): Stemmer
+    {
+        return $this->stemmer;
     }
 }

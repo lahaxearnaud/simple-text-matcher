@@ -129,28 +129,15 @@ class Message implements \JsonSerializable
         return $this->messageId;
     }
 
-    /**
-     * @return int
-     */
-    public function getReceivedTimestamp(): int
+    public function getPerformance():array
     {
-        return $this->receivedTimestamp;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCorrectedTimestamp(): int
-    {
-        return $this->correctedTimestamp;
-    }
-
-    /**
-     * @return int
-     */
-    public function getClassifiedTimestamp(): int
-    {
-        return $this->classifiedTimestamp;
+        return [
+            'receivedAt' => $this->receivedTimestamp,
+            'correctedAt' => $this->correctedTimestamp,
+            'classifiedAt' => $this->classifiedTimestamp,
+            'correctionDuration' => $this->correctedTimestamp - $this->receivedTimestamp,
+            'classificationDuration' => $this->classifiedTimestamp - $this->correctedTimestamp,
+        ];
     }
 
     /**
@@ -164,13 +151,7 @@ class Message implements \JsonSerializable
             'normalizedMessage' => $this->normalizedMessage,
             'classification' => $this->classification,
             'intentDetected' => $this->intentDetected,
-            'performance' => [
-                'receivedAt' => $this->receivedTimestamp,
-                'correctedAt' => $this->correctedTimestamp,
-                'classifiedAt' => $this->classifiedTimestamp,
-                'correctionDuration' => $this->correctedTimestamp - $this->receivedTimestamp,
-                'classificationDuration' => $this->classifiedTimestamp - $this->correctedTimestamp,
-            ]
+            'performance' => $this->getPerformance()
         ];
     }
 }

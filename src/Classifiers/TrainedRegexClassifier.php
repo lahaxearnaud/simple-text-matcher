@@ -110,4 +110,12 @@ class TrainedRegexClassifier implements TrainingInterface
     {
         $this->regexes = $modelData;
     }
+
+    /**
+     * @return Stemmer
+     */
+    public function getStemmer(): Stemmer
+    {
+        return $this->stemmer;
+    }
 }

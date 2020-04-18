@@ -21,6 +21,11 @@ class Stemmer extends SnowballStemmer
     protected $cacheFilePath;
 
     /**
+     * @var bool
+     */
+    protected $needToWriteCache = false;
+
+    /**
      * Stemmer constructor.
      * @param string|null $cacheFilePath
      * @param string $stemmerType
@@ -36,10 +41,14 @@ class Stemmer extends SnowballStemmer
         $this->cacheFilePath = $cacheFilePath;
     }
 
-    public function __destruct()
+    /**
+     *
+     */
+    public function writeCache():void
     {
-        if ($this->cacheFilePath !== null) {
+        if ($this->cacheFilePath !== null && $this->needToWriteCache) {
             file_put_contents($this->cacheFilePath, json_encode($this->cache));
+            $this->needToWriteCache = false;
         }
     }
 
@@ -55,6 +64,7 @@ class Stemmer extends SnowballStemmer
             return $this->cache[$token];
         }
 
+        $this->needToWriteCache = true;
         return $this->cache[$token] = parent::stem($token);
     }
 

@@ -34,7 +34,7 @@ class StemmerTest extends TestCase
         $stemmer->stem('couraient');
         $stemmer->stem('chocolat');
 
-        unset($stemmer);
+        $stemmer->writeCache();
         $this->assertFileExists($cachePath);
 
         $stemmer = new Stemmer($cachePath);

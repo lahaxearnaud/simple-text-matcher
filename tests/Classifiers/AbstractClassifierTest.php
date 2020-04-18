@@ -43,6 +43,7 @@ abstract class AbstractClassifierTest extends TestCase
             ['dormir a l hotel', 'dormir_dehors'],
             ['je veux me coucher chez paul', 'dormir_amis'],
             ['je vais chez le concessionnaire', 'acheter_voiture'],
+            ['', null]
         ];
     }
 
@@ -56,6 +57,11 @@ abstract class AbstractClassifierTest extends TestCase
     public function testMatch($question, $match)
     {
         $result = $this->classifier->classify($question)->getResultsWithMinimumScore();
+        if ($match === null) {
+            $this->assertEmpty($result);
+            return;
+        }
+
         $this->assertNotEmpty($result);
         $this->assertNotNull($result[0]);
         $this->assertEquals(

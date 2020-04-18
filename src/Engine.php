@@ -123,6 +123,7 @@ class Engine
                 $classifier->reloadModel($cachedModel[get_class($classifier)]);
             } else {
                 $classifier->prepareModel($this->model);
+                $classifier->getStemmer()->writeCache();
             }
         }
 
@@ -136,7 +137,7 @@ class Engine
      *
      * @return Message
      */
-    public function predict ($question) :Message
+    public function predict($question) :Message
     {
         if (!$question instanceof Message) {
             $question = new Message($question);

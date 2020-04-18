@@ -132,6 +132,7 @@ class EngineTest extends TestCase
         $this->assertNotEmpty($result->getRawMessage());
         $this->assertEquals($result->getRawMessage(), $question);
         $this->assertNotEmpty($result->getNormalizedMessage());
+        $this->assertNotEmpty($result->getMessageId());
         $this->assertGreaterThan(0, $result->getClassification()->count());
         $this->assertEquals($match, $result->getIntentDetected());
         $this->assertGreaterThan(0, $result->getClassification()[0]->getDuration());

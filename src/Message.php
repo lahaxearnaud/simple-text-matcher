@@ -90,9 +90,9 @@ class Message implements \JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getIntentDetected(): string
+    public function getIntentDetected(): ?string
     {
         return $this->intentDetected;
     }

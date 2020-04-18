@@ -19,6 +19,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use alahaxe\SimpleTextMatcher\Stemmer;
+use alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -77,13 +78,14 @@ class EngineTest extends TestCase
 
         $this->assertEquals(6, $normalizerBag->count());
 
+        $eventDispatcher = new EventDispatcher();
+        $eventDispatcher->addSubscriber(new ModelCacheSubscriber(self::TRAINING_DATA_CACHE));
         return new Engine(
-            new EventDispatcher(),
+            $eventDispatcher,
             new ModelBuilder($normalizerBag),
             $normalizerBag,
             $classifierBag,
-            new Stemmer(),
-            self::TRAINING_DATA_CACHE
+            new Stemmer()
         );
     }
 
@@ -93,6 +95,11 @@ class EngineTest extends TestCase
     protected function setUp():void
     {
         parent::setUp();
+
+        if (file_exists(self::TRAINING_DATA_CACHE)) {
+            unlink(self::TRAINING_DATA_CACHE);
+        }
+
         $this->engine = $this->buildEngine();
         $this->engine->prepare(self::TRAINING_DATA, []);
     }
@@ -148,13 +155,11 @@ class EngineTest extends TestCase
 
     public function testPersistModel()
     {
-        $this->engine->persistModels();
         $this->assertFileExists(self::TRAINING_DATA_CACHE);
     }
 
     public function testReloadModel()
     {
-        $this->engine->persistModels();
         $this->assertFileExists(self::TRAINING_DATA_CACHE);
 
         $secondEngine = $this->buildEngine();

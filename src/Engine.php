@@ -22,9 +22,17 @@ class Engine
 {
 
     /**
+     * Expanded training phases
      * @var array
      */
-    protected $model;
+    protected $model = [];
+
+    /**
+     * Models build by classifiers
+     *
+     * @var array
+     */
+    protected $classifierTrainedModels = [];
 
     /**
      * @var ModelBuilder
@@ -40,11 +48,6 @@ class Engine
      * @var ClassifiersBag
      */
     protected $classifiers;
-
-    /**
-     * @var string
-     */
-    protected $modelCachePath;
 
     /**
      * @var Stemmer
@@ -63,49 +66,21 @@ class Engine
      * @param NormalizersBag $normalizers
      * @param ClassifiersBag $classifiers
      * @param Stemmer $stemmer
-     * @param string $modelCachePath
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         ModelBuilder $modelBuilder,
         NormalizersBag $normalizers,
         ClassifiersBag $classifiers,
-        Stemmer $stemmer,
-        string $modelCachePath
+        Stemmer $stemmer
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->modelBuilder = $modelBuilder;
         $this->normalizers = $normalizers;
         $this->classifiers = $classifiers;
-        $this->modelCachePath = $modelCachePath;
         $this->stemmer = $stemmer;
 
         $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
-    }
-
-    /**
-     *
-     */
-    public function __destruct()
-    {
-        $this->persistModels();
-    }
-
-    /**
-     *
-     */
-    public function persistModels():void
-    {
-        if (file_exists($this->modelCachePath)) {
-            return;
-        }
-
-        $cache = [];
-        foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
-            $cache[get_class($classifier)] = $classifier->exportModel();
-        }
-
-        file_put_contents($this->modelCachePath, json_encode($cache, JSON_PRETTY_PRINT));
     }
 
     /**
@@ -116,20 +91,22 @@ class Engine
      */
     public function prepare(array $training, array $synonyms):Engine
     {
-        $this->model = $this->modelBuilder->build($training, $synonyms);
+        $modelUpToDate = !empty($this->classifierTrainedModels) && !empty($this->model);
 
-        $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
-
-        $cachedModel = [];
-        if (file_exists($this->modelCachePath)) {
-            $cachedModel = json_decode(file_get_contents($this->modelCachePath), true);
+        foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
+            $modelUpToDate = $modelUpToDate && isset($this->classifierTrainedModels[get_class($classifier)]);
         }
+
+        if (!$modelUpToDate) {
+            $this->model = $this->modelBuilder->build($training, $synonyms);
+        }
+        $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
 
         foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
             $classifier->setStemmer($this->stemmer);
 
-            if (isset($cachedModel[get_class($classifier)])) {
-                $classifier->reloadModel($cachedModel[get_class($classifier)]);
+            if (isset($this->classifierTrainedModels[get_class($classifier)])) {
+                $classifier->reloadModel($this->classifierTrainedModels[get_class($classifier)]);
             } else {
                 $classifier->prepareModel($this->model);
             }
@@ -152,7 +129,6 @@ class Engine
         }
 
         $this->eventDispatcher->dispatch(new MessageReceivedEvent($question));
-
 
         $rawMessage = $question->getRawMessage();
         foreach ($this->normalizers->getOrderedByPriority() as $normalizer) {
@@ -188,5 +164,50 @@ class Engine
     public function getStemmer(): Stemmer
     {
         return $this->stemmer;
+    }
+
+    /**
+     * @return array
+     */
+    public function exportTrainedModels(): array
+    {
+        $cache = [];
+        foreach ($this->getClassifiers()->classifiersWithTraining() as $classifier) {
+            $cache[get_class($classifier)] = $classifier->exportModel();
+        }
+
+        return $cache;
+    }
+
+    /**
+     * @param array $classifierTrainedModels
+     */
+    public function setClassifierTrainedModels(array $classifierTrainedModels): void
+    {
+        $this->classifierTrainedModels = $classifierTrainedModels;
+    }
+
+    /**
+     * @return ClassifiersBag
+     */
+    public function getClassifiers(): ClassifiersBag
+    {
+        return $this->classifiers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getModel(): array
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param array $model
+     */
+    public function setModel(array $model): void
+    {
+        $this->model = $model;
     }
 }

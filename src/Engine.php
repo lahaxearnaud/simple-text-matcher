@@ -89,9 +89,9 @@ class Engine
      * @param array $training
      * @param array $synonyms
      *
-     * @return Engine
+     * @return self
      */
-    public function prepare(array $training, array $synonyms):Engine
+    public function prepare(array $training, array $synonyms):self
     {
         $modelUpToDate = !empty($this->classifierTrainedModels) && !empty($this->model);
 
@@ -170,6 +170,8 @@ class Engine
 
     /**
      * @return array
+     *
+     * @psalm-return array<string, mixed>
      */
     public function exportTrainedModels(): array
     {

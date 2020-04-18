@@ -27,7 +27,7 @@ class StemmerTest extends TestCase
 {
     const TRAINING_DATA_CACHE = '/tmp/cache.json';
 
-    public function testStemWord()
+    public function testStemWord(): void
     {
         $stemmer = new Stemmer();
         $this->assertEquals('voitur', $stemmer->stem('voitures'));
@@ -35,14 +35,14 @@ class StemmerTest extends TestCase
         $this->assertEquals('chocolat', $stemmer->stem('chocolat'));
     }
 
-    public function testStemSentence()
+    public function testStemSentence(): void
     {
         $stemmer = new Stemmer();
         $this->assertEquals('il chantent dan un champ de fleur', $stemmer->stemPhrase('ils chantent dans un champs de fleurs'));
         $this->assertEquals('je vais cherch du pain à la boulanger', $stemmer->stemPhrase('je vais chercher du pain à la boulangerie'));
     }
 
-    public function testCache()
+    public function testCache(): void
     {
         $cachePath = '/tmp/'.__CLASS__.__METHOD__;
         if (file_exists($cachePath)) {

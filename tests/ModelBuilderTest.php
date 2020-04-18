@@ -43,9 +43,9 @@ class ModelBuilderTest extends TestCase
 
 
     /**
-     *
+     * @return void
      */
-    public function testConceptExpansion()
+    public function testConceptExpansion(): void
     {
         $concepts = [
             '~je' => [

@@ -76,7 +76,7 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     /**
      * @return float
      */
-    protected function getMinimumAcceptableScore()
+    protected function getMinimumAcceptableScore(): float
     {
         return 0.6;
     }
@@ -115,14 +115,6 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     }
 
     /**
-     * @param string $maxTrainingSize
-     */
-    public function setMaxTrainingSize(string $maxTrainingSize): void
-    {
-        $this->maxTrainingSize = $maxTrainingSize;
-    }
-
-    /**
      * @return Stemmer
      */
     public function getStemmer(): Stemmer
@@ -133,7 +125,7 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     /**
      * @param Stemmer $stemmer
      *
-     * @return ClassifierInterface
+     * @return self
      */
     public function setStemmer(Stemmer $stemmer): ClassifierInterface
     {

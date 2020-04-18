@@ -125,7 +125,7 @@ class TrainedRegexClassifier implements TrainingInterface
     /**
      * @param Stemmer $stemmer
      *
-     * @return ClassifierInterface
+     * @return self
      */
     public function setStemmer(Stemmer $stemmer): ClassifierInterface
     {

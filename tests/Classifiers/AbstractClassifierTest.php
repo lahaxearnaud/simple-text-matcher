@@ -35,7 +35,9 @@ abstract class AbstractClassifierTest extends TestCase
 
 
     /**
-     * @return array
+     * @return (null|string)[][]
+     *
+     * @psalm-return array{0: array{0: string, 1: string}, 1: array{0: string, 1: string}, 2: array{0: string, 1: string}, 3: array{0: string, 1: null}}
      */
     public function matchProvider()
     {

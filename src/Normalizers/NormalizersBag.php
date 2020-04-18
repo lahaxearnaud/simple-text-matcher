@@ -23,9 +23,13 @@ class NormalizersBag implements \Countable, \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
+     *
+     * @return NormalizerInterface[]
+     *
+     * @psalm-return list<NormalizerInterface>
      */
-    public function all()
+    public function all(): array
     {
         return array_values($this->normalizers);
     }
@@ -66,6 +70,8 @@ class NormalizersBag implements \Countable, \ArrayAccess
 
     /**
      * @return NormalizerInterface[]
+     *
+     * @psalm-return list<NormalizerInterface>
      */
     public function getOrderedByPriority() :array
     {
@@ -80,10 +86,11 @@ class NormalizersBag implements \Countable, \ArrayAccess
     }
 
     /**
-     * @param  NormalizerInterface $classifier
-     * @return NormalizersBag
+     * @param NormalizerInterface $classifier
+     *
+     * @return self
      */
-    public function add(NormalizerInterface $classifier) :NormalizersBag
+    public function add(NormalizerInterface $classifier) :self
     {
         $this->normalizers[] = $classifier;
 

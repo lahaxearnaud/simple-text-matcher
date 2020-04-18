@@ -25,7 +25,9 @@ class StopWordNormalizerTest extends AbstractNormalizerTest
     }
 
     /**
-     * @return array
+     * @return string[][]
+     *
+     * @psalm-return array{0: array{0: string, 1: string}}
      */
     public function correctProvider()
     {
@@ -34,7 +36,7 @@ class StopWordNormalizerTest extends AbstractNormalizerTest
         ];
     }
 
-    public function testBadLanguage()
+    public function testBadLanguage(): void
     {
         $normalier = new StopwordsNormalizer('zzz');
         $this->assertIsArray($normalier->getStopwords());

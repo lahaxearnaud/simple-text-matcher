@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class ClassifiersBagTest extends TestCase
 {
 
-    public function testCount()
+    public function testCount(): void
     {
         $bag = new ClassifiersBag();
         $this->assertEquals(0, $bag->count());
@@ -23,7 +23,7 @@ class ClassifiersBagTest extends TestCase
         $this->assertCount(1, $bag->all());
     }
 
-    public function testAdd()
+    public function testAdd(): void
     {
         $bag = new ClassifiersBag();
         $this->assertEquals(0, $bag->count());
@@ -32,7 +32,7 @@ class ClassifiersBagTest extends TestCase
         $this->assertInstanceOf(TrainedRegexClassifier::class, $bag->all()[0]);
     }
 
-    public function testArrayAccess()
+    public function testArrayAccess(): void
     {
         $bag = new ClassifiersBag();
         $this->assertEquals(0, $bag->count());

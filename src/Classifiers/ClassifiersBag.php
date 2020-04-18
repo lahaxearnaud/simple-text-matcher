@@ -67,9 +67,11 @@ class ClassifiersBag implements \Countable, \ArrayAccess
     }
 
     /**
-     * @return TrainingInterface[]
+     * @return ClassifierInterface&TrainingInterface[]
+     *
+     * @psalm-return list<ClassifierInterface&TrainingInterface>
      */
-    public function classifiersWithTraining()
+    public function classifiersWithTraining(): array
     {
         return array_values(
             array_filter(
@@ -82,10 +84,11 @@ class ClassifiersBag implements \Countable, \ArrayAccess
     }
 
     /**
-     * @param  ClassifierInterface $classifier
-     * @return ClassifiersBag
+     * @param ClassifierInterface $classifier
+     *
+     * @return self
      */
-    public function add(ClassifierInterface $classifier) :ClassifiersBag
+    public function add(ClassifierInterface $classifier) :self
     {
         $this->classifiers[] = $classifier;
 

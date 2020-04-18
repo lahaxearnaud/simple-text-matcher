@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class ClassificationResultsBagTest extends TestCase
 {
 
-    public function testArrayAccess()
+    public function testArrayAccess(): void
     {
         $bag = new ClassificationResultsBag();
         $bag[11] = new ClassificationResult('A', 'a', 0.8, 0);
@@ -25,7 +25,7 @@ class ClassificationResultsBagTest extends TestCase
         $this->assertFalse(isset($bag[11]));
     }
 
-    public function testTopMerge()
+    public function testTopMerge(): void
     {
         $bag = new ClassificationResultsBag();
 
@@ -47,7 +47,7 @@ class ClassificationResultsBagTest extends TestCase
         $this->assertEquals(2, $bag->getTopIntents(2, 0.1)->count());
     }
 
-    public function testMerge()
+    public function testMerge(): void
     {
         $resultA = new ClassificationResult('A', 'a', 1, 0);
         $resultB = new ClassificationResult('B', 'b', 1, 0);

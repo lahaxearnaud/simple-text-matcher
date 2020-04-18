@@ -112,9 +112,11 @@ class EngineTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return string[][]
+     *
+     * @psalm-return array{0: array{0: string, 1: string}, 1: array{0: string, 1: string}, 2: array{0: string, 1: string}}
      */
-    public function matchProvider()
+    public function matchProvider(): array
     {
         return [
             // perfect match
@@ -129,8 +131,10 @@ class EngineTest extends TestCase
      * @param $match
      *
      * @dataProvider matchProvider
+     *
+     * @return void
      */
-    public function testMatch($question, $match)
+    public function testMatch($question, $match): void
     {
         $result = $this->engine->predict($question);
         $this->assertInstanceOf(Message::class, $result);
@@ -150,12 +154,12 @@ class EngineTest extends TestCase
         $this->assertArrayHasKey('performance', $jsonResult);
     }
 
-    public function testPersistModel()
+    public function testPersistModel(): void
     {
         $this->assertFileExists(self::TRAINING_DATA_CACHE);
     }
 
-    public function testReloadModel()
+    public function testReloadModel(): void
     {
         $this->assertFileExists(self::TRAINING_DATA_CACHE);
 

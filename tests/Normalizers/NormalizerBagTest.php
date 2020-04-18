@@ -40,13 +40,13 @@ class NormalizerBagTest extends TestCase
             ->add(new TypoNormalizer());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->assertEquals(6, $this->bag->count());
         $this->assertEquals(6, count($this->bag->all()));
     }
 
-    public function testArrayAccess()
+    public function testArrayAccess(): void
     {
         $this->assertInstanceOf(LowerCaseNormalizer::class, $this->bag[0]);
         $this->bag[99] = new LowerCaseNormalizer();
@@ -55,7 +55,7 @@ class NormalizerBagTest extends TestCase
         $this->assertFalse(isset($this->bag[99]));
     }
 
-    public function testPriority()
+    public function testPriority(): void
     {
         $normalizers = $this->bag->getOrderedByPriority();
         $currentPriority = -1;

@@ -75,10 +75,11 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
     }
 
     /**
-     * @param  ClassificationResult|ClassificationResult[] $result
-     * @return ClassificationResultsBag
+     * @param ClassificationResult|ClassificationResult[] $result
+     *
+     * @return self
      */
-    public function add($result) :ClassificationResultsBag
+    public function add($result) :self
     {
         if (!is_array($result)) {
             $result = [$result];
@@ -89,10 +90,11 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
     }
 
     /**
-     * @param  ClassificationResultsBag $bag
-     * @return ClassificationResultsBag
+     * @param ClassificationResultsBag $bag
+     *
+     * @return self
      */
-    public function merge(ClassificationResultsBag $bag) :ClassificationResultsBag
+    public function merge(ClassificationResultsBag $bag) :self
     {
         $this->results = array_merge(
             $this->results,

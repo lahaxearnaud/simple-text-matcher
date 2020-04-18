@@ -40,7 +40,9 @@ class RegexClassifierTest extends AbstractClassifierTest
     }
 
     /**
-     * @return array
+     * @return (mixed|string[])[]
+     *
+     * @psalm-return array<array-key, array{0: string, 1: string}|mixed>
      */
     public function matchProvider()
     {

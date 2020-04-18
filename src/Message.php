@@ -92,7 +92,7 @@ class Message implements \JsonSerializable
     /**
      * @return string
      */
-    public function getIntentDetected(): ?string
+    public function getIntentDetected(): string
     {
         return $this->intentDetected;
     }
@@ -130,6 +130,11 @@ class Message implements \JsonSerializable
         return $this->messageId;
     }
 
+    /**
+     * @return int[]
+     *
+     * @psalm-return array{receivedAt: int, correctedAt: int, classifiedAt: int, correctionDuration: int, classificationDuration: int}
+     */
     public function getPerformance():array
     {
         return [

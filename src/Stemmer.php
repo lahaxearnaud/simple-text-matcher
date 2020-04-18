@@ -27,7 +27,7 @@ class Stemmer extends SnowballStemmer
     }
 
     /**
-     * @inheritDoc
+     * @inheritDoc 
      */
     public function stem($token)
     {

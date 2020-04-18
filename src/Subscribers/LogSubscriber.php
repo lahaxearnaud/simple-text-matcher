@@ -59,40 +59,50 @@ class LogSubscriber implements EventSubscriberInterface
 
     /**
      * @param EngineBuildedEvent $event
+     *
+     * @return void
      */
-    public function onEngineBuilded(EngineBuildedEvent $event)
+    public function onEngineBuilded(EngineBuildedEvent $event): void
     {
         $this->logger->debug('Engine builded');
     }
 
     /**
      * @param EngineStartedEvent $event
+     *
+     * @return void
      */
-    public function onEngineStarted(EngineStartedEvent $event)
+    public function onEngineStarted(EngineStartedEvent $event): void
     {
         $this->logger->debug('Engine started');
     }
 
     /**
      * @param MessageReceivedEvent $event
+     *
+     * @return void
      */
-    public function onMessageReceived(MessageReceivedEvent $event)
+    public function onMessageReceived(MessageReceivedEvent $event): void
     {
         $this->logger->info('Message received', $event->getMessage()->jsonSerialize());
     }
 
     /**
      * @param MessageCorrectedEvent $event
+     *
+     * @return void
      */
-    public function onMessageCorrected(MessageCorrectedEvent $event)
+    public function onMessageCorrected(MessageCorrectedEvent $event): void
     {
         $this->logger->info('Message corrected', $event->getMessage()->jsonSerialize());
     }
 
     /**
      * @param MessageClassifiedEvent $event
+     *
+     * @return void
      */
-    public function onMessageClassified(MessageClassifiedEvent $event)
+    public function onMessageClassified(MessageClassifiedEvent $event): void
     {
         $this->logger->info('Message classified', $event->getMessage()->jsonSerialize());
     }

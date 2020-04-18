@@ -24,7 +24,9 @@ class UnaccentNormalizerTest extends AbstractNormalizerTest
     }
 
     /**
-     * @return array
+     * @return string[][]
+     *
+     * @psalm-return array{0: array{0: string, 1: string}, 1: array{0: string, 1: string}, 2: array{0: string, 1: string}}
      */
     public function correctProvider()
     {

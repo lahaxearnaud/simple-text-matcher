@@ -7,7 +7,6 @@ $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCache
 $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
 
 $classifiers = new \alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
-
 $classifiers
     ->add(new \alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier())
     ->add(new \alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())
@@ -25,7 +24,7 @@ $normalizers->add(new \alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer());
 
-$concepts = [
+$synonyms = [
     '~hotel' => [
         'hotel',
         'auberge',
@@ -141,16 +140,17 @@ $engine = new \alahaxe\SimpleTextMatcher\Engine(
     new \alahaxe\SimpleTextMatcher\Stemmer()
 );
 
-$engine->prepare($model, $concepts);
+$engine->prepare($model, $synonyms);
 
 $questions = [
     'je peux dormir chez les darons de paul ?',
     'je vais me coucher',
     'je veux manger une pomme',
-    'jean va dormir avec moi chez ses parents',
+    'jean va dormir avec ses darons',
     'je vais dormir chez un pote',
     'je pense que je vais m\'acheter une voiture verte',
     'je vais acheter une nouvelle voiture',
+    'c est ma nouvelle bagnole',
     'kdsjk kdskd dskdk'
 ];
 

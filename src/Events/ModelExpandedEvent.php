@@ -5,7 +5,7 @@ namespace alahaxe\SimpleTextMatcher\Events;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class ModelExpendedEvent
+ * This event is triggered when all synonymes are applied to the training data
  *
  * @package alahaxe\SimpleTextMatcher\Events
  */

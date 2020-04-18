@@ -6,7 +6,7 @@ use alahaxe\SimpleTextMatcher\Message;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class MessageReceivedEvent
+ * This event is triggered when a message is send to the engine, before all alteration/classification
  *
  * @package alahaxe\SimpleTextMatcher\Events
  */

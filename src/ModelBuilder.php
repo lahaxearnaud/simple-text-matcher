@@ -33,7 +33,7 @@ class ModelBuilder
      */
     public function build(array $training, array $synonyms):array
     {
-        $training = $this->expandConcepts($training, $synonyms);
+        $training = $this->expandSynonyms($training, $synonyms);
         $training = $this->applyNormalizersOnTrainingModel($training);
 
         return $training;
@@ -64,7 +64,7 @@ class ModelBuilder
      *
      * @return array
      */
-    protected function expandConcepts(array $training, array $synonyms)
+    protected function expandSynonyms(array $training, array $synonyms)
     {
         foreach ($synonyms as $synonym => $replacements) {
             foreach ($training as $intent => &$phrases) {

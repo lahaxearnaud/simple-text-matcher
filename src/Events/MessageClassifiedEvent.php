@@ -6,7 +6,7 @@ use alahaxe\SimpleTextMatcher\Message;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class MessageCorrectedEventEvent
+ * This event is triggered when a message is classified
  *
  * @package alahaxe\SimpleTextMatcher\Events
  */

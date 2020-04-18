@@ -6,7 +6,7 @@ use alahaxe\SimpleTextMatcher\Engine;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class EngineStartedEvent
+ * This event is triggered when models are builded/loaded and the engine is ready to classify
  *
  * @package alahaxe\SimpleTextMatcher\Events
  */

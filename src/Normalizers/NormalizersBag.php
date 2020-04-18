@@ -23,7 +23,7 @@ class NormalizersBag implements \Countable, \ArrayAccess
     }
 
     /**
-     * @inheritDoc 
+     * @inheritDoc
      *
      * @return NormalizerInterface[]
      *

@@ -45,9 +45,9 @@ class ModelBuilderTest extends TestCase
     /**
      * @return void
      */
-    public function testConceptExpansion(): void
+    public function testSynonymsExpansion(): void
     {
-        $concepts = [
+        $synonyms = [
             '~je' => [
                 'moi',
                 'je',
@@ -100,7 +100,7 @@ class ModelBuilderTest extends TestCase
                 static function ($phrases) {
                     return count($phrases);
                 },
-                $concepts
+                $synonyms
             )
         );
 

@@ -8,6 +8,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 /**
  * Class EngineBuildEvent
  *
+ * This event is trigger when the engine is builded, at the end of the constructor
+ *
  * @package alahaxe\SimpleTextMatcher\Events
  */
 class EngineBuildedEvent extends Event

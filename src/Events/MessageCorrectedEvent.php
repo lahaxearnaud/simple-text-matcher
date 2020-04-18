@@ -6,7 +6,7 @@ use alahaxe\SimpleTextMatcher\Message;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class MessageCorrectedEventEvent
+ * This event is triggered when a message is normalized, after all normalizers are executed
  *
  * @package alahaxe\SimpleTextMatcher\Events
  */

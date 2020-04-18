@@ -22,9 +22,9 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
 
     /**
      * AbstractTextCompareClassifier constructor.
-     * @param Stemmer $stemmer
+     * @param Stemmer|null $stemmer
      */
-    public function __construct(Stemmer $stemmer)
+    public function __construct(Stemmer $stemmer = null)
     {
         $this->stemmer = $stemmer;
     }
@@ -125,5 +125,17 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     public function getStemmer(): Stemmer
     {
         return $this->stemmer;
+    }
+
+    /**
+     * @param Stemmer $stemmer
+     *
+     * @return ClassifierInterface
+     */
+    public function setStemmer(Stemmer $stemmer): ClassifierInterface
+    {
+        $this->stemmer = $stemmer;
+
+        return $this;
     }
 }

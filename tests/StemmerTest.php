@@ -4,11 +4,29 @@
 namespace alahaxe\SimpleTextMatcher\Tests;
 
 
+use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
+use alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
+use alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
+use alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
+use alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
+use alahaxe\SimpleTextMatcher\Engine;
+use alahaxe\SimpleTextMatcher\ModelBuilder;
+use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
+use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
+use alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
+use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
+use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use alahaxe\SimpleTextMatcher\Stemmer;
+use alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class StemmerTest extends TestCase
 {
+    const TRAINING_DATA_CACHE = '/tmp/cache.json';
 
     public function testStemWord()
     {
@@ -27,19 +45,60 @@ class StemmerTest extends TestCase
 
     public function testCache()
     {
-        $cachePath = '/tmp/'.uniqid(__CLASS__.__METHOD__);
-        $stemmer = new Stemmer($cachePath);
-        $stemmer->stem('voitures');
-        $stemmer->stem('voitures'); // twice
-        $stemmer->stem('couraient');
-        $stemmer->stem('chocolat');
+        $cachePath = '/tmp/'.__CLASS__.__METHOD__;
+        if (file_exists($cachePath)) {
+            unlink($cachePath);
+        }
 
-        $stemmer->writeCache();
+        if (file_exists(self::TRAINING_DATA_CACHE)) {
+            unlink(self::TRAINING_DATA_CACHE);
+        }
+
+        $normalizerBag = new NormalizersBag();
+        $classifierBag = new ClassifiersBag();
+
+        $classifierBag
+            ->add(new TrainedRegexClassifier())
+        ;
+
+        $normalizerBag
+            ->add(new LowerCaseNormalizer())
+        ;
+
+        $eventDispatcher = new EventDispatcher();
+
+        $eventDispatcher->addSubscriber(new StemmerCacheSubscriber($cachePath));
+        $engine = new Engine(
+            $eventDispatcher,
+            new ModelBuilder($normalizerBag),
+            $normalizerBag,
+            $classifierBag,
+            new Stemmer(),
+            self::TRAINING_DATA_CACHE
+        );
+        $engine->prepare([
+            'aaa' => [
+                'voitures chocolat',
+                'couraient voiture',
+            ],
+        ], []);
+
         $this->assertFileExists($cachePath);
 
-        $stemmer = new Stemmer($cachePath);
-        $cache = $stemmer->getCache();
+        unset($engine);
+
+        $engine = new Engine(
+            $eventDispatcher,
+            new ModelBuilder($normalizerBag),
+            $normalizerBag,
+            $classifierBag,
+            new Stemmer(),
+            self::TRAINING_DATA_CACHE
+        );
+
+        $cache = $engine->getStemmer()->getCache();
         $this->assertIsArray($cache);
-        $this->assertCount(3, $cache);
+        // 6: 4 words + 2 sentences
+        $this->assertCount(6, $cache);
     }
 }

@@ -16,42 +16,13 @@ class Stemmer extends SnowballStemmer
     protected $cache = [];
 
     /**
-     * @var string|null
-     */
-    protected $cacheFilePath;
-
-    /**
-     * @var bool
-     */
-    protected $needToWriteCache = false;
-
-    /**
      * Stemmer constructor.
-     * @param string|null $cacheFilePath
      * @param string $stemmerType
      */
-    public function __construct(string $cacheFilePath = null, $stemmerType = 'French')
+    public function __construct($stemmerType = 'French')
     {
         parent::__construct($stemmerType);
-
-        if ($cacheFilePath !== null && file_exists($cacheFilePath)) {
-            $this->cache = json_decode(file_get_contents($cacheFilePath), true) ?? [];
-        }
-
-        $this->cacheFilePath = $cacheFilePath;
     }
-
-    /**
-     *
-     */
-    public function writeCache():void
-    {
-        if ($this->cacheFilePath !== null && $this->needToWriteCache) {
-            file_put_contents($this->cacheFilePath, json_encode($this->cache));
-            $this->needToWriteCache = false;
-        }
-    }
-
 
     /**
      * @inheritDoc
@@ -64,7 +35,6 @@ class Stemmer extends SnowballStemmer
             return $this->cache[$token];
         }
 
-        $this->needToWriteCache = true;
         return $this->cache[$token] = parent::stem($token);
     }
 
@@ -93,5 +63,13 @@ class Stemmer extends SnowballStemmer
     public function getCache(): array
     {
         return $this->cache;
+    }
+
+    /**
+     * @param string[] $cache
+     */
+    public function setCache(array $cache): void
+    {
+        $this->cache = $cache;
     }
 }

@@ -47,17 +47,22 @@ class Engine
     protected $modelCachePath;
 
     /**
+     * @var Stemmer
+     */
+    protected $stemmer;
+
+    /**
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
     /**
      * Engine constructor.
-     *
      * @param EventDispatcherInterface $eventDispatcher
      * @param ModelBuilder $modelBuilder
      * @param NormalizersBag $normalizers
      * @param ClassifiersBag $classifiers
+     * @param Stemmer $stemmer
      * @param string $modelCachePath
      */
     public function __construct(
@@ -65,6 +70,7 @@ class Engine
         ModelBuilder $modelBuilder,
         NormalizersBag $normalizers,
         ClassifiersBag $classifiers,
+        Stemmer $stemmer,
         string $modelCachePath
     ) {
         $this->eventDispatcher = $eventDispatcher;
@@ -72,6 +78,7 @@ class Engine
         $this->normalizers = $normalizers;
         $this->classifiers = $classifiers;
         $this->modelCachePath = $modelCachePath;
+        $this->stemmer = $stemmer;
 
         $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
     }
@@ -119,11 +126,12 @@ class Engine
         }
 
         foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
+            $classifier->setStemmer($this->stemmer);
+
             if (isset($cachedModel[get_class($classifier)])) {
                 $classifier->reloadModel($cachedModel[get_class($classifier)]);
             } else {
                 $classifier->prepareModel($this->model);
-                $classifier->getStemmer()->writeCache();
             }
         }
 
@@ -172,5 +180,13 @@ class Engine
         $this->eventDispatcher->dispatch(new MessageClassifiedEvent($question));
 
         return $question;
+    }
+
+    /**
+     * @return Stemmer
+     */
+    public function getStemmer(): Stemmer
+    {
+        return $this->stemmer;
     }
 }

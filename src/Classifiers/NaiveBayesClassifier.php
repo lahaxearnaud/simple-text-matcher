@@ -20,7 +20,7 @@ class NaiveBayesClassifier implements TrainingInterface
     protected $model;
 
     /**
-     * @var Stemmer
+     * @var Stemmer|null
      */
     protected $stemmer;
 
@@ -28,7 +28,7 @@ class NaiveBayesClassifier implements TrainingInterface
      * TrainedRegexClassifier constructor.
      * @param Stemmer $stemmer
      */
-    public function __construct(Stemmer $stemmer)
+    public function __construct(Stemmer $stemmer = null)
     {
         $this->stemmer = $stemmer;
     }
@@ -120,5 +120,17 @@ class NaiveBayesClassifier implements TrainingInterface
     public function getStemmer(): Stemmer
     {
         return $this->stemmer;
+    }
+
+    /**
+     * @param Stemmer $stemmer
+     *
+     * @return ClassifierInterface
+     */
+    public function setStemmer(Stemmer $stemmer): ClassifierInterface
+    {
+        $this->stemmer = $stemmer;
+
+        return $this;
     }
 }

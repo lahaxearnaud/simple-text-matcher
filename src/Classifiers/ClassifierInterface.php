@@ -22,4 +22,10 @@ interface ClassifierInterface
      * @return Stemmer
      */
     public function getStemmer():Stemmer;
+
+    /**
+     * @param Stemmer $stemmer
+     * @return ClassifierInterface
+     */
+    public function setStemmer(Stemmer $stemmer):ClassifierInterface;
 }

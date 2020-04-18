@@ -82,6 +82,7 @@ class EngineTest extends TestCase
             new ModelBuilder($normalizerBag),
             $normalizerBag,
             $classifierBag,
+            new Stemmer(),
             self::TRAINING_DATA_CACHE
         );
     }

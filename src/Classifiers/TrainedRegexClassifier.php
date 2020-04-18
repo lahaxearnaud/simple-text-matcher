@@ -26,9 +26,9 @@ class TrainedRegexClassifier implements TrainingInterface
 
     /**
      * TrainedRegexClassifier constructor.
-     * @param Stemmer $stemmer
+     * @param Stemmer|null $stemmer
      */
-    public function __construct(Stemmer $stemmer)
+    public function __construct(Stemmer $stemmer = null)
     {
         $this->stemmer = $stemmer;
     }
@@ -117,5 +117,17 @@ class TrainedRegexClassifier implements TrainingInterface
     public function getStemmer(): Stemmer
     {
         return $this->stemmer;
+    }
+
+    /**
+     * @param Stemmer $stemmer
+     *
+     * @return ClassifierInterface
+     */
+    public function setStemmer(Stemmer $stemmer): ClassifierInterface
+    {
+        $this->stemmer = $stemmer;
+
+        return $this;
     }
 }

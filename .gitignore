@@ -4,3 +4,5 @@ model_cache.json
 stemmer_cache.json
 coverage
 .idea
+cghooks.lock
+

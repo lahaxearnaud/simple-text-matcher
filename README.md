@@ -28,7 +28,7 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
     // for a better performance you can add some cache lister
     $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
     $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
-    $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber($youPSRLogger));
+    $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber($yourPSRLogger));
 
     // add some classifiers, pick some in the package or create a new one with your logic
     $classifiers = new \alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();

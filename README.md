@@ -49,6 +49,10 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
         ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
         ->add(new \alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
         ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
+        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
+            'bagnole' => 'voiture',
+            'slt' => 'salut',
+        ]))
         ;
 
     // bild the engine

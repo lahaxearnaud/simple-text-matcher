@@ -131,6 +131,7 @@ Events
 | alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent::class  | This event is triggered when a message is send to the engine, before all alteration/classification |
 | alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent::class  | This event is triggered when all synonymes are applied to the training data |
 | alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent::class  | This event is trigger before the model builder start building |
+| alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent::class  | This event is triggered when all data extractor are executed and the result is set on the message |
 
 
 Create custom classifier

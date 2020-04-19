@@ -4,9 +4,11 @@ namespace alahaxe\SimpleTextMatcher;
 
 use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
 use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent;
 use alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
 use alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
+use alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;
 use alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
 use alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
@@ -62,19 +64,25 @@ class Engine
     protected $eventDispatcher;
 
     /**
+     * @var EntityExtractorsBag
+     */
+    protected $extractors;
+
+    /**
      * Engine constructor.
-     *
      * @param EventDispatcherInterface $eventDispatcher
-     * @param ModelBuilder             $modelBuilder
-     * @param NormalizersBag           $normalizers
-     * @param ClassifiersBag           $classifiers
-     * @param Stemmer                  $stemmer
+     * @param ModelBuilder $modelBuilder
+     * @param NormalizersBag $normalizers
+     * @param ClassifiersBag $classifiers
+     * @param EntityExtractorsBag $extractors
+     * @param Stemmer $stemmer
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         ModelBuilder $modelBuilder,
         NormalizersBag $normalizers,
         ClassifiersBag $classifiers,
+        EntityExtractorsBag $extractors,
         Stemmer $stemmer
     ) {
         $this->eventDispatcher = $eventDispatcher;
@@ -82,6 +90,7 @@ class Engine
         $this->normalizers = $normalizers;
         $this->classifiers = $classifiers;
         $this->stemmer = $stemmer;
+        $this->extractors = $extractors;
 
         $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
     }
@@ -166,6 +175,9 @@ class Engine
         $bestResult = $question->getClassification()->offsetGet(0);
         if ($bestResult !== null) {
             $question->setIntentDetected($bestResult->getIntent());
+        } else {
+            $question->setEntities($this->extractors->apply($question->getRawMessage()));
+            $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
         }
 
         $this->eventDispatcher->dispatch(new MessageClassifiedEvent($question));

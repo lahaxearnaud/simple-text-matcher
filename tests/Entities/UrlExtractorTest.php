@@ -1,10 +1,11 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entity;
+namespace alahaxe\SimpleTextMatcher\Tests\Entities;
 
 
 use alahaxe\SimpleTextMatcher\Entities\Entity;
+use alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use alahaxe\SimpleTextMatcher\Entities\UrlExtractor;
 use PHPUnit\Framework\TestCase;
@@ -29,8 +30,9 @@ class UrlExtractorTest extends TestCase
     public function testExtracWithoutUrl()
     {
         $result = $this->extractor->extract('coucou');
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertEmpty($result->all());
+        $this->assertEquals(0, $result->count());
     }
 
     /**
@@ -40,8 +42,8 @@ class UrlExtractorTest extends TestCase
     {
         $url = 'https://coucou.fr';
         $result = $this->extractor->extract('Mon email est '.$url);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals($result[0]->getValue(), $url);
         $this->assertEquals($result[0]->getType(), $this->extractor->getTypeExtracted());
@@ -55,8 +57,8 @@ class UrlExtractorTest extends TestCase
         $url = 'https://coucou.fr';
         $url2 = 'https://pouet.fr';
         $result = $this->extractor->extract('Mon email est '.$url.' et celle de ma femme est '.$url2);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals($result[0]->getValue(), $url);
         $this->assertEquals($result[0]->getType(), $this->extractor->getTypeExtracted());

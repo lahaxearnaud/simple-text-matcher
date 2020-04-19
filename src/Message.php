@@ -4,6 +4,7 @@
 namespace alahaxe\SimpleTextMatcher;
 
 use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
+use alahaxe\SimpleTextMatcher\Entities\EntityBag;
 
 /**
  * Class Message
@@ -36,6 +37,11 @@ class Message implements \JsonSerializable
      * @var ClassificationResultsBag
      */
     protected $classification;
+
+    /**
+     * @var EntityBag
+     */
+    protected $entities;
 
     /**
      * @var int
@@ -131,6 +137,22 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * @return EntityBag
+     */
+    public function getEntities(): EntityBag
+    {
+        return $this->entities;
+    }
+
+    /**
+     * @param EntityBag $entities
+     */
+    public function setEntities(EntityBag $entities): void
+    {
+        $this->entities = $entities;
+    }
+
+    /**
      * @return int[]
      *
      * @psalm-return array{receivedAt: int, correctedAt: int, classifiedAt: int, correctionDuration: int, classificationDuration: int}
@@ -156,6 +178,7 @@ class Message implements \JsonSerializable
             'rawMessage' => $this->rawMessage,
             'normalizedMessage' => $this->normalizedMessage,
             'classification' => $this->classification,
+            'entities' => $this->entities,
             'intentDetected' => $this->intentDetected,
             'performance' => $this->getPerformance()
         ];

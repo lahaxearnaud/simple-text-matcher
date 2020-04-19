@@ -1,9 +1,10 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entity;
+namespace alahaxe\SimpleTextMatcher\Tests\Entities;
 
 use alahaxe\SimpleTextMatcher\Entities\Entity;
+use alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
 use alahaxe\SimpleTextMatcher\Entities\PercentageExtractor;
@@ -33,8 +34,8 @@ class NumberExtractorTest extends TestCase
     public function testExtractWithoutNumber()
     {
         $result = $this->extractor->extract('coucou');
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertEmpty($result->all());
     }
 
     /**
@@ -44,8 +45,8 @@ class NumberExtractorTest extends TestCase
     {
         $number = '3 210,75';
         $result = $this->extractor->extract('Mon avis  est '.$number);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals(3210.75, $result[0]->getValue());
         $this->assertEquals($this->extractor->getTypeExtracted(), $result[0]->getType());
@@ -59,8 +60,8 @@ class NumberExtractorTest extends TestCase
         $number = '10,75';
         $number2 = '20 virgule 66';
         $result = $this->extractor->extract('Mon email est '.$number.' et celle de ma femme est '.$number2);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals(10.75, $result[0]->getValue());
         $this->assertEquals($this->extractor->getTypeExtracted(), $result[0]->getType());

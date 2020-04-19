@@ -42,15 +42,15 @@ class WhiteListExtractor implements EntityExtractorInterface
     /**
      * @param string $question
      *
-     * @return array
+     * @return EntityBag
      */
-    public function extract(string $question): array
+    public function extract(string $question): EntityBag
     {
+        $results = new EntityBag();
         $words = explode(' ', mb_strtolower($question));
-        $results = [];
         foreach ($words as $word) {
             if (isset($this->possibleValues[$word])) {
-                $results[] = new Entity($this->getTypeExtracted(), $this->possibleValues[$word]);
+                $results->add(new Entity($this->getTypeExtracted(), $this->possibleValues[$word]));
             }
         }
 

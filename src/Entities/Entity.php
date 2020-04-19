@@ -7,7 +7,7 @@ namespace alahaxe\SimpleTextMatcher\Entities;
  * Class Entity
  * @package alahaxe\SimpleTextMatcher\Entities
  */
-class Entity
+class Entity implements \JsonSerializable
 {
     /**
      * @var string
@@ -44,5 +44,16 @@ class Entity
     public function getValue(): string
     {
         return $this->value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'type' => $this->type,
+            'value' => $this->value,
+        ];
     }
 }

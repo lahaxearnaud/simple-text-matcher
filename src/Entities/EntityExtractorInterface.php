@@ -13,9 +13,9 @@ interface EntityExtractorInterface
     /**
      * @param string $question
      *
-     * @return Entity[]
+     * @return EntityBag
      */
-    public function extract(string $question):array;
+    public function extract(string $question):EntityBag;
 
     /**
      * @return string

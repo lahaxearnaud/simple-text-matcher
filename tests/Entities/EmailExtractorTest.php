@@ -1,11 +1,12 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entity;
+namespace alahaxe\SimpleTextMatcher\Tests\Entities;
 
 
 use alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
 use alahaxe\SimpleTextMatcher\Entities\Entity;
+use alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -29,8 +30,8 @@ class EmailExtractorTest extends TestCase
     public function testExtracWithoutEmail()
     {
         $result = $this->extractor->extract('coucou');
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertEmpty($result->all());
     }
 
     /**
@@ -40,8 +41,8 @@ class EmailExtractorTest extends TestCase
     {
         $email = 'test@test.fr';
         $result = $this->extractor->extract('Mon email est '.$email);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals($result[0]->getValue(), $email);
         $this->assertEquals($result[0]->getType(), $this->extractor->getTypeExtracted());
@@ -55,8 +56,8 @@ class EmailExtractorTest extends TestCase
         $email = 'test@test.fr';
         $email2 = 'test2@test.fr';
         $result = $this->extractor->extract('Mon email est '.$email.' et celle de ma femme est '.$email2);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals($result[0]->getValue(), $email);
         $this->assertEquals($result[0]->getType(), $this->extractor->getTypeExtracted());

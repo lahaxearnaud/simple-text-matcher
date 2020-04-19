@@ -1,9 +1,10 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entity;
+namespace alahaxe\SimpleTextMatcher\Tests\Entities;
 
 use alahaxe\SimpleTextMatcher\Entities\Entity;
+use alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use alahaxe\SimpleTextMatcher\Entities\PercentageExtractor;
 use PHPUnit\Framework\TestCase;
@@ -32,8 +33,8 @@ class PercentageExtractorTest extends TestCase
     public function testExtractWithoutPercentage()
     {
         $result = $this->extractor->extract('coucou');
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertEmpty($result->all());
     }
 
     /**
@@ -43,8 +44,8 @@ class PercentageExtractorTest extends TestCase
     {
         $percentage = '10,75 pourcent';
         $result = $this->extractor->extract('Mon avis  est '.$percentage);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals($result[0]->getValue(), 10.75);
         $this->assertEquals($result[0]->getType(), $this->extractor->getTypeExtracted());
@@ -58,8 +59,8 @@ class PercentageExtractorTest extends TestCase
         $percentage = '10,75 pourcent';
         $percentage2 = '20 virgule 66 pour cent';
         $result = $this->extractor->extract('Mon email est '.$percentage.' et celle de ma femme est '.$percentage2);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals($result[0]->getValue(), 10.75);
         $this->assertEquals($result[0]->getType(), $this->extractor->getTypeExtracted());

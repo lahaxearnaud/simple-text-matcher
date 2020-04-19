@@ -26,14 +26,14 @@ abstract class AbstractRegexExtractor implements EntityExtractorInterface
     /**
      * @param string $question
      *
-     * @return Entity[]
+     * @return EntityBag
      */
-    public function extract(string $question): array
+    public function extract(string $question): EntityBag
     {
-        $result = [];
+        $result = new EntityBag();
         foreach ($this->getRegexes() as $regex) {
             preg_match_all($regex, $question, $matches);
-            $result = array_merge($result, array_map(function ($value) {
+            $result->add(array_map(function ($value) {
                 return new Entity($this->getTypeExtracted(), $this->normalizeValue($value));
             }, $matches[0]));
         }

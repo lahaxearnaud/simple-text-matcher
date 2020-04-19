@@ -1,11 +1,12 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entity;
+namespace alahaxe\SimpleTextMatcher\Tests\Entities;
 
 
 use alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
 use alahaxe\SimpleTextMatcher\Entities\Entity;
+use alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
 use PHPUnit\Framework\TestCase;
@@ -30,8 +31,8 @@ class PhoneNumberExtractorTest extends TestCase
     public function testExtracWithoutPhoneNumber()
     {
         $result = $this->extractor->extract('coucou');
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertEmpty($result->all());
     }
 
 
@@ -55,8 +56,8 @@ class PhoneNumberExtractorTest extends TestCase
     public function testExtractMultipleEmails($question, $phoneNumber)
     {
         $result = $this->extractor->extract($question);
-        $this->assertIsArray($result);
-        $this->assertNotEmpty($result);
+        $this->assertInstanceOf(EntityBag::class, $result);
+        $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
         $this->assertEquals($result[0]->getValue(), $phoneNumber);
         $this->assertEquals($result[0]->getType(), $this->extractor->getTypeExtracted());

@@ -10,6 +10,10 @@ use alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
 use alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use alahaxe\SimpleTextMatcher\Engine;
+use alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
+use alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
+use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
+use alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
 use alahaxe\SimpleTextMatcher\ModelBuilder;
 use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
@@ -62,6 +66,12 @@ class StemmerTest extends TestCase
         $normalizerBag
             ->add(new LowerCaseNormalizer());
 
+        $extractorBag = new EntityExtractorsBag();
+
+        $extractorBag
+            ->add(new NumberExtractor())
+        ;
+
         $eventDispatcher = new EventDispatcher();
 
         $eventDispatcher->addSubscriber(new StemmerCacheSubscriber($cachePath));
@@ -70,6 +80,7 @@ class StemmerTest extends TestCase
             new ModelBuilder($normalizerBag),
             $normalizerBag,
             $classifierBag,
+            $extractorBag,
             new Stemmer(),
             self::TRAINING_DATA_CACHE
         );
@@ -92,6 +103,7 @@ class StemmerTest extends TestCase
             new ModelBuilder($normalizerBag),
             $normalizerBag,
             $classifierBag,
+            $extractorBag,
             new Stemmer(),
             self::TRAINING_DATA_CACHE
         );

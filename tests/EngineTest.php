@@ -9,6 +9,10 @@ use alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
 use alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use alahaxe\SimpleTextMatcher\Engine;
+use alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
+use alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
+use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
+use alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
 use alahaxe\SimpleTextMatcher\Message;
 use alahaxe\SimpleTextMatcher\ModelBuilder;
 use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
@@ -56,7 +60,14 @@ class EngineTest extends TestCase
     {
         $normalizerBag = new NormalizersBag();
         $classifierBag = new ClassifiersBag();
+        $extractorBag = new EntityExtractorsBag();
         $stemmer = new Stemmer();
+
+        $extractorBag
+            ->add(new NumberExtractor())
+            ->add(new EmailExtractor())
+            ->add(new PhoneNumberExtractor())
+            ;
 
         $classifierBag
             ->add(new TrainedRegexClassifier($stemmer))
@@ -86,6 +97,7 @@ class EngineTest extends TestCase
             new ModelBuilder($normalizerBag),
             $normalizerBag,
             $classifierBag,
+            $extractorBag,
             new Stemmer()
         );
     }

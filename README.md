@@ -28,6 +28,7 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
     // for a better performance you can add some cache lister
     $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
     $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
+    $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));    
     $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber($yourPSRLogger));
 
     // add some classifiers, pick some in the package or create a new one with your logic
@@ -129,6 +130,7 @@ Events
 | alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent::class  | This event is trigger when the engine is builded, at the end of the constructor  |
 | alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent::class  | This event is triggered when a message is send to the engine, before all alteration/classification |
 | alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent::class  | This event is triggered when all synonymes are applied to the training data |
+| alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent::class  | This event is trigger before the model builder start building |
 
 
 Create custom classifier

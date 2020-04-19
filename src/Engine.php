@@ -120,6 +120,25 @@ class Engine
     }
 
     /**
+     * @param Message $question
+     *
+     * @return ClassificationResultsBag
+     */
+    protected function executeClassifiers(Message $question):ClassificationResultsBag
+    {
+        $bag = new ClassificationResultsBag();
+        foreach ($this->classifiers->all() as $classifier) {
+            $bag->merge($classifier->classify($question->getNormalizedMessage()));
+
+            if ($bag->getResultsWithMinimumScore(1)->count() > 0) {
+                break;
+            }
+        }
+
+        return $bag;
+    }
+
+    /**
      * @param string|Message $question
      *
      * @return Message
@@ -132,22 +151,12 @@ class Engine
 
         $this->eventDispatcher->dispatch(new MessageReceivedEvent($question));
 
-        $rawMessage = $question->getRawMessage();
-        foreach ($this->normalizers->getOrderedByPriority() as $normalizer) {
-            $rawMessage = $normalizer->normalize($rawMessage);
-        }
-        $question->setNormalizedMessage($rawMessage);
+        $question->setNormalizedMessage($this->normalizers->apply($question->getRawMessage()));
 
         $this->eventDispatcher->dispatch(new MessageCorrectedEvent($question));
 
-        $bag = new ClassificationResultsBag();
-        foreach ($this->classifiers->all() as $classifier) {
-            $bag->merge($classifier->classify($question->getNormalizedMessage()));
+        $bag = $this->executeClassifiers($question);
 
-            if ($bag->getResultsWithMinimumScore(1)->count() > 0) {
-                break;
-            }
-        }
         $question->setClassification($bag->getTopIntents(3, 0.3));
 
         $bestResult = $question->getClassification()->offsetGet(0);

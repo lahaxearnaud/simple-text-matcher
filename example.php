@@ -22,7 +22,12 @@ $normalizers->add(new \alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer());
+    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
+    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
+        'bagnole' => 'voiture',
+        'slt' => 'salut',
+    ]))
+;
 
 $synonyms = [
     '~hotel' => [
@@ -154,6 +159,7 @@ $questions = [
     'kdsjk kdskd dskdk'
 ];
 
+$start = microtime(true);
 foreach ($questions as $question) {
     $message = new \alahaxe\SimpleTextMatcher\Message($question);
     $engine->predict($message);
@@ -171,3 +177,6 @@ foreach ($questions as $question) {
     echo 'Performance: '.var_export($message->jsonSerialize()['performance'], true);
     echo "==========" . PHP_EOL;
 }
+
+
+echo  (microtime(true) - $start). PHP_EOL;

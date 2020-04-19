@@ -262,6 +262,6 @@ class UnaccentNormalizer implements NormalizerInterface
      */
     public function getPriority(): int
     {
-        return 254;
+        return 240;
     }
 }

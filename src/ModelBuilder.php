@@ -48,10 +48,7 @@ class ModelBuilder
     {
         foreach ($training as $intent => $phrases) {
             foreach ($phrases as $index => $phrase) {
-                foreach ($this->normalizers->getOrderedByPriority() as $normalizer) {
-                    $phrase = $normalizer->normalize($phrase);
-                }
-                $training[$intent][$index] = $phrase;
+                $training[$intent][$index] = $this->normalizers->apply($phrase);
             }
         }
 

@@ -96,4 +96,18 @@ class NormalizersBag implements \Countable, \ArrayAccess
 
         return $this;
     }
+
+    /**
+     * @param string $query
+     *
+     * @return string
+     */
+    public function apply(string $query):string
+    {
+        foreach ($this->getOrderedByPriority() as $normalizer) {
+            $query = $normalizer->normalize($query);
+        }
+
+        return $query;
+    }
 }

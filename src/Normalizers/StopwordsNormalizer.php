@@ -60,7 +60,7 @@ class StopwordsNormalizer implements NormalizerInterface
      */
     public function getPriority(): int
     {
-        return 0;
+        return 100;
     }
 
     /**

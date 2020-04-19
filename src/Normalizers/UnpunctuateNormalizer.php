@@ -26,6 +26,6 @@ class UnpunctuateNormalizer implements NormalizerInterface
      */
     public function getPriority(): int
     {
-        return 253;
+        return 255;
     }
 }

@@ -26,6 +26,6 @@ class QuotesNormalizer implements NormalizerInterface
      */
     public function getPriority(): int
     {
-        return 250;
+        return 255;
     }
 }

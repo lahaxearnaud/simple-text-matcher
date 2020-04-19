@@ -70,6 +70,6 @@ class TypoNormalizer implements NormalizerInterface
      */
     public function getPriority(): int
     {
-        return 255;
+        return 245;
     }
 }

@@ -33,7 +33,6 @@ abstract class AbstractClassifierTest extends TestCase
      */
     protected $classifier;
 
-
     /**
      * @return (null|string)[][]
      *

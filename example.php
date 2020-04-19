@@ -1,7 +1,14 @@
 <?php
 
+use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
+
 require 'vendor/autoload.php';
 
+$parser = new \alahaxe\SimpleTextMatcher\Entities\NumberExtractor();
+
+var_dump($parser->extract('je paie 3,76'));
+
+die;
 $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
 $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));

@@ -4,6 +4,7 @@ namespace alahaxe\SimpleTextMatcher;
 
 use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
 use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent;
 use alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
 use alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
 use alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
@@ -100,8 +101,11 @@ class Engine
         }
 
         if (!$modelUpToDate) {
+            $this->eventDispatcher->dispatch(new BeforeModelBuildEvent($this));
             $this->model = $this->modelBuilder->build($training, $synonyms);
+            $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
         }
+
         $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
 
         foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
@@ -222,5 +226,13 @@ class Engine
     public function setModel(array $model): void
     {
         $this->model = $model;
+    }
+
+    /**
+     * @return ModelBuilder
+     */
+    public function getModelBuilder(): ModelBuilder
+    {
+        return $this->modelBuilder;
     }
 }

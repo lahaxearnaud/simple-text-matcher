@@ -106,4 +106,42 @@ class ModelBuilderTest extends TestCase
 
         $this->assertEquals($expected, count($model['manger']));
     }
+
+    public function testExpandedGlobalSynonymsExpliciteUsage()
+    {
+        $this->modelBuilder->setGlobalLanguageSynonyms(json_decode(file_get_contents(__DIR__.'/../synonymes/fr.json'), true));
+        $models = $this->modelBuilder->build([
+            'abandonner' => [
+                'je vais ~abandonner'
+            ]
+        ], []);
+
+        $this->assertIsArray($models['abandonner']);
+        // synonyms of abandonner should be applied
+        $this->assertGreaterThan(1, count($models['abandonner']));
+    }
+
+    public function testExpandedGlobalSynonymsImpliciteUsage()
+    {
+        $normalizerBag = new NormalizersBag();
+        $normalizerBag
+            ->add(new LowerCaseNormalizer())
+            ->add(new UnaccentNormalizer())
+            ->add(new UnpunctuateNormalizer())
+            ->add(new QuotesNormalizer())
+            ->add(new TypoNormalizer());
+
+        $modelBuilder = new ModelBuilder($normalizerBag, 'fr', true, 5);
+        $modelBuilder->setGlobalLanguageSynonyms(json_decode(file_get_contents(__DIR__.'/../synonymes/fr.json'), true));
+
+        $models = $modelBuilder->build([
+            'abandonner' => [
+                'je vais abandonner'
+            ]
+        ], []);
+
+        $this->assertIsArray($models['abandonner']);
+        // synonyms of abandonner should be applied
+        $this->assertGreaterThan(1, count($models['abandonner']));
+    }
 }

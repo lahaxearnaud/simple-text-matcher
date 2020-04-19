@@ -19,6 +19,7 @@ use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use alahaxe\SimpleTextMatcher\Stemmer;
+use alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
 use alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -78,6 +79,8 @@ class EngineTest extends TestCase
 
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addSubscriber(new ModelCacheSubscriber(self::TRAINING_DATA_CACHE));
+        $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber());
+
         return new Engine(
             $eventDispatcher,
             new ModelBuilder($normalizerBag),

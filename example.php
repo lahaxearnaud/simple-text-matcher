@@ -5,20 +5,22 @@ require 'vendor/autoload.php';
 $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
 $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
+$dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));
 
 $classifiers = new \alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
 $classifiers
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier())
     ->add(new \alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier());
+    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier())
+  //  ->add(new \alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())
+  //  ->add(new \alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())
+  //  ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier())
+;
 
 
 $normalizers = new \alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
 
 $normalizers->add(new \alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
+   //->add(new \alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
     ->add(new \alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
@@ -106,6 +108,13 @@ $model = [
         "~je ~vouloir de la nourriture",
         'aller au ~resto'
     ],
+    'manger2' => [
+        '~je veux manger',
+        "~je ai faim",
+        "donne à manger",
+        "~je ~vouloir de la nourriture",
+        'aller au ~resto'
+    ],
     'dormir_maison' => [
         '~je ~vouloir ~dormir',
         '~je ~vouloir aller au lit',
@@ -114,7 +123,29 @@ $model = [
         'faire ~dormir à la maison',
         '~je vais ~dormir'
     ],
+    'dormir_maison2' => [
+        '~je ~vouloir ~dormir',
+        '~je ~vouloir aller au lit',
+        '~je ~vouloir aller me coucher',
+        'faire ~dormir dans ma ~piece',
+        'faire ~dormir à la maison',
+        '~je vais ~dormir'
+    ],
+    'dormir_maison3' => [
+        '~je ~vouloir ~dormir',
+        '~je ~vouloir aller au lit',
+        '~je ~vouloir aller me coucher',
+        'faire ~dormir dans ma ~piece',
+        'faire ~dormir à la maison',
+        '~je vais ~dormir'
+    ],
     'dormir_dehors' => [
+        '~je ~vouloir ~dormir à l\'~hotel',
+        '~dormir au ~hotel',
+        '~je ~vouloir aller ~dormir chez un amis',
+        'faire ~dormir à l\'~hotel'
+    ],
+    'dormir_dehors2' => [
         '~je ~vouloir ~dormir à l\'~hotel',
         '~dormir au ~hotel',
         '~je ~vouloir aller ~dormir chez un amis',
@@ -134,16 +165,36 @@ $model = [
         '~je vais acheter une nouvelle ~voiture',
         '~je ~vouloir une ~nouveau ~voiture',
         'ceci est ma ~nouveau ~voiture'
+    ],
+    'acheter_voiture2' => [
+        '~je ~vouloir acheter une ~voiture',
+        '~je vais chez le concessionnaire',
+        '~je ai repéré une ~voiture, je vais l\'acheter',
+        '~je vais acheter une ~voiture',
+        '~je vais acheter une nouvelle ~voiture',
+        '~je ~vouloir une ~nouveau ~voiture',
+        'ceci est ma ~nouveau ~voiture'
+    ],
+    'acheter_voiture3' => [
+        '~je ~vouloir acheter une ~voiture',
+        '~je vais chez le concessionnaire',
+        '~je ai repéré une ~voiture, je vais l\'acheter',
+        '~je vais acheter une ~voiture',
+        '~je vais acheter une nouvelle ~voiture',
+        '~je ~vouloir une ~nouveau ~voiture',
+        'ceci est ma ~nouveau ~voiture'
     ]
 ];
 
 $engine = new \alahaxe\SimpleTextMatcher\Engine(
     $dispatcher,
-    new \alahaxe\SimpleTextMatcher\ModelBuilder($normalizers),
+    new \alahaxe\SimpleTextMatcher\ModelBuilder($normalizers, 'fr', true),
     $normalizers,
     $classifiers,
     new \alahaxe\SimpleTextMatcher\Stemmer()
 );
+
+$start = microtime(true);
 
 $engine->prepare($model, $synonyms);
 
@@ -156,10 +207,10 @@ $questions = [
     'je pense que je vais m\'acheter une voiture verte',
     'je vais acheter une nouvelle voiture',
     'c est ma nouvelle bagnole',
+    'je vais me payer un toute nouvelle auto',
     'kdsjk kdskd dskdk'
 ];
 
-$start = microtime(true);
 foreach ($questions as $question) {
     $message = new \alahaxe\SimpleTextMatcher\Message($question);
     $engine->predict($message);

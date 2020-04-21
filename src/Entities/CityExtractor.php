@@ -14,7 +14,7 @@ class CityExtractor extends FileDictionnaryExtractor
      */
     public function __construct(string $dataFilePath = null)
     {
-        $dataFilePath = $dataFilePath ?? __DIR__.'/../../Resources/dataset/cities.txt';
+        $dataFilePath = $dataFilePath ?? __DIR__.'/../../Resources/dataset/fr/cities.txt';
 
         parent::__construct('CITY', $dataFilePath);
     }

@@ -7,7 +7,7 @@ namespace alahaxe\SimpleTextMatcher\Entities;
  *
  * @package alahaxe\SimpleTextMatcher\Entities
  */
-class EntityBag implements \Countable, \ArrayAccess
+class EntityBag implements \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
      * @var Entity[]
@@ -24,7 +24,7 @@ class EntityBag implements \Countable, \ArrayAccess
 
     /**
      * @inheritDoc
-     * @return     EntityExtractorInterface[]
+     * @return     Entity[]
      */
     public function all()
     {
@@ -83,5 +83,15 @@ class EntityBag implements \Countable, \ArrayAccess
         }
 
         $this->entities = array_merge($this->entities, $items);
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @return Entity[]|mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->entities;
     }
 }

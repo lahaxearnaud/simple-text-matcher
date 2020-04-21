@@ -4,11 +4,6 @@ use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
 
 require 'vendor/autoload.php';
 
-$parser = new \alahaxe\SimpleTextMatcher\Entities\NumberExtractor();
-
-var_dump($parser->extract('je paie 3,76'));
-
-die;
 $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
 $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
@@ -23,6 +18,20 @@ $classifiers
   //  ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier())
 ;
 
+
+$entityExtractors = new \alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag();
+$entityExtractors
+    ->add(new alahaxe\SimpleTextMatcher\Entities\NumberExtractor())
+    ->add(new \alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CAR_BRAND', [
+        'renault',
+        'peugeot',
+        'nissan'
+    ]))
+    ->add(new \alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CURRENCY', [
+        'euros',
+        'dollar',
+    ]))
+;
 
 $normalizers = new \alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
 
@@ -198,6 +207,7 @@ $engine = new \alahaxe\SimpleTextMatcher\Engine(
     new \alahaxe\SimpleTextMatcher\ModelBuilder($normalizers, 'fr', true),
     $normalizers,
     $classifiers,
+    $entityExtractors,
     new \alahaxe\SimpleTextMatcher\Stemmer()
 );
 
@@ -215,6 +225,7 @@ $questions = [
     'je vais acheter une nouvelle voiture',
     'c est ma nouvelle bagnole',
     'je vais me payer un toute nouvelle auto',
+    'je vais me payer la dernière nissan à 16000 euros',
     'kdsjk kdskd dskdk'
 ];
 
@@ -231,6 +242,14 @@ foreach ($questions as $question) {
             $classificationResult->getScore(), $classificationResult->getDuration()
         ) . PHP_EOL;
     }
+
+    echo 'Entities: ' .PHP_EOL;
+    foreach ($message->getEntities()->all() as $entity) {
+        echo sprintf(
+                "    - %s %s ", $entity->getType(), $entity->getValue(),
+            ) . PHP_EOL;
+    }
+
 
     echo 'Performance: '.var_export($message->jsonSerialize()['performance'], true);
     echo "==========" . PHP_EOL;

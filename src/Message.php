@@ -68,6 +68,8 @@ class Message implements \JsonSerializable
         $this->rawMessage = $rawMessage;
         $this->messageId = uniqid(date('YmdHisu').'_', true);
         $this->receivedTimestamp = microtime(true);
+        $this->entities = new EntityBag();
+        $this->classification = new ClassificationResultsBag();
     }
 
     /**

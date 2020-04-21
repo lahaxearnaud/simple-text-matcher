@@ -4,14 +4,12 @@ namespace alahaxe\SimpleTextMatcher\Normalizers;
 
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
-use Doctrine\Inflector\Language;
 
 /**
- * Class LowerCaseNormalizer
- *
- * @package alahaxe\SimpleTextMatcher\Normalizer
+ * Class SingularizeNormalizer
+ * @package alahaxe\SimpleTextMatcher\Normalizers
  */
-class UnaccentNormalizer implements NormalizerInterface
+class SingularizeNormalizer implements NormalizerInterface
 {
     /**
      * @var Inflector
@@ -19,12 +17,13 @@ class UnaccentNormalizer implements NormalizerInterface
     protected $inflector;
 
     /**
-     * UnaccentNormalizer constructor.
+     * SingularizeNormalizer constructor.
      */
-    public function __construct()
+    public function __construct(string $language = 'french')
     {
         $inflectorFactory = new InflectorFactory();
-        $this->inflector = $inflectorFactory(Language::ENGLISH);
+
+        $this->inflector = $inflectorFactory($language);
     }
 
     /**
@@ -36,7 +35,7 @@ class UnaccentNormalizer implements NormalizerInterface
     {
         $words = explode(' ', $rawText);
         foreach ($words as $index => $word) {
-            $words[$index] = $this->inflector->unaccent($word);
+            $words[$index] = $this->inflector->singularize($word);
         }
 
         return implode(' ', $words);
@@ -49,6 +48,6 @@ class UnaccentNormalizer implements NormalizerInterface
      */
     public function getPriority(): int
     {
-        return 240;
+        return 230;
     }
 }

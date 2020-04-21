@@ -109,7 +109,7 @@ class ModelBuilderTest extends TestCase
 
     public function testExpandedGlobalSynonymsExpliciteUsage()
     {
-        $this->modelBuilder->setGlobalLanguageSynonyms(json_decode(file_get_contents(__DIR__.'/../synonymes/fr.json'), true));
+        $this->modelBuilder->setGlobalLanguageSynonyms(json_decode(file_get_contents(__DIR__ . '/../Resources/dataset/fr/synonyms.json'), true));
         $models = $this->modelBuilder->build([
             'abandonner' => [
                 'je vais ~abandonner'
@@ -132,7 +132,7 @@ class ModelBuilderTest extends TestCase
             ->add(new TypoNormalizer());
 
         $modelBuilder = new ModelBuilder($normalizerBag, 'fr', true, 5);
-        $modelBuilder->setGlobalLanguageSynonyms(json_decode(file_get_contents(__DIR__.'/../synonymes/fr.json'), true));
+        $modelBuilder->setGlobalLanguageSynonyms(json_decode(file_get_contents(__DIR__ . '/../Resources/dataset/fr/synonyms.json'), true));
 
         $models = $modelBuilder->build([
             'abandonner' => [

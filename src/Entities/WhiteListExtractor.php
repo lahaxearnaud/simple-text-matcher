@@ -2,6 +2,11 @@
 
 namespace alahaxe\SimpleTextMatcher\Entities;
 
+use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
+use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use alahaxe\SimpleTextMatcher\Normalizers\SingularizeNormalizer;
+use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+
 /**
  * Class WhiteListExtractor
  * @package alahaxe\SimpleTextMatcher\Entities
@@ -19,15 +24,33 @@ class WhiteListExtractor implements EntityExtractorInterface
     protected $possibleValues = [];
 
     /**
+     * @var NormalizersBag
+     */
+    protected $normalizers;
+
+    /**
      * WhiteListExtractor constructor.
      * @param string $type
      * @param string[] $possibleValues
      */
     public function __construct(string $type, array $possibleValues)
     {
+        $this->normalizers = new NormalizersBag();
+        $this->normalizers
+            ->add(new LowerCaseNormalizer())
+            ->add(new UnaccentNormalizer())
+            ->add(new SingularizeNormalizer())
+        ;
+
         $this->type = $type;
-        foreach ($possibleValues as $possibleValue) {
-            $this->possibleValues[mb_strtolower($possibleValue)] = $possibleValue;
+
+        // if already associative we keep it as it
+        if([] === $possibleValues || array_keys($possibleValues) === range(0, count($possibleValues) - 1)) {
+            foreach ($possibleValues as $possibleValue) {
+                $this->possibleValues[$this->normalizers->apply($possibleValue)] = $possibleValue;
+            }
+        } else {
+            $this->possibleValues = $possibleValues;
         }
     }
 
@@ -47,7 +70,7 @@ class WhiteListExtractor implements EntityExtractorInterface
     public function extract(string $question): EntityBag
     {
         $results = new EntityBag();
-        $words = explode(' ', mb_strtolower($question));
+        $words = explode(' ', $this->normalizers->apply($question));
         foreach ($words as $word) {
             if (isset($this->possibleValues[$word])) {
                 $results->add(new Entity($this->getTypeExtracted(), $this->possibleValues[$word]));

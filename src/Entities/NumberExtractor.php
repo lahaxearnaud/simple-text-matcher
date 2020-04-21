@@ -13,7 +13,7 @@ class NumberExtractor extends AbstractRegexExtractor
     public function getRegexes(): array
     {
         return [
-            '/(?:[0-9]+\s*)+(?:dot|comma|virgule|point|[,\.])+\s*[0-9]*/i'
+            '/(?:[0-9]+\s*)+((?:dot|comma|virgule|point|[,\.])+\s*[0-9]*)?/i'
         ];
     }
 

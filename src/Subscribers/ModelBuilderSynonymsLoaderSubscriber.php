@@ -27,7 +27,7 @@ class ModelBuilderSynonymsLoaderSubscriber implements EventSubscriberInterface
     public function __construct(string $synonymsFileFolders = null)
     {
         if (is_null($synonymsFileFolders)) {
-            $synonymsFileFolders = __DIR__.'/../../synonymes';
+            $synonymsFileFolders = __DIR__.'/../../Resources/dataset';
         }
 
         $this->synonymsFileFolders = $synonymsFileFolders;
@@ -55,7 +55,7 @@ class ModelBuilderSynonymsLoaderSubscriber implements EventSubscriberInterface
     {
 
         $modelBuilder = $event->getEngine()->getModelBuilder();
-        $synonymsFile = $this->synonymsFileFolders.'/'.$modelBuilder->getLang().'.json';
+        $synonymsFile = $this->synonymsFileFolders.'/'.$modelBuilder->getLang().'/synonyms.json';
 
         if (file_exists($synonymsFile) && is_readable($synonymsFile)) {
             $synonyms = json_decode(file_get_contents($synonymsFile), true);

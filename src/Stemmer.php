@@ -1,13 +1,13 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher;
+namespace Alahaxe\SimpleTextMatcher;
 
 use TextAnalysis\Stemmers\SnowballStemmer;
 
 /**
  * Class Stemmer
  *
- * @package alahaxe\SimpleTextMatcher\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Classifiers
  */
 class Stemmer extends SnowballStemmer
 {

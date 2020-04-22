@@ -1,14 +1,14 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Class NaiveBayesClassifierTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 class NaiveBayesClassifierTest extends AbstractClassifierTest
 {

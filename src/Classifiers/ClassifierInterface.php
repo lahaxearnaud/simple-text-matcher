@@ -1,13 +1,13 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Interface ClassifierInterface
  *
- * @package alahaxe\SimpleTextMatcher\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Classifiers
  */
 interface ClassifierInterface
 {

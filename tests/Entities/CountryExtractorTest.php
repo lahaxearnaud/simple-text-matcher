@@ -1,17 +1,17 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entities;
+namespace Alahaxe\SimpleTextMatcher\Tests\Entities;
 
-use alahaxe\SimpleTextMatcher\Entities\CountryExtractor;
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
+use Alahaxe\SimpleTextMatcher\Entities\CountryExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ContryExtractorTest
- * @package alahaxe\SimpleTextMatcher\Tests\Entity
+ * @package Alahaxe\SimpleTextMatcher\Tests\Entity
  */
 class CountryExtractorTest extends TestCase
 {

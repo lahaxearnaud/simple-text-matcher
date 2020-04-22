@@ -1,6 +1,6 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 use voku\helper\StopWords;
 use voku\helper\StopWordsLanguageNotExists;
@@ -8,7 +8,7 @@ use voku\helper\StopWordsLanguageNotExists;
 /**
  * Class StopwordsNormalizer
  *
- * @package alahaxe\SimpleTextMatcher\Normalizer
+ * @package Alahaxe\SimpleTextMatcher\Normalizer
  */
 class StopwordsNormalizer implements NormalizerInterface
 {

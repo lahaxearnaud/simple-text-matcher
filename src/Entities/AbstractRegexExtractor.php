@@ -1,10 +1,10 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
 /**
  * Class AbstractRegexExtractor
- * @package alahaxe\SimpleTextMatcher\Entities
+ * @package Alahaxe\SimpleTextMatcher\Entities
  */
 abstract class AbstractRegexExtractor implements EntityExtractorInterface
 {

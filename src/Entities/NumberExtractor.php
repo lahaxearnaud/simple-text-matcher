@@ -1,7 +1,7 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
 
 class NumberExtractor extends AbstractRegexExtractor

@@ -1,14 +1,14 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Normalizers;
 
-use alahaxe\SimpleTextMatcher\Normalizers\NormalizerInterface;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class TypoNormalizerTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 abstract class AbstractNormalizerTest extends TestCase
 {

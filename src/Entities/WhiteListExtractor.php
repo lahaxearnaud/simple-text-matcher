@@ -1,15 +1,15 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
-use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
-use alahaxe\SimpleTextMatcher\Normalizers\SingularizeNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use Alahaxe\SimpleTextMatcher\Normalizers\SingularizeNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 
 /**
  * Class WhiteListExtractor
- * @package alahaxe\SimpleTextMatcher\Entities
+ * @package Alahaxe\SimpleTextMatcher\Entities
  */
 class WhiteListExtractor implements EntityExtractorInterface
 {

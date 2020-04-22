@@ -1,13 +1,13 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher;
+namespace Alahaxe\SimpleTextMatcher;
 
-use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 
 /**
  * Class ModelBuilder
  *
- * @package alahaxe\SimpleTextMatcher
+ * @package Alahaxe\SimpleTextMatcher
  */
 class ModelBuilder
 {

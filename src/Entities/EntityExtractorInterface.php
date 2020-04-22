@@ -1,12 +1,12 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
 /**
  * Interface EntityExtractorInterface
  *
- * @package alahaxe\SimpleTextMatcher\Entities
+ * @package Alahaxe\SimpleTextMatcher\Entities
  */
 interface EntityExtractorInterface
 {

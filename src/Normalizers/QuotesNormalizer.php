@@ -1,11 +1,11 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
  * Class QuotesNormalizer
  *
- * @package alahaxe\SimpleTextMatcher\Normalizer
+ * @package Alahaxe\SimpleTextMatcher\Normalizer
  */
 class QuotesNormalizer implements NormalizerInterface
 {

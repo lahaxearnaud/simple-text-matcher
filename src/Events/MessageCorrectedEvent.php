@@ -1,14 +1,14 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Events;
+namespace Alahaxe\SimpleTextMatcher\Events;
 
-use alahaxe\SimpleTextMatcher\Message;
+use Alahaxe\SimpleTextMatcher\Message;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * This event is triggered when a message is normalized, after all normalizers are executed
  *
- * @package alahaxe\SimpleTextMatcher\Events
+ * @package Alahaxe\SimpleTextMatcher\Events
  */
 class MessageCorrectedEvent extends Event
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Normalizers;
 
-use alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 
 /**
  * Class UnpunctuateNormalizerTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class ReplaceNormalizerTest extends AbstractNormalizerTest
 {

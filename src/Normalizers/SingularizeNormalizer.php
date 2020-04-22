@@ -1,13 +1,13 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 
 /**
  * Class SingularizeNormalizer
- * @package alahaxe\SimpleTextMatcher\Normalizers
+ * @package Alahaxe\SimpleTextMatcher\Normalizers
  */
 class SingularizeNormalizer implements NormalizerInterface
 {

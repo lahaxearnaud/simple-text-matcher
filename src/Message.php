@@ -1,15 +1,15 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher;
+namespace Alahaxe\SimpleTextMatcher;
 
-use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
 
 /**
  * Class Message
  *
- * @package alahaxe\SimpleTextMatcher
+ * @package Alahaxe\SimpleTextMatcher
  */
 class Message implements \JsonSerializable
 {

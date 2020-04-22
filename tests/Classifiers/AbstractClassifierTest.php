@@ -1,14 +1,14 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\ClassifierInterface;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassifierInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class AbtractTextCompareClassifier
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 abstract class AbstractClassifierTest extends TestCase
 {

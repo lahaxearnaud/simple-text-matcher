@@ -1,15 +1,15 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 use TextAnalysis\Classifiers\NaiveBayes;
 use TextAnalysis\Tokenizers\GeneralTokenizer;
 
 /**
  * Class BayesClassifier
  *
- * @package alahaxe\SimpleTextMatcher\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Classifiers
  */
 class NaiveBayesClassifier implements TrainingInterface
 {

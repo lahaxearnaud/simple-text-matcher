@@ -1,11 +1,11 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
  * Fix basic typo in a word
  *
- * @package alahaxe\SimpleTextMatcher\Normalizer
+ * @package Alahaxe\SimpleTextMatcher\Normalizer
  */
 class TypoNormalizer implements NormalizerInterface
 {

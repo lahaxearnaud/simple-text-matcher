@@ -1,12 +1,12 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entities;
+namespace Alahaxe\SimpleTextMatcher\Tests\Entities;
 
 
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor;
 use PHPUnit\Framework\TestCase;
 
 class WhiteListExtractorTest extends TestCase

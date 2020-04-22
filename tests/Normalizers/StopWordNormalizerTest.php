@@ -1,15 +1,15 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Normalizers;
 
-use alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 
 /**
  * Class StopWordNormalizerTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class StopWordNormalizerTest extends AbstractNormalizerTest
 {

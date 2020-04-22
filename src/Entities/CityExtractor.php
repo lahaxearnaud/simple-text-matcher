@@ -1,10 +1,10 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
 /**
  *
- * @package alahaxe\SimpleTextMatcher\Entities
+ * @package Alahaxe\SimpleTextMatcher\Entities
  */
 class CityExtractor extends FileDictionnaryExtractor
 {

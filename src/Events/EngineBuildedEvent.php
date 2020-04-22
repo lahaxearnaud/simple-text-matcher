@@ -1,8 +1,8 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Events;
+namespace Alahaxe\SimpleTextMatcher\Events;
 
-use alahaxe\SimpleTextMatcher\Engine;
+use Alahaxe\SimpleTextMatcher\Engine;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  *
  * This event is trigger when the engine is builded, at the end of the constructor
  *
- * @package alahaxe\SimpleTextMatcher\Events
+ * @package Alahaxe\SimpleTextMatcher\Events
  */
 class EngineBuildedEvent extends Event
 {

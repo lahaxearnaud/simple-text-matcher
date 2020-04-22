@@ -1,11 +1,11 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
 /**
  * Country list are from https://github.com/umpirsky/currency-list/tree/master/data
  *
- * @package alahaxe\SimpleTextMatcher\Entities
+ * @package Alahaxe\SimpleTextMatcher\Entities
  */
 class CurrencyExtractor extends WhiteListExtractor
 {

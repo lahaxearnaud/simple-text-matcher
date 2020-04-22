@@ -1,19 +1,19 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Subscribers;
+namespace Alahaxe\SimpleTextMatcher\Subscribers;
 
-use alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
-use alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
-use alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
-use alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
-use alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
+use Alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
+use Alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class LogSubscriber
  *
- * @package alahaxe\SimpleTextMatcher\Subscribers
+ * @package Alahaxe\SimpleTextMatcher\Subscribers
  */
 class LogSubscriber implements EventSubscriberInterface
 {

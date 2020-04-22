@@ -1,10 +1,10 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 
 class LevenshteinClassifierTest extends AbstractClassifierTest
 {

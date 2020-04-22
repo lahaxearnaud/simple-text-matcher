@@ -1,17 +1,17 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entities;
+namespace Alahaxe\SimpleTextMatcher\Tests\Entities;
 
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
-use alahaxe\SimpleTextMatcher\Entities\PercentageExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
+use Alahaxe\SimpleTextMatcher\Entities\PercentageExtractor;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class PercentageExtractorTest
- * @package alahaxe\SimpleTextMatcher\Tests\Entity
+ * @package Alahaxe\SimpleTextMatcher\Tests\Entity
  */
 class PercentageExtractorTest extends TestCase
 {

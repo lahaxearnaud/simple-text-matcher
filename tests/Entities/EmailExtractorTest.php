@@ -1,13 +1,13 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entities;
+namespace Alahaxe\SimpleTextMatcher\Tests\Entities;
 
 
-use alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
+use Alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use PHPUnit\Framework\TestCase;
 
 class EmailExtractorTest extends TestCase

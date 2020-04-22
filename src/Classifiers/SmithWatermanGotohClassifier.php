@@ -1,13 +1,13 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
 use Atomescrochus\StringSimilarities\SmithWatermanGotoh;
 
 /**
  * Class SmithWatermanGotohClassifier
  *
- * @package alahaxe\SimpleTextMatcher\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Classifiers
  */
 class SmithWatermanGotohClassifier extends AbstractTextCompareClassifier
 {

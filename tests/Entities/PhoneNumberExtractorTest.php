@@ -1,14 +1,14 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entities;
+namespace Alahaxe\SimpleTextMatcher\Tests\Entities;
 
 
-use alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
-use alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
+use Alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
 use PHPUnit\Framework\TestCase;
 
 class PhoneNumberExtractorTest extends TestCase

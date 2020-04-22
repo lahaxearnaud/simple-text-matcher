@@ -1,11 +1,11 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
 /**
  * Country list are from https://github.com/umpirsky/country-list/tree/master/data
  *
- * @package alahaxe\SimpleTextMatcher\Entities
+ * @package Alahaxe\SimpleTextMatcher\Entities
  */
 class FirstNameExtractor extends FileDictionnaryExtractor
 {

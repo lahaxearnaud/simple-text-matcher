@@ -1,15 +1,15 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Class JaroWinklerClassifierTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 class JaroWinklerClassifierTest extends AbstractClassifierTest
 {

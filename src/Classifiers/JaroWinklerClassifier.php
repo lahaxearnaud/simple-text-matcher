@@ -1,14 +1,14 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
 use Atomescrochus\StringSimilarities\JaroWinkler;
 
 /**
  * Class JaroWinklerClassifier
  *
- * @package alahaxe\SimpleTextMatcher\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Classifiers
  */
 class JaroWinklerClassifier extends AbstractTextCompareClassifier
 {

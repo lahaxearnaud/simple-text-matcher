@@ -1,25 +1,25 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher;
+namespace Alahaxe\SimpleTextMatcher;
 
-use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
-use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
-use alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent;
-use alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
-use alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
-use alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;
-use alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
-use alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
-use alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
-use alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
-use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
+use Alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent;
+use Alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
+use Alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
+use Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
+use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Engine
  *
- * @package alahaxe\SimpleTextMatcher
+ * @package Alahaxe\SimpleTextMatcher
  */
 class Engine
 {

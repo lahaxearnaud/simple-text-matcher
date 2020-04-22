@@ -1,15 +1,15 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Subscribers;
+namespace Alahaxe\SimpleTextMatcher\Subscribers;
 
-use alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
-use alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
+use Alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
+use Alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class ModelCacheSubscriber
  *
- * @package alahaxe\SimpleTextMatcher\Subscribers
+ * @package Alahaxe\SimpleTextMatcher\Subscribers
  */
 class ModelCacheSubscriber implements EventSubscriberInterface
 {

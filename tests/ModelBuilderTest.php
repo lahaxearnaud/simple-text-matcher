@@ -1,21 +1,21 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests;
+namespace Alahaxe\SimpleTextMatcher\Tests;
 
-use alahaxe\SimpleTextMatcher\ModelBuilder;
-use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
-use alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
+use Alahaxe\SimpleTextMatcher\ModelBuilder;
+use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ModelBuilderTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests
+ * @package Alahaxe\SimpleTextMatcher\Tests
  */
 class ModelBuilderTest extends TestCase
 {

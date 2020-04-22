@@ -1,15 +1,15 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResult;
-use alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResult;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ClassificationResultsBagTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 class ClassificationResultsBagTest extends TestCase
 {

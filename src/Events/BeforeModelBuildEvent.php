@@ -1,9 +1,9 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Events;
+namespace Alahaxe\SimpleTextMatcher\Events;
 
-use alahaxe\SimpleTextMatcher\Engine;
-use alahaxe\SimpleTextMatcher\ModelBuilder;
+use Alahaxe\SimpleTextMatcher\Engine;
+use Alahaxe\SimpleTextMatcher\ModelBuilder;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  *
  * This event is trigger before the model builder start building
  *
- * @package alahaxe\SimpleTextMatcher\Events
+ * @package Alahaxe\SimpleTextMatcher\Events
  */
 class BeforeModelBuildEvent extends Event
 {

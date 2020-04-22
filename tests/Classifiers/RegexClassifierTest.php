@@ -1,13 +1,13 @@
 <?php
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
  * Class RegexClassifierTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
 class RegexClassifierTest extends AbstractClassifierTest
 {

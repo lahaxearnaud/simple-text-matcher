@@ -1,30 +1,30 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests;
+namespace Alahaxe\SimpleTextMatcher\Tests;
 
-use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
-use alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
-use alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
-use alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
-use alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
-use alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
-use alahaxe\SimpleTextMatcher\Engine;
-use alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
-use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
-use alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
-use alahaxe\SimpleTextMatcher\Message;
-use alahaxe\SimpleTextMatcher\ModelBuilder;
-use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
-use alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
-use alahaxe\SimpleTextMatcher\Stemmer;
-use alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
-use alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
+use Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
+use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
+use Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
+use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
+use Alahaxe\SimpleTextMatcher\Engine;
+use Alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
+use Alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
+use Alahaxe\SimpleTextMatcher\Message;
+use Alahaxe\SimpleTextMatcher\ModelBuilder;
+use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
+use Alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
+use Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

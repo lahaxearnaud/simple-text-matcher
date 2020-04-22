@@ -1,14 +1,14 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Events;
+namespace Alahaxe\SimpleTextMatcher\Events;
 
-use alahaxe\SimpleTextMatcher\Message;
+use Alahaxe\SimpleTextMatcher\Message;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * This event is triggered when all data extractor are executed and the result is set on the message
  *
- * @package alahaxe\SimpleTextMatcher\Events
+ * @package Alahaxe\SimpleTextMatcher\Events
  */
 class EntitiesExtractedEvent extends Event
 {

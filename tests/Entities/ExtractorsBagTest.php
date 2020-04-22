@@ -1,12 +1,12 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
-use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
+use Alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
 use PHPUnit\Framework\TestCase;
 
 class ExtractorsBagTest extends TestCase

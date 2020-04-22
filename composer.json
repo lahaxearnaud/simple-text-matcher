@@ -56,12 +56,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "alahaxe\\SimpleTextMatcher\\": "src"
+            "Alahaxe\\SimpleTextMatcher\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "alahaxe\\SimpleTextMatcher\\Tests\\": "tests"
+            "Alahaxe\\SimpleTextMatcher\\Tests\\": "tests"
         }
     }
 }

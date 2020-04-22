@@ -1,11 +1,11 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
-use alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 use PHPUnit\Framework\TestCase;
 
 class ClassifiersBagTest extends TestCase

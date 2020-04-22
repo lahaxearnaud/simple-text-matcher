@@ -1,8 +1,8 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 use s9e\RegexpBuilder\Builder;
 
 /**
@@ -10,7 +10,7 @@ use s9e\RegexpBuilder\Builder;
  *
  * Class TrainnedRegexClassifier
  *
- * @package alahaxe\SimpleTextMatcher\Classifiers
+ * @package Alahaxe\SimpleTextMatcher\Classifiers
  */
 class TrainedRegexClassifier implements TrainingInterface
 {

@@ -1,20 +1,20 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Normalizers;
 
-use alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
-use alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
-use alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class NormalizerBagTest
  *
- * @package alahaxe\SimpleTextMatcher\Tests\Normalizers
+ * @package Alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
 class NormalizerBagTest extends TestCase
 {

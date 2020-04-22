@@ -26,43 +26,43 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
     $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 
     // for a better performance you can add some cache lister
-    $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
-    $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
-    $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));    
-    $dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber($yourPSRLogger));
+    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
+    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
+    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));    
+    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber($yourPSRLogger));
 
     // add some classifiers, pick some in the package or create a new one with your logic
-    $classifiers = new \alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
+    $classifiers = new \Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
     $classifiers
-        ->add(new \alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier()) // very fast
-        ->add(new \alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())  // very fast
-        ->add(new \alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())  // a little bit slow
-        ->add(new \alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())  // a little bit slow
-        ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier()) // a little bit slow
+        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier()) // very fast
+        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())  // very fast
+        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())  // a little bit slow
+        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())  // a little bit slow
+        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier()) // a little bit slow
         ;
 
     // add come normalizer to remove noise in the user question AND in training data
-    $normalizers = new \alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
+    $normalizers = new \Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
     $normalizers
-        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer())
-        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
-        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
-        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
-        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
-        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
-        ->add(new \alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
+        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer())
+        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
+        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
+        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
+        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
+        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
+        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
             'bagnole' => 'voiture',
             'slt' => 'salut',
         ]))
         ;
 
     // bild the engine
-    $engine = new \alahaxe\SimpleTextMatcher\Engine(
+    $engine = new \Alahaxe\SimpleTextMatcher\Engine(
         $dispatcher,
-        new \alahaxe\SimpleTextMatcher\ModelBuilder($normalizers),
+        new \Alahaxe\SimpleTextMatcher\ModelBuilder($normalizers),
         $normalizers,
         $classifiers,
-        new \alahaxe\SimpleTextMatcher\Stemmer()
+        new \Alahaxe\SimpleTextMatcher\Stemmer()
     );
 
     // build the data model and all classifier models
@@ -95,7 +95,7 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
     $question = 'Je veux acheter une voiture';
 
     // wrap you request in a Message object, classification will be added in this object
-    $message = new \alahaxe\SimpleTextMatcher\Message($question);
+    $message = new \Alahaxe\SimpleTextMatcher\Message($question);
 
     // classify the message
     $engine->predict($message);
@@ -123,15 +123,15 @@ Events
 
 | Event name    | Description |
 | ------------- | ------------- |
-| alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent::class  | This event is trigger when the engine is builded, at the end of the constructor  |
-| alahaxe\SimpleTextMatcher\Events\EngineStartedEvent::class  | This event is triggered when models are builded/loaded and the engine is ready to classify  |
-| alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent::class  | This event is triggered when a message is classified |
-| alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent::class  | This event is triggered when a message is normalized, after all normalizers are executed  |
-| alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent::class  | This event is trigger when the engine is builded, at the end of the constructor  |
-| alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent::class  | This event is triggered when a message is send to the engine, before all alteration/classification |
-| alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent::class  | This event is triggered when all synonymes are applied to the training data |
-| alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent::class  | This event is trigger before the model builder start building |
-| alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent::class  | This event is triggered when all data extractor are executed and the result is set on the message |
+| Alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent::class  | This event is trigger when the engine is builded, at the end of the constructor  |
+| Alahaxe\SimpleTextMatcher\Events\EngineStartedEvent::class  | This event is triggered when models are builded/loaded and the engine is ready to classify  |
+| Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent::class  | This event is triggered when a message is classified |
+| Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent::class  | This event is triggered when a message is normalized, after all normalizers are executed  |
+| Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent::class  | This event is trigger when the engine is builded, at the end of the constructor  |
+| Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent::class  | This event is triggered when a message is send to the engine, before all alteration/classification |
+| Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent::class  | This event is triggered when all synonymes are applied to the training data |
+| Alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent::class  | This event is trigger before the model builder start building |
+| Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent::class  | This event is triggered when all data extractor are executed and the result is set on the message |
 
 
 Create custom classifier
@@ -142,9 +142,9 @@ You can create your custom classifier by implementing ``TrainingInterface``.
 ```php
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 
 class MyCustomeClassifier implements TrainingInterface
 {
@@ -235,7 +235,7 @@ If you have custom rules or text correction
 ```php
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 class MyCustomNormalizer implements NormalizerInterface
 {

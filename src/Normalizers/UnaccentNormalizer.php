@@ -1,6 +1,6 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Normalizers;
+namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
@@ -9,7 +9,7 @@ use Doctrine\Inflector\Language;
 /**
  * Class LowerCaseNormalizer
  *
- * @package alahaxe\SimpleTextMatcher\Normalizer
+ * @package Alahaxe\SimpleTextMatcher\Normalizer
  */
 class UnaccentNormalizer implements NormalizerInterface
 {

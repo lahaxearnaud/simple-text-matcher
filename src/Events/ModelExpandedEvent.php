@@ -1,13 +1,13 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Events;
+namespace Alahaxe\SimpleTextMatcher\Events;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * This event is triggered when all synonymes are applied to the training data
  *
- * @package alahaxe\SimpleTextMatcher\Events
+ * @package Alahaxe\SimpleTextMatcher\Events
  */
 class ModelExpandedEvent extends Event
 {

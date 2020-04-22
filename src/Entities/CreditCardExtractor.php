@@ -1,10 +1,10 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Entities;
+namespace Alahaxe\SimpleTextMatcher\Entities;
 
 /**
- * Class IpExtractor
- * @package alahaxe\SimpleTextMatcher\Entities
+ * Class CreditCardExtractor
+ * @package Alahaxe\SimpleTextMatcher\Entities
  */
 class CreditCardExtractor extends AbstractRegexExtractor
 {

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Classifiers;
+namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
-use alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
-use alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 
 class SmithWatermanGotohClassifierTest extends AbstractClassifierTest
 {

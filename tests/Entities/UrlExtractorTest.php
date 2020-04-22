@@ -1,13 +1,13 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entities;
+namespace Alahaxe\SimpleTextMatcher\Tests\Entities;
 
 
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
-use alahaxe\SimpleTextMatcher\Entities\UrlExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
+use Alahaxe\SimpleTextMatcher\Entities\UrlExtractor;
 use PHPUnit\Framework\TestCase;
 
 class UrlExtractorTest extends TestCase

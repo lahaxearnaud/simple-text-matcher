@@ -1,47 +1,47 @@
 <?php
 
-use alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
 
 require 'vendor/autoload.php';
 
 $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
-$dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
-$dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
-$dispatcher->addSubscriber(new \alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));
+$dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
+$dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
+$dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));
 
-$classifiers = new \alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
+$classifiers = new \Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
 $classifiers
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())
-    ->add(new \alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier())
-  //  ->add(new \alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())
-  //  ->add(new \alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())
-  //  ->add(new \alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier())
+    ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())
+    ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier())
+  //  ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())
+  //  ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())
+  //  ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier())
 ;
 
 
-$entityExtractors = new \alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag();
+$entityExtractors = new \Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag();
 $entityExtractors
-    ->add(new alahaxe\SimpleTextMatcher\Entities\NumberExtractor())
-    ->add(new \alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CAR_BRAND', [
+    ->add(new Alahaxe\SimpleTextMatcher\Entities\NumberExtractor())
+    ->add(new \Alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CAR_BRAND', [
         'renault',
         'peugeot',
         'nissan'
     ]))
-    ->add(new \alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CURRENCY', [
+    ->add(new \Alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CURRENCY', [
         'euros',
         'dollar',
     ]))
 ;
 
-$normalizers = new \alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
+$normalizers = new \Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
 
-$normalizers->add(new \alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer())
-   //->add(new \alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
-    ->add(new \alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
+$normalizers->add(new \Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer())
+   //->add(new \Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
+    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
+    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
+    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
+    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
+    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
         'bagnole' => 'voiture',
         'slt' => 'salut',
     ]))
@@ -202,13 +202,13 @@ $model = [
     ]
 ];
 
-$engine = new \alahaxe\SimpleTextMatcher\Engine(
+$engine = new \Alahaxe\SimpleTextMatcher\Engine(
     $dispatcher,
-    new \alahaxe\SimpleTextMatcher\ModelBuilder($normalizers, 'fr', true),
+    new \Alahaxe\SimpleTextMatcher\ModelBuilder($normalizers, 'fr', true),
     $normalizers,
     $classifiers,
     $entityExtractors,
-    new \alahaxe\SimpleTextMatcher\Stemmer()
+    new \Alahaxe\SimpleTextMatcher\Stemmer()
 );
 
 $start = microtime(true);
@@ -230,7 +230,7 @@ $questions = [
 ];
 
 foreach ($questions as $question) {
-    $message = new \alahaxe\SimpleTextMatcher\Message($question);
+    $message = new \Alahaxe\SimpleTextMatcher\Message($question);
     $engine->predict($message);
     echo 'Question: ' . $message->getRawMessage() . PHP_EOL;
     echo 'Normalized: ' . $message->getNormalizedMessage() . PHP_EOL;

@@ -1,14 +1,14 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Events;
+namespace Alahaxe\SimpleTextMatcher\Events;
 
-use alahaxe\SimpleTextMatcher\Engine;
+use Alahaxe\SimpleTextMatcher\Engine;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * This event is triggered when models are builded/loaded and the engine is ready to classify
  *
- * @package alahaxe\SimpleTextMatcher\Events
+ * @package Alahaxe\SimpleTextMatcher\Events
  */
 class EngineStartedEvent extends Event
 {

@@ -1,23 +1,23 @@
 <?php
 
 
-namespace alahaxe\SimpleTextMatcher\Tests\Entities;
+namespace Alahaxe\SimpleTextMatcher\Tests\Entities;
 
-use alahaxe\SimpleTextMatcher\Entities\CityExtractor;
-use alahaxe\SimpleTextMatcher\Entities\CountryExtractor;
-use alahaxe\SimpleTextMatcher\Entities\CreditCardExtractor;
-use alahaxe\SimpleTextMatcher\Entities\CurrencyExtractor;
-use alahaxe\SimpleTextMatcher\Entities\Entity;
-use alahaxe\SimpleTextMatcher\Entities\EntityBag;
-use alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
-use alahaxe\SimpleTextMatcher\Entities\FirstNameExtractor;
-use alahaxe\SimpleTextMatcher\Entities\ZipCodeExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\CityExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\CountryExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\CreditCardExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\CurrencyExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Entity;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
+use Alahaxe\SimpleTextMatcher\Entities\FirstNameExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\ZipCodeExtractor;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Data from https://www.freeformatter.com/credit-card-number-generator-validator.html
  * Class CreditCardExtractorTest
- * @package alahaxe\SimpleTextMatcher\Tests\Entity
+ * @package Alahaxe\SimpleTextMatcher\Tests\Entity
  */
 class CreditCardExtractorTest extends TestCase
 {

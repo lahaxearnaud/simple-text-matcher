@@ -4,24 +4,13 @@
 namespace Alahaxe\SimpleTextMatcher\Tests;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
-use Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
-use Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
-use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
-use Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Engine;
-use Alahaxe\SimpleTextMatcher\Entities\EmailExtractor;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
-use Alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
-use Alahaxe\SimpleTextMatcher\Entities\PhoneNumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor;
 use Alahaxe\SimpleTextMatcher\ModelBuilder;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
-use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
-use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
-use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
-use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
-use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use Alahaxe\SimpleTextMatcher\Stemmer;
 use Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber;
 use PHPUnit\Framework\TestCase;

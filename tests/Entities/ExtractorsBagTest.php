@@ -6,9 +6,13 @@ namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 use Alahaxe\SimpleTextMatcher\Entities\Entity;
 use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
-use Alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class ExtractorsBagTest
+ * @package Alahaxe\SimpleTextMatcher\Tests\Classifiers
+ */
 class ExtractorsBagTest extends TestCase
 {
 

@@ -59,7 +59,7 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
             $value = trim($value);
 
             if ($index = array_search($value, $words, true)) {
-                $orderedEntities[$index] = new Entity($this->getTypeExtracted(), $value);
+                $orderedEntities[$index] = new Entity($this->getTypeExtracted(), $this->normalizeValue($value));
             }
         }
         fclose($handle);
@@ -74,6 +74,15 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $rawValue
+     * @return string
+     */
+    public function normalizeValue(string $rawValue):string
+    {
+        return $rawValue;
     }
 
     /**

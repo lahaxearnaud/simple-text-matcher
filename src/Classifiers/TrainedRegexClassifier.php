@@ -27,7 +27,7 @@ class TrainedRegexClassifier implements TrainingInterface
     /**
      * @var int
      */
-    protected $sizeOfChunkToBuildRegexes = 20;
+    protected $sizeOfChunkToBuildRegexes = 5;
 
     /**
      * TrainedRegexClassifier constructor.
@@ -35,7 +35,7 @@ class TrainedRegexClassifier implements TrainingInterface
      * @param Stemmer|null $stemmer
      * @param int $sizeOfChunkToBuildRegexes
      */
-    public function __construct(Stemmer $stemmer = null, int $sizeOfChunkToBuildRegexes = 20)
+    public function __construct(Stemmer $stemmer = null, int $sizeOfChunkToBuildRegexes = 5)
     {
         $this->stemmer = $stemmer;
         $this->sizeOfChunkToBuildRegexes = $sizeOfChunkToBuildRegexes;

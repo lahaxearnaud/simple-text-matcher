@@ -57,11 +57,11 @@ class EngineFactory
 
         $normalizers = new NormalizersBag();
         $normalizers->add(new LowerCaseNormalizer())
-            ->add(new StopwordsNormalizer($lang))
+        //    ->add(new StopwordsNormalizer($lang))
             ->add(new UnaccentNormalizer())
             ->add(new UnpunctuateNormalizer())
             ->add(new QuotesNormalizer())
-            ->add(new TypoNormalizer([], $lang))
+        //    ->add(new TypoNormalizer([], $lang))
             ->add(new SingularizeNormalizer($lang))
         ;
 

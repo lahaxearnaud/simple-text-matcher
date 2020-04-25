@@ -76,6 +76,22 @@ class EntityExtractorsBag implements \Countable, \ArrayAccess
     }
 
     /**
+     * @param array $types
+     * @return $this
+     */
+    public function getByTypes(array $types):self
+    {
+        $bag = new EntityExtractorsBag();
+        foreach ($this->extractors as $extractor) {
+            if (in_array(get_class($extractor), $types, true)) {
+                $bag->add($extractor);
+            }
+        }
+
+        return $bag;
+    }
+
+    /**
      * @param string $question
      *
      * @return EntityBag

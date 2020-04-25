@@ -44,6 +44,11 @@ class Engine
     protected $modelBuilder;
 
     /**
+     * @var array
+     */
+    protected $intentExtractors = [];
+
+    /**
      * @var NormalizersBag
      */
     protected $normalizers;
@@ -98,13 +103,16 @@ class Engine
     /**
      * @param array $training
      * @param array $synonyms
+     * @param array $intentExtractors
      *
-     * @return self
+     * @return $this
      */
-    public function prepare(array $training, array $synonyms):self
+    public function prepare(array $training, array $synonyms, array $intentExtractors = []):self
     {
-        $modelUpToDate = !empty($this->classifierTrainedModels) && !empty($this->model);
 
+        $this->intentExtractors = $intentExtractors;
+
+        $modelUpToDate = !empty($this->classifierTrainedModels) && !empty($this->model);
         foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
             $modelUpToDate = $modelUpToDate && isset($this->classifierTrainedModels[get_class($classifier)]);
         }
@@ -176,8 +184,15 @@ class Engine
 
         $bestResult = $question->getClassification()->offsetGet(0);
         if ($bestResult !== null) {
-            $question->setIntentDetected($bestResult->getIntent());
-            $question->setEntities($this->extractors->apply($question->getRawMessage()));
+            $intent = $bestResult->getIntent();
+            $question->setIntentDetected($intent);
+
+            if (isset($this->intentExtractors[$intent])) {
+                $question->setEntities(
+                    $this->extractors->getByTypes($this->intentExtractors[$intent])->apply($question->getRawMessage())
+                );
+            }
+
             $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
         }
 

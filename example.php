@@ -131,9 +131,28 @@ $model = [
     ]
 ];
 
+
+$intentExtractors = [
+    'manger ' => [],
+    'dormir_maison' => [],
+    'dormir_dehors' => [
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CityExtractor::class,
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CountryExtractor::class
+    ],
+    'dormir_amis' => [
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\FirstNameExtractor::class
+    ],
+    'acheter_voiture' => [
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CarBrandExtractor::class,
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CarModelExtractor::class,
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CurrencyExtractor::class,
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor::class
+    ],
+];
+
 $start = microtime(true);
 
-$engine->prepare($model, $synonyms);
+$engine->prepare($model, $synonyms, $intentExtractors);
 
 $questions = [
     'je peux dormir chez les darons de paul ?',

@@ -14,6 +14,7 @@ Glossary
 - Normalizer: Classes that remove usless informations from dataset and user question (punctuation, letter case, stopwords...)
 - Stemmer: Remove the suffix from a word and reduce it to its root word
 - Classifier: Algorithm that try to detect the intent from an user question
+- Extractor: Algorithm that detect and extract entities from the user query (number, currency, ...)
 
 Usage
 ----
@@ -23,7 +24,8 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
 ```php
 <?php
     use Alahaxe\SimpleTextMatcher\EngineFactory;
-
+    use Alahaxe\SimpleTextMatcher\Message;
+    
     $factory = new EngineFactory();
     $engine = $factory->build();
 
@@ -52,12 +54,28 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
             "voiture",
             "auto"
         ]
+    ], $intentExtractors = [
+       'manger' => [], // empty array enties are not required
+       'dormir_maison' => [],
+       'dormir_dehors' => [
+           \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CityExtractor::class,
+           \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CountryExtractor::class
+       ],
+       'dormir_amis' => [
+           \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\FirstNameExtractor::class
+       ],
+       'acheter_voiture' => [
+           \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CarBrandExtractor::class,
+           \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CarModelExtractor::class,
+           \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CurrencyExtractor::class,
+           \Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor::class
+       ],
     ]);
 
     $question = 'Je veux acheter une voiture';
 
     // wrap you request in a Message object, classification will be added in this object
-    $message = new \Alahaxe\SimpleTextMatcher\Message($question);
+    $message = new Message($question);
 
     // classify the message
     $engine->predict($message);

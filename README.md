@@ -22,48 +22,10 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
 
 ```php
 <?php
-    // build or retreive a SF event dispatcher
-    $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+    use Alahaxe\SimpleTextMatcher\EngineFactory;
 
-    // for a better performance you can add some cache lister
-    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
-    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
-    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));    
-    $dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber($yourPSRLogger));
-
-    // add some classifiers, pick some in the package or create a new one with your logic
-    $classifiers = new \Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
-    $classifiers
-        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier()) // very fast
-        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())  // very fast
-        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())  // a little bit slow
-        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())  // a little bit slow
-        ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier()) // a little bit slow
-        ;
-
-    // add come normalizer to remove noise in the user question AND in training data
-    $normalizers = new \Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
-    $normalizers
-        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer())
-        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
-        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
-        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
-        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
-        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
-        ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
-            'bagnole' => 'voiture',
-            'slt' => 'salut',
-        ]))
-        ;
-
-    // bild the engine
-    $engine = new \Alahaxe\SimpleTextMatcher\Engine(
-        $dispatcher,
-        new \Alahaxe\SimpleTextMatcher\ModelBuilder($normalizers),
-        $normalizers,
-        $classifiers,
-        new \Alahaxe\SimpleTextMatcher\Stemmer()
-    );
+    $factory = new EngineFactory();
+    $engine = $factory->build();
 
     // build the data model and all classifier models
     $engine->prepare($model = [
@@ -99,7 +61,6 @@ You can check a running example : https://github.com/lahaxearnaud/simple-text-ma
 
     // classify the message
     $engine->predict($message);
-
 
     echo 'Question: ' . $message->getRawMessage() . PHP_EOL;
     echo 'Normalized message: ' . $message->getNormalizedMessage() . PHP_EOL;

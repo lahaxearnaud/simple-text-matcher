@@ -39,14 +39,14 @@ class ModelBuilder
     /**
      * ModelBuilder constructor.
      *
-     * @param NormalizersBag $normalizers
+     * @param NormalizersBag|null $normalizers
      * @param string $lang
      * @param bool $autoExpandGlobalWord
      * @param int $minimumSizeForAutoExpand
      */
-    public function __construct(NormalizersBag $normalizers, string $lang = 'fr', bool $autoExpandGlobalWord = false, int $minimumSizeForAutoExpand = 5)
+    public function __construct(NormalizersBag $normalizers = null, string $lang = 'fr', bool $autoExpandGlobalWord = false, int $minimumSizeForAutoExpand = 5)
     {
-        $this->normalizers = $normalizers;
+        $this->normalizers = $normalizers ?? new NormalizersBag();
         $this->autoExpandGlobalWord = $autoExpandGlobalWord;
         $this->minimumSizeForAutoExpand = $minimumSizeForAutoExpand;
         $this->lang = $lang;
@@ -164,5 +164,13 @@ class ModelBuilder
     public function setGlobalLanguageSynonyms($globalLanguageSynonyms): void
     {
         $this->globalLanguageSynonyms = $globalLanguageSynonyms;
+    }
+
+    /**
+     * @param NormalizersBag $normalizers
+     */
+    public function setNormalizers(NormalizersBag $normalizers): void
+    {
+        $this->normalizers = $normalizers;
     }
 }

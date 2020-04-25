@@ -1,6 +1,7 @@
 <?php
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
+use WhiteCube\Lingua\Service as Lingua;
 
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
@@ -19,8 +20,9 @@ class SingularizeNormalizer implements NormalizerInterface
     /**
      * SingularizeNormalizer constructor.
      */
-    public function __construct(string $language = 'french')
+    public function __construct(string $language = 'fr')
     {
+        $language = Lingua::createFromISO_639_1($language)->toName();
         $inflectorFactory = new InflectorFactory();
 
         $this->inflector = $inflectorFactory($language);

@@ -1,46 +1,17 @@
 <?php
-
-use Alahaxe\SimpleTextMatcher\Entities\NumberExtractor;
-
 require 'vendor/autoload.php';
 
-$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
-$dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber(__DIR__.'/model_cache.json'));
-$dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber(__DIR__.'/stemmer_cache.json'));
-$dispatcher->addSubscriber(new \Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber(__DIR__.'/synonymes'));
+$factory = new \Alahaxe\SimpleTextMatcher\EngineFactory();
+$engine = $factory->build();
 
-$classifiers = new \Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag();
-$classifiers
-    ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier())
-    ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier())
-  //  ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier())
-  //  ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier())
-  //  ->add(new \Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier())
+$engine->getExtractors()
+    ->add(new \Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor())
+    ->add(new \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CarBrandExtractor())
+    ->add(new \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\FirstNameExtractor())
+    ->add(new \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CurrencyExtractor())
 ;
 
-
-$entityExtractors = new \Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag();
-$entityExtractors
-    ->add(new Alahaxe\SimpleTextMatcher\Entities\NumberExtractor())
-    ->add(new \Alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CAR_BRAND', [
-        'renault',
-        'peugeot',
-        'nissan'
-    ]))
-    ->add(new \Alahaxe\SimpleTextMatcher\Entities\WhiteListExtractor('CURRENCY', [
-        'euros',
-        'dollar',
-    ]))
-;
-
-$normalizers = new \Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag();
-
-$normalizers->add(new \Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer())
-   //->add(new \Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer())
-    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer())
-    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer())
-    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer())
-    ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer())
+$engine->getNormalizers()
     ->add(new \Alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer([
         'bagnole' => 'voiture',
         'slt' => 'salut',
@@ -113,18 +84,16 @@ $synonyms = [
         'nouveau',
         'nouvelle',
         'new'
+    ],
+    '~acheter' => [
+        'acheter',
+        'payer',
+        'dépenser'
     ]
 ];
 
 $model = [
     'manger' => [
-        '~je veux manger',
-        "~je ai faim",
-        "donne à manger",
-        "~je ~vouloir de la nourriture",
-        'aller au ~resto'
-    ],
-    'manger2' => [
         '~je veux manger',
         "~je ai faim",
         "donne à manger",
@@ -139,29 +108,7 @@ $model = [
         'faire ~dormir à la maison',
         '~je vais ~dormir'
     ],
-    'dormir_maison2' => [
-        '~je ~vouloir ~dormir',
-        '~je ~vouloir aller au lit',
-        '~je ~vouloir aller me coucher',
-        'faire ~dormir dans ma ~piece',
-        'faire ~dormir à la maison',
-        '~je vais ~dormir'
-    ],
-    'dormir_maison3' => [
-        '~je ~vouloir ~dormir',
-        '~je ~vouloir aller au lit',
-        '~je ~vouloir aller me coucher',
-        'faire ~dormir dans ma ~piece',
-        'faire ~dormir à la maison',
-        '~je vais ~dormir'
-    ],
     'dormir_dehors' => [
-        '~je ~vouloir ~dormir à l\'~hotel',
-        '~dormir au ~hotel',
-        '~je ~vouloir aller ~dormir chez un amis',
-        'faire ~dormir à l\'~hotel'
-    ],
-    'dormir_dehors2' => [
         '~je ~vouloir ~dormir à l\'~hotel',
         '~dormir au ~hotel',
         '~je ~vouloir aller ~dormir chez un amis',
@@ -174,42 +121,15 @@ $model = [
         '~dormir chez les ~parent de paul',
     ],
     'acheter_voiture' => [
-        '~je ~vouloir acheter une ~voiture',
+        '~je ~vouloir ~acheter une ~voiture',
         '~je vais chez le concessionnaire',
         '~je ai repéré une ~voiture, je vais l\'acheter',
-        '~je vais acheter une ~voiture',
-        '~je vais acheter une nouvelle ~voiture',
-        '~je ~vouloir une ~nouveau ~voiture',
-        'ceci est ma ~nouveau ~voiture'
-    ],
-    'acheter_voiture2' => [
-        '~je ~vouloir acheter une ~voiture',
-        '~je vais chez le concessionnaire',
-        '~je ai repéré une ~voiture, je vais l\'acheter',
-        '~je vais acheter une ~voiture',
-        '~je vais acheter une nouvelle ~voiture',
-        '~je ~vouloir une ~nouveau ~voiture',
-        'ceci est ma ~nouveau ~voiture'
-    ],
-    'acheter_voiture3' => [
-        '~je ~vouloir acheter une ~voiture',
-        '~je vais chez le concessionnaire',
-        '~je ai repéré une ~voiture, je vais l\'acheter',
-        '~je vais acheter une ~voiture',
-        '~je vais acheter une nouvelle ~voiture',
+        '~je vais ~acheter une ~voiture',
+        '~je vais ~acheter une nouvelle ~voiture',
         '~je ~vouloir une ~nouveau ~voiture',
         'ceci est ma ~nouveau ~voiture'
     ]
 ];
-
-$engine = new \Alahaxe\SimpleTextMatcher\Engine(
-    $dispatcher,
-    new \Alahaxe\SimpleTextMatcher\ModelBuilder($normalizers, 'fr', true),
-    $normalizers,
-    $classifiers,
-    $entityExtractors,
-    new \Alahaxe\SimpleTextMatcher\Stemmer()
-);
 
 $start = microtime(true);
 
@@ -226,6 +146,7 @@ $questions = [
     'c est ma nouvelle bagnole',
     'je vais me payer un toute nouvelle auto',
     'je vais me payer la dernière nissan à 16000 euros',
+    'je vais voir, avec mon PEL, pour me payer la dernière voiture nissan à 16000 euros',
     'kdsjk kdskd dskdk'
 ];
 

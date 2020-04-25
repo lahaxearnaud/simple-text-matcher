@@ -111,6 +111,8 @@ class Engine
 
         if (!$modelUpToDate) {
             $this->eventDispatcher->dispatch(new BeforeModelBuildEvent($this));
+            $this->modelBuilder->setNormalizers($this->normalizers);
+
             $this->model = $this->modelBuilder->build($training, $synonyms);
             $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
         }
@@ -175,7 +177,6 @@ class Engine
         $bestResult = $question->getClassification()->offsetGet(0);
         if ($bestResult !== null) {
             $question->setIntentDetected($bestResult->getIntent());
-        } else {
             $question->setEntities($this->extractors->apply($question->getRawMessage()));
             $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
         }
@@ -246,5 +247,29 @@ class Engine
     public function getModelBuilder(): ModelBuilder
     {
         return $this->modelBuilder;
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    public function getEventDispatcher(): EventDispatcherInterface
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
+     * @return NormalizersBag
+     */
+    public function getNormalizers(): NormalizersBag
+    {
+        return $this->normalizers;
+    }
+
+    /**
+     * @return EntityExtractorsBag
+     */
+    public function getExtractors(): EntityExtractorsBag
+    {
+        return $this->extractors;
     }
 }

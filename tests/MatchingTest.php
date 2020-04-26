@@ -131,6 +131,7 @@ class MatchingTest extends TestCase
     public function testMatching(string $question, string  $intent)
     {
         $message = $this->engine->predict($question);
+
         $this->assertNotEmpty(
             $message->getIntentDetected(),
             sprintf('Question "%s" should match intent "%s" but not intent detected', $question, $intent)

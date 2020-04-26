@@ -5,6 +5,7 @@ namespace Alahaxe\SimpleTextMatcher;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
+use Alahaxe\SimpleTextMatcher\Classifiers\PerfectMatchClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
@@ -53,6 +54,7 @@ class EngineFactory
         $classifiers
             ->add(new NaiveBayesClassifier())
             ->add(new TrainedRegexClassifier())
+            ->add(new PerfectMatchClassifier())
         ;
 
         $normalizers = new NormalizersBag();
@@ -61,7 +63,7 @@ class EngineFactory
             ->add(new UnaccentNormalizer())
             ->add(new UnpunctuateNormalizer())
             ->add(new QuotesNormalizer())
-        //    ->add(new TypoNormalizer([], $lang))
+            ->add(new TypoNormalizer([], $lang))
             ->add(new SingularizeNormalizer($lang))
         ;
 

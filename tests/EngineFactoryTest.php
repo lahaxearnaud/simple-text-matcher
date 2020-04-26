@@ -27,7 +27,12 @@ class EngineFactoryTest extends TestCase
             [
                 'manger' => [
                     'donne moi à ~manger',
-                    'je veux ~manger'
+                    'je veux ~manger',
+                    'je souhaite manger une pomme'
+                ],
+                'chanter' => [
+                    'je veux chanter',
+                    'nous allons chanter dans les bois'
                 ]
             ],
             [

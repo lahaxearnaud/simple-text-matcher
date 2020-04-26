@@ -10,7 +10,7 @@ use Alahaxe\SimpleTextMatcher\Stemmer;
  * Class LevenshteinClassifierTest
  * @package Alahaxe\SimpleTextMatcher\Tests\Classifiers
  */
-class LevenshteinClassifierTest extends AbstractClassifierTest
+class PerfectMatchClassifierTest extends AbstractClassifierTest
 {
     protected function setUp():void
     {

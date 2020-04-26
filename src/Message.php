@@ -46,6 +46,16 @@ class Message implements \JsonSerializable
     /**
      * @var int
      */
+    protected $nbWords;
+
+    /**
+     * @var string[]
+     */
+    protected $words = [];
+
+    /**
+     * @var int
+     */
     private $receivedTimestamp = 0;
 
     /**
@@ -59,6 +69,11 @@ class Message implements \JsonSerializable
     private $classifiedTimestamp = 0;
 
     /**
+     * @var Message[]
+     */
+    protected $subMessages = [];
+
+    /**
      * Message constructor.
      *
      * @param string $rawMessage
@@ -70,6 +85,8 @@ class Message implements \JsonSerializable
         $this->receivedTimestamp = microtime(true);
         $this->entities = new EntityBag();
         $this->classification = new ClassificationResultsBag();
+        $this->words = explode(' ', $rawMessage);
+        $this->nbWords = count($this->words);
     }
 
     /**
@@ -152,6 +169,53 @@ class Message implements \JsonSerializable
     public function setEntities(EntityBag $entities): void
     {
         $this->entities = $entities;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbWords(): int
+    {
+        return $this->nbWords;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getWords(): array
+    {
+        return $this->words;
+    }
+
+    /**
+     * @param Message|Message[] $messages
+     *
+     * @return $this
+     */
+    public function addSubMessages($messages):self
+    {
+        if (!is_array($messages)) {
+            $messages = [$messages];
+        }
+
+        $this->subMessages += $messages;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSubMessages():bool {
+        return count($this->subMessages) > 0;
+    }
+
+    /**
+     * @return Message[]
+     */
+    public function getSubMessages(): array
+    {
+        return $this->subMessages;
     }
 
     /**

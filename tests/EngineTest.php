@@ -153,6 +153,7 @@ class EngineTest extends TestCase
     {
         $result = $this->engine->predict($question);
         $this->assertInstanceOf(Message::class, $result);
+        $this->assertFalse($result->hasSubMessages());
         $this->assertNotEmpty($result->getRawMessage());
         $this->assertEquals($result->getRawMessage(), $question);
         $this->assertNotEmpty($result->getNormalizedMessage());
@@ -186,5 +187,26 @@ class EngineTest extends TestCase
             $this->assertGreaterThan(0, $result->getClassification()->count());
             $this->assertEquals($match, $result->getIntentDetected());
         }
+    }
+
+    /**
+     * @param $question
+     * @param $match
+     *
+     * @return void
+     */
+    public function testMatchWithSubQuestion(): void
+    {
+        $result = $this->engine->predict('je vais chez le concessionnaire et après je vais dormir dans une auberge', true);
+        $this->assertInstanceOf(Message::class, $result);
+        $this->assertTrue($result->hasSubMessages());
+
+        $subMessages = $result->getSubMessages();
+
+        $this->assertInstanceOf(Message::class, $subMessages[0]);
+        $this->assertInstanceOf(Message::class, $subMessages[1]);
+
+        $this->assertEquals('acheter_voiture', $subMessages[0]->getIntentDetected());
+        $this->assertEquals('dormir_dehors', $subMessages[1]->getIntentDetected());
     }
 }

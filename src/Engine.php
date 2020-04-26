@@ -161,17 +161,13 @@ class Engine
         return $bag;
     }
 
+
     /**
-     * @param string|Message $question
-     *
+     * @param Message $question
      * @return Message
      */
-    public function predict($question) :Message
+    protected function classifyMessage(Message $question):Message
     {
-        if (!$question instanceof Message) {
-            $question = new Message($question);
-        }
-
         $this->eventDispatcher->dispatch(new MessageReceivedEvent($question));
 
         $question->setNormalizedMessage($this->normalizers->apply($question->getRawMessage()));
@@ -197,6 +193,56 @@ class Engine
         }
 
         $this->eventDispatcher->dispatch(new MessageClassifiedEvent($question));
+
+        return $question;
+    }
+
+    /**
+     * @param string|Message $question
+     * @param bool $allowSplit (try to detect sub intent)
+     *
+     * @return Message
+     */
+    public function predict($question, $allowSplit = false):Message
+    {
+        if (!$question instanceof Message) {
+            $question = new Message($question);
+        }
+
+        if (!$allowSplit) {
+            return $this->classifyMessage($question);
+        }
+
+        $messageSplitter = new QuestionSplitter();
+        $subQuestions = $messageSplitter->splitQuestion($question);
+        $nbSubQuestions = count($subQuestions);
+
+        if ($nbSubQuestions === 1) {
+            return $this->classifyMessage($question);
+        }
+
+        /** @var Message $subQuestion */
+        foreach ($subQuestions as $subQuestion)
+        {
+            $this->classifyMessage($subQuestion);
+        }
+
+        $nbIntentsDetected = count(array_filter($subQuestions, static function (Message $message) {
+            return $message->getIntentDetected() !== null;
+        }));
+
+        // if we had only one part we may try to classify the full sentence
+        if ($nbIntentsDetected < $nbSubQuestions) {
+            $this->classifyMessage($question);
+
+            // this should me more meaningfull
+            if ($question->getIntentDetected() !== null) {
+                return $question;
+            }
+        }
+
+
+        $question->addSubMessages($subQuestions);
 
         return $question;
     }

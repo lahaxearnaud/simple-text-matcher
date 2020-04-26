@@ -10,7 +10,6 @@ use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 
 /**
- * Country list are from https://github.com/umpirsky/country-list/tree/master/data
  *
  * @package Alahaxe\SimpleTextMatcher\Entities
  */

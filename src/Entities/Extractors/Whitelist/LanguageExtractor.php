@@ -20,7 +20,7 @@ class LanguageExtractor extends WhiteListExtractor
 
         $languages = [];
         if (file_exists($languageFilePath) && is_readable($languageFilePath)) {
-            $currencies = array_reverse(include $languageFilePath);
+            $languages = array_reverse(include $languageFilePath);
         }
 
         parent::__construct('LANGUAGE', $languages);

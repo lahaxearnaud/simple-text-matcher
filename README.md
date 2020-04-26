@@ -240,6 +240,120 @@ class MyCustomNormalizer implements NormalizerInterface
 }
 ```
 
+Create custom data extractor
+----
+
+## Regex extractor
+
+Simple extractor based on a regex
+
+```php
+<?php
+namespace Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex;
+
+/**
+ * Class EmailExtractor
+ * @package Alahaxe\SimpleTextMatcher\Entities
+ */
+class EmailExtractor extends AbstractRegexExtractor
+{
+    /**
+     * @return string
+     */
+    public function getTypeExtracted(): string
+    {
+        return 'EMAIL'; // the type of entity detected by the extractor
+    }
+
+    /**
+     * @return array
+     */
+    public function getRegexes(): array
+    {
+        return [
+            "/[\._a-zA-Z0-9-]+@[\._a-zA-Z0-9-]+/i" // one or many regexes to match you data
+        ];
+    }
+}
+```
+
+## White list Extractor
+
+````php
+<?php
+
+namespace Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist;
+
+/**
+ *
+ * @package Alahaxe\SimpleTextMatcher\Entities
+ */
+class FooExtractor extends WhiteListExtractor
+{
+    /**
+     * FooExtractor constructor.
+     */
+    public function __construct()
+    {
+
+        parent::__construct('FOO', [
+            'searchValue1' => 'WhatIWantInMyEntity',
+            'searchValue2' => 'WhatIWantInMyEntity',
+            'foo' => 'bar',
+            'toto' => 'bar',
+            'bar' => 'foo',
+        ]);
+    }
+}
+````
+
+
+## Dictionary extractor
+
+If you have a lot of possible values, dictionnary extractor allow you to extract 
+entities with a low memory / cpu / time
+
+```php
+<?php
+
+namespace Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary;
+
+/**
+ *
+ * @package Alahaxe\SimpleTextMatcher\Entities
+ */
+class FirstNameExtractor extends FileDictionnaryExtractor
+{
+    /**
+     * FirstNameExtractor constructor.
+     * @param string|null $dataFilePath
+     */
+    public function __construct(string $dataFilePath = null)
+    {
+        $dataFilePath = $dataFilePath ?? __DIR__ . '/../../../../Resources/dataset/firstnames.txt';
+
+        parent::__construct('FIRSTNAME', $dataFilePath);
+    }
+}
+```
+
+Example of dictionary:
+
+```text
+aaliyah
+aapeli
+aapo
+aaren
+aarne
+aarón
+// ... 
+```
+
+## Custom extractor
+
+Custom extractor must implements ``EntityExtractorInterface``. 
+Keep in mind that the constructor must not be very light and fast.
+
 License
 ----
 

@@ -216,6 +216,7 @@ class Engine
         $subQuestions = $messageSplitter->splitQuestion($question);
         $nbSubQuestions = count($subQuestions);
 
+        // only one question detected fallback to legacy behavior
         if ($nbSubQuestions === 1) {
             return $this->classifyMessage($question);
         }
@@ -239,7 +240,6 @@ class Engine
                 return $question;
             }
         }
-
 
         $question->addSubMessages($subQuestions);
 

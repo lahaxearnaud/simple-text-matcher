@@ -1,13 +1,18 @@
 <?php
 
-namespace Alahaxe\SimpleTextMatcher;
+namespace Alahaxe\SimpleTextMatcher\MessageFlags;
+
+use Alahaxe\SimpleTextMatcher\Message;
 
 /**
- * Class NegationDetector
+ * Class NegationFlagDetector
  *
- * @package Alahaxe\SimpleTextMatcher
+ * @package Alahaxe\SimpleTextMatcher\MessageFlags
  */
-class NegationDetector {
+class NegationFlagDetector implements FlagDetectorInterface
+{
+
+    const NAME = 'negation';
 
     /**
      * @var string[]
@@ -24,7 +29,7 @@ class NegationDetector {
      * @param Message $question
      * @return bool
      */
-    public function isSentenceWithNegation(Message $question):bool
+    public function detect(Message $question):bool
     {
         foreach ($this->regexes as $regex) {
             if (preg_match($regex, $question->getRawMessage())) {
@@ -33,5 +38,13 @@ class NegationDetector {
         }
 
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFlagName(): string
+    {
+        return self::NAME;
     }
 }

@@ -3,18 +3,18 @@
 namespace alahaxe\SimpleTextMatcher\Tests;
 
 use Alahaxe\SimpleTextMatcher\Message;
-use Alahaxe\SimpleTextMatcher\NegationDetector;
+use Alahaxe\SimpleTextMatcher\MessageFlags\NegationFlagDetector;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class NegationDetectorTest
  * @package alahaxe\SimpleTextMatcher\Tests
  */
-class NegationDetectorTest extends TestCase
+class NegationFlagDetectorTest extends TestCase
 {
 
     /**
-     * @var NegationDetector
+     * @var NegationFlagDetector
      */
     protected $negationDetector;
 
@@ -22,7 +22,7 @@ class NegationDetectorTest extends TestCase
     {
         parent::setUp();
 
-        $this->negationDetector = new NegationDetector();
+        $this->negationDetector = new NegationFlagDetector();
     }
 
     public function provideQuestions()
@@ -67,6 +67,6 @@ class NegationDetectorTest extends TestCase
      */
     public function testNegation(string $question, bool $result)
     {
-        $this->assertEquals($result, $this->negationDetector->isSentenceWithNegation(new Message($question)));
+        $this->assertEquals($result, $this->negationDetector->detect(new Message($question)));
     }
 }

@@ -74,9 +74,9 @@ class Message implements \JsonSerializable
     protected $subMessages = [];
 
     /**
-     * @var bool
+     * @var string[]
      */
-    protected $containsNegation = false;
+    protected $flags = [];
 
     /**
      * Message constructor.
@@ -224,20 +224,23 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * @param string $flag
+     *
      * @return bool
      */
-    public function isContainsNegation(): bool
+    public function hasFlag(string $flag): bool
     {
-        return $this->containsNegation;
+        return in_array($flag, $this->flags, true);
     }
 
     /**
-     * @param bool $containsNegation
+     * @param string $flag
      * @return Message
      */
-    public function setContainsNegation(bool $containsNegation): Message
+    public function addFlag(string $flag): Message
     {
-        $this->containsNegation = $containsNegation;
+        $this->flags[] = $flag;
+
         return $this;
     }
 
@@ -270,7 +273,7 @@ class Message implements \JsonSerializable
             'entities' => $this->entities,
             'intentDetected' => $this->intentDetected,
             'nbWords' => $this->nbWords,
-            'containsNegation' => $this->containsNegation,
+            'flags' => $this->flags,
             'performance' => $this->getPerformance()
         ];
     }

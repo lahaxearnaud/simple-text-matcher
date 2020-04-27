@@ -14,6 +14,7 @@ use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\EmailExtractor;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\PhoneNumberExtractor;
 use Alahaxe\SimpleTextMatcher\Message;
+use Alahaxe\SimpleTextMatcher\MessageFlags\NegationFlagDetector;
 use Alahaxe\SimpleTextMatcher\ModelBuilder;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
@@ -163,7 +164,6 @@ class EngineTest extends TestCase
         $this->assertGreaterThan(0, $result->getClassification()->count());
         $this->assertEquals($match, $result->getIntentDetected());
         $this->assertGreaterThan(0, $result->getClassification()[0]->getDuration());
-        $this->assertIsBool($result->isContainsNegation());
         $this->assertGreaterThanOrEqual(0, $result->getNbWords());
         $this->assertEquals(count($result->getWords()), $result->getNbWords());
 
@@ -235,6 +235,6 @@ class EngineTest extends TestCase
         $this->assertInstanceOf(Message::class, $result);
         $this->assertFalse($result->hasSubMessages());
         $this->assertEquals('acheter_voiture', $result->getIntentDetected());
-        $this->assertTrue($result->isContainsNegation());
+        $this->assertTrue($result->hasFlag(NegationFlagDetector::NAME));
     }
 }

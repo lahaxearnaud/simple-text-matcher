@@ -190,9 +190,6 @@ class EngineTest extends TestCase
     }
 
     /**
-     * @param $question
-     * @param $match
-     *
      * @return void
      */
     public function testMatchWithSubQuestion(): void
@@ -208,5 +205,18 @@ class EngineTest extends TestCase
 
         $this->assertEquals('acheter_voiture', $subMessages[0]->getIntentDetected());
         $this->assertEquals('dormir_dehors', $subMessages[1]->getIntentDetected());
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testMatchWithOneMatchingSubQuestion(): void
+    {
+        $result = $this->engine->predict('je vais chez le concessionnaire et dskjdksj sdkjdskdj dskdskdj dskjdskj', true);
+        $this->assertInstanceOf(Message::class, $result);
+        $this->assertFalse($result->hasSubMessages());
+
+        $this->assertEquals('acheter_voiture', $result->getIntentDetected());
     }
 }

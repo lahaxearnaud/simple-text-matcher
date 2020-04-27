@@ -1,24 +1,27 @@
 <?php
 
-
-
-$handle = fopen(__DIR__.'/model.csv', "r");
+ini_set('memory_limit', -1);
+$data = json_decode(file_get_contents(__DIR__.'/datasets/movies/records.json'), true);
 $result = [];
-fgets($handle);
-while (($line = fgets($handle)) !== false) {
-    $line = utf8_encode($line);
-    $line = explode(',', $line);
-    $line = mb_strtolower(trim($line[2]));
-    $line = str_replace('"', '', $line);
-    if (in_array($line, $result, true)) {
-        continue;
+foreach ($data as $item) {
+    foreach ($item['actors'] as $name) {
+        $name = mb_strtolower($name);
+        $name = str_replace([' intl', ' airport'], '', $name);
+        $result[] = trim($name);
     }
-    $result[] = $line;
+
+}
+$data = json_decode(file_get_contents(__DIR__.'/datasets/movies/actors.json'), true);
+foreach ($data as $item) {
+    $name = $item['name'];
+    $name = mb_strtolower($name);
+    $name = str_replace([' intl', ' airport'], '', $name);
+    $result[] = trim($name);
 }
 
+
 $result = array_unique($result);
+sort($result);
 
-fclose($handle);
-
-file_put_contents(__DIR__ . '/Resources/dataset/car_models.txt', implode("\n", $result));
+file_put_contents(__DIR__ . '/Resources/dataset/actors.txt', implode("\n", $result), FILE_APPEND);
 

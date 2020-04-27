@@ -109,7 +109,6 @@ class Engine
      */
     public function prepare(array $training, array $synonyms, array $intentExtractors = []):self
     {
-
         $this->intentExtractors = $intentExtractors;
 
         $modelUpToDate = !empty($this->classifierTrainedModels) && !empty($this->model);

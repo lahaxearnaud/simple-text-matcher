@@ -16,6 +16,7 @@ use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
+use Alahaxe\SimpleTextMatcher\Subscribers\MessageSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber;
@@ -48,6 +49,7 @@ class EngineFactory
             $eventDispatcher->addSubscriber(new ModelCacheSubscriber($tmpCacheFolder . '/model_cache.json'));
             $eventDispatcher->addSubscriber(new StemmerCacheSubscriber($tmpCacheFolder . '/stemmer_cache.json'));
             $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber($tmpCacheFolder . '/synonymes'));
+            $eventDispatcher->addSubscriber(new MessageSubscriber());
         }
 
         $classifiers = new ClassifiersBag();

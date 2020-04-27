@@ -23,6 +23,7 @@ use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use Alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Subscribers\MessageSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
 use PHPUnit\Framework\TestCase;
@@ -91,6 +92,7 @@ class EngineTest extends TestCase
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addSubscriber(new ModelCacheSubscriber(self::TRAINING_DATA_CACHE));
         $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber());
+        $eventDispatcher->addSubscriber(new MessageSubscriber());
 
         return new Engine(
             $eventDispatcher,
@@ -161,6 +163,9 @@ class EngineTest extends TestCase
         $this->assertGreaterThan(0, $result->getClassification()->count());
         $this->assertEquals($match, $result->getIntentDetected());
         $this->assertGreaterThan(0, $result->getClassification()[0]->getDuration());
+        $this->assertIsBool($result->isContainsNegation());
+        $this->assertGreaterThanOrEqual(0, $result->getNbWords());
+        $this->assertEquals(count($result->getWords()), $result->getNbWords());
 
         $jsonResult = json_decode(json_encode($result->getClassification()), true);
         $this->assertIsArray($jsonResult);
@@ -218,5 +223,18 @@ class EngineTest extends TestCase
         $this->assertFalse($result->hasSubMessages());
 
         $this->assertEquals('acheter_voiture', $result->getIntentDetected());
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testMatchWithNegativeQuestion(): void
+    {
+        $result = $this->engine->predict('je ne vais pas chez le concessionnaire', true);
+        $this->assertInstanceOf(Message::class, $result);
+        $this->assertFalse($result->hasSubMessages());
+        $this->assertEquals('acheter_voiture', $result->getIntentDetected());
+        $this->assertTrue($result->isContainsNegation());
     }
 }

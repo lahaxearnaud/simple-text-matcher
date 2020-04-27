@@ -2,87 +2,56 @@
 
 namespace Alahaxe\SimpleTextMatcher\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class EntityBag
  *
  * @package Alahaxe\SimpleTextMatcher\Entities
+ *
+ * @template-extends ArrayCollection<int, Entity>
  */
-class EntityBag implements \Countable, \ArrayAccess, \JsonSerializable
+class EntityBag extends ArrayCollection implements \JsonSerializable
 {
-    /**
-     * @var Entity[]
-     */
-    protected $entities = [];
-
-    /**
-     * @inheritDoc
-     */
-    public function count()
-    {
-        return \count($this->entities);
-    }
-
     /**
      * @inheritDoc
      * @return     Entity[]
      */
     public function all()
     {
-        return array_values($this->entities);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->entities[$offset]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
-    {
-        return $this->entities[$offset];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->entities[$offset] = $value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset)
-    {
-        if (isset($this->entities[$offset])) {
-            unset($this->entities[$offset]);
-        }
+        return $this->toArray();
     }
 
     /**
      * @param EntityBag $entityBag
+     *
+     * @return $this
      */
-    public function merge(EntityBag $entityBag)
+    public function merge(EntityBag $entityBag):self
     {
-        $this->entities = array_merge($this->entities, $entityBag->all());
+        foreach ($entityBag->toArray() as $entity) {
+            $this->add($entity);
+        }
+
+        return $this;
     }
 
     /**
      * @param $items
+     *
+     * @return $this
      */
-    public function add($items):void
+    public function add($items):self
     {
         if(!is_array($items)) {
             $items = [$items];
         }
 
-        $this->entities = array_merge($this->entities, $items);
+        foreach ($items as $item) {
+            parent::add($item);
+        }
+
+        return $this;
     }
 
     /**
@@ -92,6 +61,6 @@ class EntityBag implements \Countable, \ArrayAccess, \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->entities;
+        return $this->toArray();
     }
 }

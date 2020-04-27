@@ -2,67 +2,23 @@
 
 namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class ClassificationResultBag
  *
  * @package Alahaxe\SimpleTextMatcher\Classifiers
+ *
+ * @template-extends ArrayCollection<int, ClassificationResult>
  */
-class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayAccess
+class ClassificationResultsBag extends ArrayCollection implements \JsonSerializable
 {
-
-    /**
-     * @var ClassificationResult[]
-     */
-    protected $results = [];
-
-    /**
-     * @inheritDoc
-     */
-    public function count()
-    {
-        return \count($this->results);
-    }
-
     /**
      * @inheritDoc
      */
     public function jsonSerialize()
     {
-        return $this->results;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->results[$offset]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
-    {
-        return $this->results[$offset] ?? null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->results[$offset] = $value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset)
-    {
-        if (isset($this->results[$offset])) {
-            unset($this->results[$offset]);
-        }
+        return $this->toArray();
     }
 
     /**
@@ -71,7 +27,7 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
      */
     public function all()
     {
-        return array_values($this->results);
+        return $this->toArray();
     }
 
     /**
@@ -84,7 +40,10 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
         if (!is_array($result)) {
             $result = [$result];
         }
-        $this->results = array_merge($this->results, $result);
+
+        foreach ($result as $element) {
+            parent::add($element);
+        }
 
         return $this;
     }
@@ -96,10 +55,9 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
      */
     public function merge(ClassificationResultsBag $bag) :self
     {
-        $this->results = array_merge(
-            $this->results,
-            $bag->all()
-        );
+        foreach ($bag->toArray() as $result) {
+            $this->add($result);
+        }
 
         return $this;
     }
@@ -109,10 +67,10 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
      *
      * @return ClassificationResultsBag
      */
-    public function getResultsWithMinimumScore(float $score = 0):ClassificationResultsBag
+    public function getResultsWithMinimumScore(float $score = 0):self
     {
         $results = array_filter(
-            $this->results,
+            $this->toArray(),
             static function (ClassificationResult $result) use ($score) {
                 return $result->getScore() >= $score;
             }
@@ -125,21 +83,20 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
             }
         );
 
-        $bag = new ClassificationResultsBag();
-        $bag->add($results);
-
-        return $bag;
+        return new ClassificationResultsBag($results);
     }
 
     /**
      * @param  int $nb
-     * @param  int $score
+     * @param  float $score
+     *
      * @return ClassificationResultsBag
      */
-    public function getTopIntents(int $nb, float $score):ClassificationResultsBag
+    public function getTopIntents(int $nb, float $score):self
     {
         $results = [];
-        foreach ($this->getResultsWithMinimumScore($score)->all() as $classificationResult) {
+        /** @var ClassificationResult $classificationResult */
+        foreach ($this->getResultsWithMinimumScore($score)->toArray() as $classificationResult) {
             $key = $classificationResult->getIntent().'_'.$classificationResult->getClassifier();
             if (isset($results[$key])) {
                 continue;
@@ -152,10 +109,7 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
             }
         }
 
-        $bag = new ClassificationResultsBag();
-        $bag->add(array_values($results));
-
-        return $bag;
+        return new ClassificationResultsBag(array_values($results));
     }
 
     /**
@@ -164,7 +118,8 @@ class ClassificationResultsBag implements \Countable, \JsonSerializable, \ArrayA
      */
     public function setExecutionTime(float $duration)
     {
-        foreach ($this->results as $result) {
+        /** @var ClassificationResult $result */
+        foreach ($this->toArray() as $result) {
             $result->setDuration($duration);
         }
 

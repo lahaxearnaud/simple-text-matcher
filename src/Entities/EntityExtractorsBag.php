@@ -2,24 +2,15 @@
 
 namespace Alahaxe\SimpleTextMatcher\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class EntityExtractorsBag
  *
+ * @template-extends ArrayCollection<int, EntityExtractorInterface>
  */
-class EntityExtractorsBag implements \Countable, \ArrayAccess
+class EntityExtractorsBag extends ArrayCollection
 {
-    /**
-     * @var EntityExtractorInterface[]
-     */
-    protected $extractors = [];
-
-    /**
-     * @inheritDoc
-     */
-    public function count()
-    {
-        return \count($this->extractors);
-    }
 
     /**
      * @inheritDoc
@@ -27,62 +18,36 @@ class EntityExtractorsBag implements \Countable, \ArrayAccess
      */
     public function all()
     {
-        return array_values($this->extractors);
+        return $this->toArray();
     }
 
     /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->extractors[$offset]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
-    {
-        return $this->extractors[$offset];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->extractors[$offset] = $value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset)
-    {
-        if (isset($this->extractors[$offset])) {
-            unset($this->extractors[$offset]);
-        }
-    }
-
-    /**
-     * @param EntityExtractorInterface $extractor
+     * @param EntityExtractorInterface|EntityExtractorInterface[] $items
+     *
      * @return $this
      */
-    public function add(EntityExtractorInterface $extractor) :self
+    public function add($items) :self
     {
-        $this->extractors[] = $extractor;
+        if(!is_array($items)) {
+            $items = [$items];
+        }
+
+        foreach ($items as $item) {
+            parent::add($item);
+        }
 
         return $this;
     }
 
     /**
      * @param array $types
-     * @return $this
+     *
+     * @return EntityExtractorsBag
      */
     public function getByTypes(array $types):self
     {
         $bag = new EntityExtractorsBag();
-        foreach ($this->extractors as $extractor) {
+        foreach ($this->toArray() as $extractor) {
             if (in_array(get_class($extractor), $types, true)) {
                 $bag->add($extractor);
             }
@@ -99,7 +64,8 @@ class EntityExtractorsBag implements \Countable, \ArrayAccess
     public function apply(string $question):EntityBag
     {
         $result = new EntityBag();
-        foreach ($this->extractors as $extractor) {
+        /** @var EntityExtractorInterface $extractor */
+        foreach ($this->toArray() as $extractor) {
             $result->merge($extractor->extract($question));
         }
 

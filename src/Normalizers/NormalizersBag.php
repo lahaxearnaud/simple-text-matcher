@@ -2,25 +2,17 @@
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class NormalizerBag
  *
  * @package Alahaxe\SimpleTextMatcher\Classifiers
+ *
+ * @template-extends ArrayCollection<int, NormalizerInterface>
  */
-class NormalizersBag implements \Countable, \ArrayAccess
+class NormalizersBag extends ArrayCollection
 {
-    /**
-     * @var NormalizerInterface[]
-     */
-    protected $normalizers = [];
-
-    /**
-     * @inheritDoc
-     */
-    public function count()
-    {
-        return \count($this->normalizers);
-    }
 
     /**
      * @inheritDoc
@@ -31,41 +23,25 @@ class NormalizersBag implements \Countable, \ArrayAccess
      */
     public function all(): array
     {
-        return array_values($this->normalizers);
+        return $this->toArray();
     }
 
     /**
-     * @inheritDoc
+     * @param array|NormalizerInterface $items
+     *
+     * @return $this
      */
-    public function offsetExists($offset)
+    public function add($items)
     {
-        return isset($this->normalizers[$offset]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
-    {
-        return $this->normalizers[$offset];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->normalizers[$offset] = $value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset)
-    {
-        if (isset($this->normalizers[$offset])) {
-            unset($this->normalizers[$offset]);
+        if(!is_array($items)) {
+            $items = [$items];
         }
+
+        foreach ($items as $item) {
+            parent::add($item);
+        }
+
+        return $this;
     }
 
     /**
@@ -75,26 +51,16 @@ class NormalizersBag implements \Countable, \ArrayAccess
      */
     public function getOrderedByPriority() :array
     {
+        $elements = $this->toArray();
+
         usort(
-            $this->normalizers,
+            $elements,
             static function (NormalizerInterface $a, NormalizerInterface $b) {
                 return $a->getPriority() > $b->getPriority();
             }
         );
 
-        return array_values($this->normalizers);
-    }
-
-    /**
-     * @param NormalizerInterface $classifier
-     *
-     * @return self
-     */
-    public function add(NormalizerInterface $classifier) :self
-    {
-        $this->normalizers[] = $classifier;
-
-        return $this;
+        return array_values($elements);
     }
 
     /**

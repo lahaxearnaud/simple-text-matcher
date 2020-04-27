@@ -2,26 +2,17 @@
 
 namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class ClassifiersBag
  *
  * @package Alahaxe\SimpleTextMatcher\Classifiers
+ *
+ * @template-extends ArrayCollection<int, ClassifierInterface>
  */
-class ClassifiersBag implements \Countable, \ArrayAccess
+class ClassifiersBag extends ArrayCollection
 {
-
-    /**
-     * @var ClassifierInterface[]
-     */
-    protected $classifiers = [];
-
-    /**
-     * @inheritDoc
-     */
-    public function count()
-    {
-        return \count($this->classifiers);
-    }
 
     /**
      * @inheritDoc
@@ -29,41 +20,7 @@ class ClassifiersBag implements \Countable, \ArrayAccess
      */
     public function all()
     {
-        return array_values($this->classifiers);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->classifiers[$offset]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
-    {
-        return $this->classifiers[$offset];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->classifiers[$offset] = $value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset)
-    {
-        if (isset($this->classifiers[$offset])) {
-            unset($this->classifiers[$offset]);
-        }
+        return $this->toArray();
     }
 
     /**
@@ -75,7 +32,7 @@ class ClassifiersBag implements \Countable, \ArrayAccess
     {
         return array_values(
             array_filter(
-                $this->classifiers,
+                $this->toArray(),
                 static function (ClassifierInterface $classifier) {
                     return $classifier instanceof TrainingInterface;
                 }
@@ -88,9 +45,9 @@ class ClassifiersBag implements \Countable, \ArrayAccess
      *
      * @return self
      */
-    public function add(ClassifierInterface $classifier) :self
+    public function add($classifier) :self
     {
-        $this->classifiers[] = $classifier;
+        parent::add($classifier);
 
         return $this;
     }

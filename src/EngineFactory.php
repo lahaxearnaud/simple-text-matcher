@@ -9,6 +9,7 @@ use Alahaxe\SimpleTextMatcher\Classifiers\PerfectMatchClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\InsultExtractor;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\EmojiFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\FlagDetectorBag;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\InsultFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\NegationFlagDetector;
@@ -60,6 +61,7 @@ class EngineFactory
                 new NegationFlagDetector(),
                 new InsultFlagDetector($lang),
                 new QuestionFlagDetector(),
+                new EmojiFlagDetector(),
             ])));
         }
 

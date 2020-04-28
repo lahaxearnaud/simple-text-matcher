@@ -9,12 +9,15 @@ use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Engine;
+use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\EmailExtractor;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\PhoneNumberExtractor;
 use Alahaxe\SimpleTextMatcher\Message;
-use Alahaxe\SimpleTextMatcher\MessageFlags\NegationFlagDetector;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\FlagDetectorBag;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\NegationFlagDetector;
+use Alahaxe\SimpleTextMatcher\MessageFlags\FlagBag;
 use Alahaxe\SimpleTextMatcher\ModelBuilder;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
@@ -93,7 +96,9 @@ class EngineTest extends TestCase
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addSubscriber(new ModelCacheSubscriber(self::TRAINING_DATA_CACHE));
         $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber());
-        $eventDispatcher->addSubscriber(new MessageSubscriber());
+        $eventDispatcher->addSubscriber(new MessageSubscriber(new FlagDetectorBag([
+            new NegationFlagDetector(),
+        ])));
 
         return new Engine(
             $eventDispatcher,
@@ -166,6 +171,8 @@ class EngineTest extends TestCase
         $this->assertGreaterThan(0, $result->getClassification()[0]->getDuration());
         $this->assertGreaterThanOrEqual(0, $result->getNbWords());
         $this->assertEquals(count($result->getWords()), $result->getNbWords());
+        $this->assertInstanceOf(FlagBag::class, $result->getFlags());
+        $this->assertInstanceOf(EntityBag::class, $result->getEntities());
 
         $jsonResult = json_decode(json_encode($result->getClassification()), true);
         $this->assertIsArray($jsonResult);
@@ -173,6 +180,7 @@ class EngineTest extends TestCase
         $jsonResult = json_decode(json_encode($result), true);
         $this->assertIsArray($jsonResult);
         $this->assertArrayHasKey('performance', $jsonResult);
+        $this->assertArrayHasKey('flags', $jsonResult);
     }
 
     public function testPersistModel(): void
@@ -235,6 +243,6 @@ class EngineTest extends TestCase
         $this->assertInstanceOf(Message::class, $result);
         $this->assertFalse($result->hasSubMessages());
         $this->assertEquals('acheter_voiture', $result->getIntentDetected());
-        $this->assertTrue($result->hasFlag(NegationFlagDetector::NAME));
+        $this->assertTrue($result->hasFlag(NegationFlagDetector::class));
     }
 }

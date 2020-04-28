@@ -8,6 +8,11 @@ use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\PerfectMatchClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\InsultExtractor;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\FlagDetectorBag;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\InsultFlagDetector;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\NegationFlagDetector;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\QuestionFlagDetector;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
@@ -25,6 +30,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class EngineFactory
+ *
  * @package Alahaxe\SimpleTextMatcher
  */
 class EngineFactory
@@ -49,7 +55,12 @@ class EngineFactory
             $eventDispatcher->addSubscriber(new ModelCacheSubscriber($tmpCacheFolder . '/model_cache.json'));
             $eventDispatcher->addSubscriber(new StemmerCacheSubscriber($tmpCacheFolder . '/stemmer_cache.json'));
             $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber($tmpCacheFolder . '/synonymes'));
-            $eventDispatcher->addSubscriber(new MessageSubscriber());
+
+            $eventDispatcher->addSubscriber(new MessageSubscriber(new FlagDetectorBag([
+                new NegationFlagDetector(),
+                new InsultFlagDetector($lang),
+                new QuestionFlagDetector(),
+            ])));
         }
 
         $classifiers = new ClassifiersBag();

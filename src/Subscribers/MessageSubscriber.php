@@ -3,7 +3,7 @@
 namespace Alahaxe\SimpleTextMatcher\Subscribers;
 
 use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
-use Alahaxe\SimpleTextMatcher\MessageFlags\NegationFlagDetector;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\FlagDetectorBag;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -14,18 +14,18 @@ class MessageSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @var NegationFlagDetector
+     * @var FlagDetectorBag
      */
-    protected $negationDetector;
+    protected $flagDetectorBag;
 
     /**
      * MessageSubscriber constructor.
      *
-     * @param NegationFlagDetector|null $negationDetector
+     * @param FlagDetectorBag $flagDetectorBag
      */
-    public function __construct(NegationFlagDetector $negationDetector = null)
+    public function __construct(FlagDetectorBag $flagDetectorBag)
     {
-        $this->negationDetector = $negationDetector ?? new NegationFlagDetector();
+        $this->flagDetectorBag = $flagDetectorBag;
     }
 
     /**
@@ -47,9 +47,6 @@ class MessageSubscriber implements EventSubscriberInterface
      */
     public function onMessageReceived(MessageReceivedEvent $event): void
     {
-        $message = $event->getMessage();
-        if ($this->negationDetector->detect($message)) {
-            $message->addFlag($this->negationDetector->getFlagName());
-        }
+        $this->flagDetectorBag->apply($event->getMessage());
     }
 }

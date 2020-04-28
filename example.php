@@ -27,6 +27,7 @@ while (($question = readline("Question : ")) !== '') {
     $engine->predict($message);
     echo 'Question: ' . $message->getRawMessage() . PHP_EOL;
     echo 'Normalized: ' . $message->getNormalizedMessage() . PHP_EOL;
+    echo 'Flags: ' . json_encode($message->getFlags()) . PHP_EOL;
     echo 'Intent: ' . $message->getIntentDetected() . PHP_EOL;
 
     foreach ($message->getClassification()->all() as $classificationResult) {

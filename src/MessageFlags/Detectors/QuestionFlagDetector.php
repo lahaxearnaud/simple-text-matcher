@@ -1,6 +1,6 @@
 <?php
 
-namespace Alahaxe\SimpleTextMatcher\MessageFlags;
+namespace Alahaxe\SimpleTextMatcher\MessageFlags\Detectors;
 
 use Alahaxe\SimpleTextMatcher\Message;
 
@@ -9,20 +9,18 @@ use Alahaxe\SimpleTextMatcher\Message;
  *
  * @package Alahaxe\SimpleTextMatcher\MessageFlags
  */
-class NegationFlagDetector implements FlagDetectorInterface
+class QuestionFlagDetector extends AbstractFlagDetector
 {
-
-    const NAME = 'negation';
-
     /**
      * @var string[]
      */
     protected $regexes = [
-        "/\s(ne\s|n\').*\s(pas|guerre|point)\s/i",
-        "/(\s(ni)\s.*){2}/i",
-        "/\s(pas)\s/i",
+        "/\?/", // question mark
 
-        "/\s(do(es)? not|doesn\'t)\s/i",
+        "/(com(bien|ment)|[a-z]\-(nous|vous|tu|je)|qu(e|el(s|le(s)?)?|i|oi)|quand|est\-ce|pourquoi|où)\s/i", // fr
+
+        "/^((do|did|is|are|can|may)|(how|why|where|what))(\s|\')/i", // simple en
+        "/(is|are|wo|have|has|can|shall|might|do|does|did)(n\'t|\snot)?\s(it|I|you|she|they|we)\s?\??$/i", // en question tag
     ];
 
     /**
@@ -38,13 +36,5 @@ class NegationFlagDetector implements FlagDetectorInterface
         }
 
         return false;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFlagName(): string
-    {
-        return self::NAME;
     }
 }

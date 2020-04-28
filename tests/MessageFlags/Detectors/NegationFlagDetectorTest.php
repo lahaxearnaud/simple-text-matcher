@@ -1,28 +1,20 @@
 <?php
 
-namespace alahaxe\SimpleTextMatcher\Tests;
+namespace alahaxe\SimpleTextMatcher\Tests\MessageFlags\Detectors;
 
-use Alahaxe\SimpleTextMatcher\Message;
-use Alahaxe\SimpleTextMatcher\MessageFlags\NegationFlagDetector;
-use PHPUnit\Framework\TestCase;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\NegationFlagDetector;
 
 /**
  * Class NegationDetectorTest
  * @package alahaxe\SimpleTextMatcher\Tests
  */
-class NegationFlagDetectorTest extends TestCase
+class NegationFlagDetectorTest extends AbstractFlagDetectorTest
 {
-
-    /**
-     * @var NegationFlagDetector
-     */
-    protected $negationDetector;
-
     protected function setUp():void
     {
         parent::setUp();
 
-        $this->negationDetector = new NegationFlagDetector();
+        $this->detector = new NegationFlagDetector();
     }
 
     public function provideQuestions()
@@ -57,16 +49,5 @@ class NegationFlagDetectorTest extends TestCase
                 false
             ],
         ];
-    }
-
-    /**
-     * @param string $question
-     * @param bool $result
-     *
-     * @dataProvider provideQuestions
-     */
-    public function testNegation(string $question, bool $result)
-    {
-        $this->assertEquals($result, $this->negationDetector->detect(new Message($question)));
     }
 }

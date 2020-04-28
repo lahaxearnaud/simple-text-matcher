@@ -5,6 +5,8 @@ namespace Alahaxe\SimpleTextMatcher;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
 use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Flag;
+use Alahaxe\SimpleTextMatcher\MessageFlags\FlagBag;
 
 /**
  * Class Message
@@ -74,9 +76,9 @@ class Message implements \JsonSerializable
     protected $subMessages = [];
 
     /**
-     * @var string[]
+     * @var FlagBag
      */
-    protected $flags = [];
+    protected $flags;
 
     /**
      * Message constructor.
@@ -92,6 +94,7 @@ class Message implements \JsonSerializable
         $this->classification = new ClassificationResultsBag();
         $this->words = explode(' ', $rawMessage);
         $this->nbWords = count($this->words);
+        $this->flags = new FlagBag();
     }
 
     /**
@@ -230,18 +233,26 @@ class Message implements \JsonSerializable
      */
     public function hasFlag(string $flag): bool
     {
-        return in_array($flag, $this->flags, true);
+        return $this->flags->hasFlag($flag);
     }
 
     /**
-     * @param string $flag
+     * @param Flag $flag
      * @return Message
      */
-    public function addFlag(string $flag): Message
+    public function addFlag(Flag $flag): Message
     {
-        $this->flags[] = $flag;
+        $this->flags->add($flag);
 
         return $this;
+    }
+
+    /**
+     * @return FlagBag
+     */
+    public function getFlags(): FlagBag
+    {
+        return $this->flags;
     }
 
     /**

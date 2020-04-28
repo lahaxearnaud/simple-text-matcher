@@ -55,9 +55,9 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
 
         $orderedEntities = [];
         while (($value = fgets($handle)) !== false) {
-            $value = trim($value);
+            $value = $this->normalizeDictionaryValue($value);
 
-            if ($index = array_search($value, $words, true)) {
+            if ($index = $this->testValue($value, $words, $question)) {
                 $orderedEntities[$index] = new Entity($this->getTypeExtracted(), $this->normalizeValue($value));
             }
         }
@@ -73,6 +73,32 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $dictionaryValue
+     * @param array $words
+     * @param string $question
+     *
+     * @return int|bool (index in words or true)
+     */
+    public function testValue(string $dictionaryValue, array $words, string $question)
+    {
+        if (strpos($dictionaryValue, ' ') === false) {
+            return array_search($dictionaryValue, $words, true);
+        }
+
+        return strpos($question, $dictionaryValue) !== false;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function normalizeDictionaryValue(string $value):string
+    {
+        return trim($value);
     }
 
     /**

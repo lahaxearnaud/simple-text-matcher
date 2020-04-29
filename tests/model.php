@@ -91,6 +91,13 @@ $synonyms = [
         'ingurgiter',
         'bouffer',
         'bouffe'
+    ],
+    '~createur' => [
+        'chef',
+        'createur',
+        'dev',
+        'développeur',
+        'papa',
     ]
 ];
 
@@ -114,6 +121,46 @@ $training = [
         "~je vais ~manger chez les parents de jules",
         "~je vais ~manger au ~resto avec les parents de alexi",
         "~je ~mange un ~plat"
+    ],
+    'question_sante' => [
+        'comment tu vas',
+        'comment vas-tu',
+        'est-ce que tout va bien',
+        'tu vas bien ?',
+        'tout vas bien ?',
+        'est-ce que tu vas bien',
+        'est-ce que tout vas bien',
+        'tu es en forme ?',
+        'est-ce que tu as la patate ?',
+        'est-ce que tu as la forme ?'
+    ],
+    'chef' => [
+        'qui es ton ~createur',
+        'dit moi qui es ton ~createur',
+        'qui t\'as programmé',
+        'dit moi qui t\'as programmé',
+        'qui est ton ~createur',
+        'c\'est qui ton ~createur',
+        'c\'est qui ton ~createur',
+        'peux-tu me dire qui est ton ~createur'
+    ],
+    'bonjour' => [
+        'salut',
+        'bonjour',
+        'slt',
+        'coucou',
+        'Tcho',
+        'hello',
+        'bien le bonjour'
+    ],
+    'aurevoir' => [
+        'bye',
+        'à plus',
+        'bonne journée',
+        'à bientôt',
+        'à demain',
+        'à plus dans le bus',
+        'à demain dans le train'
     ],
     'dormir_maison' => [
         '~je ~vouloir ~dormir',

@@ -102,7 +102,7 @@ class SVCClassifier implements TrainingInterface
         $flattenTrainingData = [];
         foreach ($trainingData as $intent => $phrases) {
             if (count($phrases) < 10) {
-                return;
+                continue;
             }
 
             foreach ($phrases as $phrase) {

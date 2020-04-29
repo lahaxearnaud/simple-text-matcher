@@ -2,14 +2,14 @@
 
 namespace Alahaxe\SimpleTextMatcher\Tests\Normalizers;
 
-use Alahaxe\SimpleTextMatcher\Normalizers\SpaceRemoverNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\ExtraSpaceRemoverNormalizer;
 
 /**
  * Class SpaceRemoverNormalizerTest
  *
  * @package Alahaxe\SimpleTextMatcher\Tests\Normalizers
  */
-class SpaceRemoverNormalizerTest extends AbstractNormalizerTest
+class ExtraSpaceRemoverNormalizerTest extends AbstractNormalizerTest
 {
 
     /**
@@ -19,7 +19,7 @@ class SpaceRemoverNormalizerTest extends AbstractNormalizerTest
     {
         parent::setUp();
 
-        $this->normalizer = new SpaceRemoverNormalizer();
+        $this->normalizer = new ExtraSpaceRemoverNormalizer();
     }
 
     /**
@@ -30,7 +30,8 @@ class SpaceRemoverNormalizerTest extends AbstractNormalizerTest
     public function correctProvider()
     {
         return [
-            ["je vais manger ", 'jevaismanger'],
+            ["je vais manger ", 'je vais manger'],
+            ["je         vais manger ", 'je vais manger'],
             [" ", ''],
         ];
     }

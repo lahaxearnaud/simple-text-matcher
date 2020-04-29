@@ -15,6 +15,7 @@ use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\FlagDetectorBag;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\InsultFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\NegationFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\QuestionFlagDetector;
+use Alahaxe\SimpleTextMatcher\Normalizers\ExtraSpaceRemoverNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
@@ -114,13 +115,14 @@ class EngineFactory
         $classifiers
             ->add(new PerfectMatchClassifier()) // faster one
             ->add(new NaiveBayesClassifier()) // fast and quite relevant
-            ->add(new TrainedRegexClassifier()) // very fast but a little bit less relevant than NaiveBayesClassifier
-            ->add(new SVCClassifier()) // slower on but quite relevant
+            ->add(new TrainedRegexClassifier()) // fast but a little bit less relevant than NaiveBayesClassifier
+            ->add(new SVCClassifier()) // slowest one but quite relevant
         ;
 
         $normalizers = new NormalizersBag();
         $normalizers->add(new LowerCaseNormalizer())
         //    ->add(new StopwordsNormalizer($lang))
+            ->add(new ExtraSpaceRemoverNormalizer())
             ->add(new UnaccentNormalizer())
             ->add(new UnpunctuateNormalizer())
             ->add(new QuotesNormalizer())

@@ -3,11 +3,11 @@
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 /**
- * Class SpaceRemoverNormalizer
+ * Class ExtraSpaceRemoverNormalizer
  *
  * @package Alahaxe\SimpleTextMatcher\Normalizer
  */
-class SpaceRemoverNormalizer implements NormalizerInterface
+class ExtraSpaceRemoverNormalizer implements NormalizerInterface
 {
     /**
      * @param string $rawText
@@ -16,7 +16,7 @@ class SpaceRemoverNormalizer implements NormalizerInterface
      */
     public function normalize(string $rawText): string
     {
-        return str_replace(' ', '', $rawText);
+        return trim(preg_replace('/\s+/', ' ', $rawText));
     }
 
     /**

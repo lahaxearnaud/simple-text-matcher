@@ -26,7 +26,6 @@ echo 'Memory: '.(number_format(memory_get_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
 while (($question = readline("Question : ")) !== '') {
     $message = new \Alahaxe\SimpleTextMatcher\Message($question);
     $engine->predict($message);
-    echo 'Question: ' . $message->getRawMessage() . PHP_EOL;
     echo 'Normalized: ' . $message->getNormalizedMessage() . PHP_EOL;
     echo 'Flags: ' . json_encode($message->getFlags()) . PHP_EOL;
     echo 'Intent: ' . $message->getIntentDetected() . PHP_EOL;

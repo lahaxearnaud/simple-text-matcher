@@ -35,7 +35,7 @@ class TrainedRegexClassifier implements TrainingInterface
      * @param Stemmer|null $stemmer
      * @param int $sizeOfChunkToBuildRegexes
      */
-    public function __construct(Stemmer $stemmer = null, int $sizeOfChunkToBuildRegexes = 10)
+    public function __construct(Stemmer $stemmer = null, int $sizeOfChunkToBuildRegexes = 20)
     {
         $this->stemmer = $stemmer;
         $this->sizeOfChunkToBuildRegexes = $sizeOfChunkToBuildRegexes;
@@ -54,7 +54,7 @@ class TrainedRegexClassifier implements TrainingInterface
 
         foreach ($this->regexes as $intent => $regexes) {
             foreach ($regexes as $regex) {
-                $result = preg_match('/' . $regex . '/i', $question);
+                $result = preg_match('/^' . $regex . '$/i', $question);
                 if (!$result) {
                     continue;
                 }

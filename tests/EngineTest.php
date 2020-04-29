@@ -219,6 +219,24 @@ class EngineTest extends TestCase
     }
 
     /**
+     * @coversNothing
+     */
+    public function testPerformanceReloadModel(): void
+    {
+        $this->assertFileExists(self::TRAINING_DATA_CACHE);
+
+        $start = microtime(true);
+        for ($i = 0; $i < 100; $i++) {
+            $secondEngine = $this->buildEngine();
+            $secondEngine->prepare(self::TRAINING_DATA, []);
+            unset($secondEngine);
+        }
+
+        // should be < 0.5 but the CI may be slower
+        $this->assertLessThan(1, microtime(true) - $start);
+    }
+
+    /**
      * @return void
      */
     public function testMatchWithSubQuestion(): void

@@ -53,6 +53,7 @@ class ModelCacheSubscriber implements EventSubscriberInterface
             $cache = json_decode(file_get_contents($this->cacheFilePath), true) ?? [];
             $event->getEngine()->setClassifierTrainedModels($cache['trainedModels'] ?? []);
             $event->getEngine()->setModel($cache['model'] ?? []);
+            $event->getEngine()->setModelSignature($cache['modelSignature'] ?? 0);
         }
     }
 
@@ -66,8 +67,9 @@ class ModelCacheSubscriber implements EventSubscriberInterface
             $this->cacheFilePath,
             json_encode(
                 [
-                'trainedModels' => $engine->exportTrainedModels(),
-                'model' => $engine->getModel()
+                    'modelSignature' => $engine->getModelSignature(),
+                    'trainedModels' => $engine->exportTrainedModels(),
+                    'model' => $engine->getModel()
                 ],
                 JSON_PRETTY_PRINT
             )

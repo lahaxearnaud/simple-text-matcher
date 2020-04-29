@@ -3,6 +3,7 @@
 namespace Alahaxe\SimpleTextMatcher;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\ClassifierInterface;
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent;
@@ -13,6 +14,7 @@ use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizerInterface;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -23,13 +25,17 @@ use Psr\EventDispatcher\EventDispatcherInterface;
  */
 class Engine
 {
-
     /**
      * Expanded training phases
      *
      * @var array
      */
     protected $model = [];
+
+    /**
+     * @var int
+     */
+    protected $modelSignature;
 
     /**
      * Models build by classifiers
@@ -111,15 +117,18 @@ class Engine
     {
         $this->intentExtractors = $intentExtractors;
 
-        $modelUpToDate = !empty($this->classifierTrainedModels) && !empty($this->model);
-        foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
-            $modelUpToDate = $modelUpToDate && isset($this->classifierTrainedModels[get_class($classifier)]);
-        }
+        $modelSignature = $this->generateCacheSignature($training, $synonyms, $intentExtractors);
+
+        $modelUpToDate = !empty($this->classifierTrainedModels)
+            && !empty($this->model)
+            && isset($this->modelSignature)
+            && $this->modelSignature === $modelSignature // detect changes in data or configuration
+        ;
 
         if (!$modelUpToDate) {
+            $this->modelSignature = $modelSignature;
             $this->eventDispatcher->dispatch(new BeforeModelBuildEvent($this));
             $this->modelBuilder->setNormalizers($this->normalizers);
-
             $this->model = $this->modelBuilder->build($training, $synonyms);
             $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
         }
@@ -331,5 +340,48 @@ class Engine
     public function getExtractors(): EntityExtractorsBag
     {
         return $this->extractors;
+    }
+
+    /**
+     * @return int
+     */
+    public function getModelSignature(): int
+    {
+        return $this->modelSignature;
+    }
+
+    /**
+     * @param int $modelSignature
+     * @return Engine
+     */
+    public function setModelSignature(int $modelSignature): Engine
+    {
+        $this->modelSignature = $modelSignature;
+        return $this;
+    }
+
+    /**
+     * @param array $training
+     * @param array $synonyms
+     * @param array $intentExtractors
+     *
+     * @return int
+     */
+    protected function generateCacheSignature(array $training, array $synonyms, array $intentExtractors)
+    {
+        $cacheKey = serialize($training)
+            .serialize($synonyms)
+            .serialize($intentExtractors)
+            .serialize(array_map(static function (NormalizerInterface $normalizer) {
+                return get_class($normalizer);
+            }, $this->normalizers->all()))
+            .serialize(array_map(static function (ClassifierInterface $classifier) {
+                return get_class($classifier);
+            }, $this->classifiers->all()))
+            .get_class($this->stemmer);
+        ;
+
+        // faster than hash
+        return crc32($cacheKey);
     }
 }

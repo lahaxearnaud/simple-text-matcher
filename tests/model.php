@@ -8,7 +8,8 @@ $synonyms = [
         'nachos',
         'tartiflette',
         'raclette',
-        'fondue'
+        'fondue',
+        'pizza'
     ],
     '~hotel' => [
         'hotel',

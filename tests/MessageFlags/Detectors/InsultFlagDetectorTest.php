@@ -18,6 +18,7 @@ class InsultFlagDetectorTest extends AbstractFlagDetectorTest
         parent::setUp();
 
         $this->detector = new InsultFlagDetector();
+        $this->flagName = InsultFlagDetector::getFlagName();
     }
 
     public function provideQuestions()

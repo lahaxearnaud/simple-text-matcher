@@ -21,6 +21,7 @@ $engine->getNormalizers()
 $model = require(__DIR__.'/tests/model.php');
 
 $engine->prepare($model['training'], $model['synonyms'], $model['intentExtractors']);
+echo 'Memory: '.(number_format(memory_get_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
 
 while (($question = readline("Question : ")) !== '') {
     $message = new \Alahaxe\SimpleTextMatcher\Message($question);
@@ -45,6 +46,7 @@ while (($question = readline("Question : ")) !== '') {
     }
 
 
-    echo 'Performance: '.var_export($message->jsonSerialize()['performance'], true);
+    echo 'Performance: '.var_export($message->jsonSerialize()['performance'], true).PHP_EOL;
+    echo 'Memory: '.(number_format(memory_get_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
     echo "==========" . PHP_EOL;
 }

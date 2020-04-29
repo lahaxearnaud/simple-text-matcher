@@ -15,6 +15,11 @@ abstract class AbstractFlagDetector implements FlagDetectorInterface
      */
     public function buildFlag(): Flag
     {
-        return new Flag(get_class($this));
+        return new Flag(static::getFlagName());
     }
+
+    /**
+     * @return string
+     */
+    public abstract static function getFlagName(): string;
 }

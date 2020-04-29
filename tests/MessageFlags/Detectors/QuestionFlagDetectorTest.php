@@ -18,6 +18,7 @@ class QuestionFlagDetectorTest extends AbstractFlagDetectorTest
         parent::setUp();
 
         $this->detector = new QuestionFlagDetector();
+        $this->flagName = QuestionFlagDetector::getFlagName();
     }
 
     public function provideQuestions()

@@ -36,4 +36,12 @@ class NegationFlagDetector extends AbstractFlagDetector
 
         return false;
     }
+
+    /**
+     * @return string
+     */
+    public static function getFlagName(): string
+    {
+        return 'NEGATION';
+    }
 }

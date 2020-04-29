@@ -17,6 +17,7 @@ class EmojiFlagDetectorTest extends AbstractFlagDetectorTest
         parent::setUp();
 
         $this->detector = new EmojiFlagDetector();
+        $this->flagName = EmojiFlagDetector::getFlagName();
     }
 
     public function provideQuestions()

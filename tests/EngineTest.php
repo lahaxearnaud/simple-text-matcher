@@ -277,6 +277,6 @@ class EngineTest extends TestCase
         $this->assertInstanceOf(Message::class, $result);
         $this->assertFalse($result->hasSubMessages());
         $this->assertEquals('acheter_voiture', $result->getIntentDetected());
-        $this->assertTrue($result->hasFlag(NegationFlagDetector::class));
+        $this->assertTrue($result->hasFlag(NegationFlagDetector::getFlagName()));
     }
 }

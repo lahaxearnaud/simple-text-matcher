@@ -17,6 +17,7 @@ class NegationFlagDetectorTest extends AbstractFlagDetectorTest
         parent::setUp();
 
         $this->detector = new NegationFlagDetector();
+        $this->flagName = NegationFlagDetector::getFlagName();
     }
 
     public function provideQuestions()

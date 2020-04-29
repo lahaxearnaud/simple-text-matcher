@@ -37,4 +37,12 @@ class InsultFlagDetector extends AbstractFlagDetector
     {
         return !$this->insultExtractor->extract($question->getRawMessage())->isEmpty();
     }
+
+    /**
+     * @return string
+     */
+    public static function getFlagName(): string
+    {
+        return 'INSULT';
+    }
 }

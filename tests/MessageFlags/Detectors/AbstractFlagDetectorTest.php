@@ -19,6 +19,11 @@ abstract class AbstractFlagDetectorTest extends TestCase
      */
     protected $detector;
 
+    /**
+     * @var string
+     */
+    protected $flagName;
+
     protected function tearDown():void
     {
         parent::tearDown();
@@ -42,6 +47,9 @@ abstract class AbstractFlagDetectorTest extends TestCase
         $this->assertEquals($result, $this->detector->detect(new Message($question)));
     }
 
+    /**
+     *
+     */
     public function testBuildFlag()
     {
         $flag = $this->detector->buildFlag();
@@ -49,5 +57,6 @@ abstract class AbstractFlagDetectorTest extends TestCase
         $this->assertNotEmpty($flag->getName());
         $this->assertEquals($flag->getName(), $flag->jsonSerialize());
         $this->assertEquals($flag->getName(), $flag->__toString());
+        $this->assertEquals($this->flagName, $flag->getName());
     }
 }

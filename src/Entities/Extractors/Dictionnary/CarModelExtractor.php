@@ -19,5 +19,4 @@ class CarModelExtractor extends FileDictionnaryExtractor
 
         parent::__construct('CAR_MODEL', $dataFilePath);
     }
-
 }

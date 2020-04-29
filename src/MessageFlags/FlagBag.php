@@ -43,7 +43,7 @@ class FlagBag extends ArrayCollection implements \JsonSerializable
      */
     public function add($items)
     {
-        if(!is_array($items)) {
+        if (!is_array($items)) {
             $items = [$items];
         }
 

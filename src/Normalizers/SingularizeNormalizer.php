@@ -1,6 +1,7 @@
 <?php
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
+
 use WhiteCube\Lingua\Service as Lingua;
 
 use Doctrine\Inflector\Inflector;

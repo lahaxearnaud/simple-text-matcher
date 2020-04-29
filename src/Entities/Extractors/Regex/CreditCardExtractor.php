@@ -45,7 +45,7 @@ class CreditCardExtractor extends AbstractRegexExtractor
         ];
 
         // merge all regex into a big one
-        $brandsRegexes = array_map(static function($brandRegex) {
+        $brandsRegexes = array_map(static function ($brandRegex) {
             return '('.$brandRegex.')';
         }, $brandsRegexes);
 

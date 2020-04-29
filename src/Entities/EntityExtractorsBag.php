@@ -28,7 +28,7 @@ class EntityExtractorsBag extends ArrayCollection
      */
     public function add($items) :self
     {
-        if(!is_array($items)) {
+        if (!is_array($items)) {
             $items = [$items];
         }
 

@@ -29,7 +29,7 @@ abstract class AbstractFlagDetectorTest extends TestCase
     /**
      * @return array
      */
-    public abstract function provideQuestions();
+    abstract public function provideQuestions();
 
     /**
      * @param string $question

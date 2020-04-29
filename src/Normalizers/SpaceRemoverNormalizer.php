@@ -16,7 +16,7 @@ class SpaceRemoverNormalizer implements NormalizerInterface
      */
     public function normalize(string $rawText): string
     {
-        return str_replace(' ', '',$rawText);
+        return str_replace(' ', '', $rawText);
     }
 
     /**

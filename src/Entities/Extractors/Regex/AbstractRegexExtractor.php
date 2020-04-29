@@ -16,7 +16,7 @@ abstract class AbstractRegexExtractor implements EntityExtractorInterface
     /**
      * @return array
      */
-    public abstract function getRegexes():array;
+    abstract public function getRegexes():array;
 
     /**
      * @param string $rawValue

@@ -214,7 +214,8 @@ class Message implements \JsonSerializable
     /**
      * @return bool
      */
-    public function hasSubMessages():bool {
+    public function hasSubMessages():bool
+    {
         return count($this->subMessages) > 0;
     }
 

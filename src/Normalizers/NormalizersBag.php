@@ -33,7 +33,7 @@ class NormalizersBag extends ArrayCollection
      */
     public function add($items)
     {
-        if(!is_array($items)) {
+        if (!is_array($items)) {
             $items = [$items];
         }
 

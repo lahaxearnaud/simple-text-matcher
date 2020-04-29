@@ -43,7 +43,7 @@ class EntityBag extends ArrayCollection implements \JsonSerializable
      */
     public function add($items):self
     {
-        if(!is_array($items)) {
+        if (!is_array($items)) {
             $items = [$items];
         }
 

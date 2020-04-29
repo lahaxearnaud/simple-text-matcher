@@ -48,7 +48,7 @@ class WhiteListExtractor implements EntityExtractorInterface
         $this->type = $type;
 
         // if already associative we keep it as it
-        if([] === $possibleValues || array_keys($possibleValues) === range(0, count($possibleValues) - 1)) {
+        if ([] === $possibleValues || array_keys($possibleValues) === range(0, count($possibleValues) - 1)) {
             foreach ($possibleValues as $possibleValue) {
                 $this->possibleValues[$this->normalizers->apply($possibleValue)] = $possibleValue;
             }

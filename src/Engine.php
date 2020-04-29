@@ -159,7 +159,6 @@ class Engine
     {
         $bag = new ClassificationResultsBag();
         foreach ($this->classifiers->all() as $classifier) {
-
             $bag->merge($classifier->classify($question->getNormalizedMessage()));
 
             if ($bag->getResultsWithMinimumScore(1)->count() > 0) {
@@ -231,8 +230,7 @@ class Engine
         }
 
         /** @var Message $subQuestion */
-        foreach ($subQuestions as $subQuestion)
-        {
+        foreach ($subQuestions as $subQuestion) {
             $this->classifyMessage($subQuestion);
         }
 
@@ -357,6 +355,7 @@ class Engine
     public function setModelSignature(int $modelSignature): Engine
     {
         $this->modelSignature = $modelSignature;
+
         return $this;
     }
 

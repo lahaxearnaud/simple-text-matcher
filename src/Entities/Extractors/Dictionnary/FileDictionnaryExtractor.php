@@ -63,13 +63,12 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
         }
         fclose($handle);
 
-        for($i = 0; $i < count($words); $i++) {
+        for ($i = 0; $i < count($words); $i++) {
             if (!isset($orderedEntities[$i])) {
                 continue;
             }
 
             $result->add($orderedEntities[$i]);
-
         }
 
         return $result;

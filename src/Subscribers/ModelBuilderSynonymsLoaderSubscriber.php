@@ -59,7 +59,7 @@ class ModelBuilderSynonymsLoaderSubscriber implements EventSubscriberInterface
 
         if (file_exists($synonymsFile) && is_readable($synonymsFile)) {
             $synonyms = json_decode(file_get_contents($synonymsFile), true);
-            if(!is_array($synonyms)) {
+            if (!is_array($synonyms)) {
                 return;
             }
 

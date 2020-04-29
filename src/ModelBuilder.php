@@ -131,7 +131,6 @@ class ModelBuilder
                     }
                 }
             }
-
         }
 
         foreach ($training as $intent => &$phrases) {

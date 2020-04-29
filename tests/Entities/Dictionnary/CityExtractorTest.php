@@ -27,6 +27,13 @@ class CityExtractorTest extends TestCase
         $this->extractor = new CityExtractor();
     }
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->extractor);
+    }
+
     /**
      *
      */

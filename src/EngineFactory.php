@@ -6,6 +6,7 @@ namespace Alahaxe\SimpleTextMatcher;
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\PerfectMatchClassifier;
+use Alahaxe\SimpleTextMatcher\Classifiers\SVCClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\InsultExtractor;
@@ -18,7 +19,6 @@ use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\SingularizeNormalizer;
-use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
@@ -36,6 +36,55 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class EngineFactory
 {
+
+    /**
+     * @var string
+     */
+    protected $cacheUniqKey = '';
+
+    /**
+     * EngineFactory constructor.
+     * @param string $cacheUniqKey
+     */
+    public function __construct(string $cacheUniqKey = '')
+    {
+        $this->cacheUniqKey = $cacheUniqKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCachePath() :string
+    {
+        $tmpCacheFolder = sys_get_temp_dir() . '/simple-text-matcher'.$this->cacheUniqKey;
+        if (!is_dir($tmpCacheFolder)) {
+            mkdir($tmpCacheFolder);
+        }
+
+        return $tmpCacheFolder;
+    }
+
+    /**
+     * @param null $path
+     */
+    public function clearCache($path = null):void
+    {
+        $path = $path ?? $this->getCachePath();
+
+        if (!is_dir($path)) {
+            return;
+        }
+
+        $files = glob($path . '/*');
+        foreach ($files as $file) {
+            is_dir($file) ? $this->clearCache($file) : unlink($file);
+        }
+
+        is_dir($path) && rmdir($path);
+
+        return;
+    }
+
     /**
      * @param string $lang
      * @param EventDispatcherInterface|null $eventDispatcher
@@ -48,11 +97,7 @@ class EngineFactory
         $eventDispatcher = $eventDispatcher ?? new EventDispatcher();
 
         if ($cache) {
-            $tmpCacheFolder = sys_get_temp_dir() . '/simple-text-matcher';
-            if (!is_dir($tmpCacheFolder)) {
-                mkdir($tmpCacheFolder);
-            }
-
+            $tmpCacheFolder = $this->getCachePath();
             $eventDispatcher->addSubscriber(new ModelCacheSubscriber($tmpCacheFolder . '/model_cache.json'));
             $eventDispatcher->addSubscriber(new StemmerCacheSubscriber($tmpCacheFolder . '/stemmer_cache.json'));
             $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber($tmpCacheFolder . '/synonymes'));
@@ -67,9 +112,10 @@ class EngineFactory
 
         $classifiers = new ClassifiersBag();
         $classifiers
-            ->add(new NaiveBayesClassifier())
-            ->add(new TrainedRegexClassifier())
-            ->add(new PerfectMatchClassifier())
+            ->add(new PerfectMatchClassifier()) // faster one
+            ->add(new NaiveBayesClassifier()) // fast and quite relevant
+            ->add(new TrainedRegexClassifier()) // very fast but a little bit less relevant than NaiveBayesClassifier
+            ->add(new SVCClassifier()) // slower on but quite relevant
         ;
 
         $normalizers = new NormalizersBag();

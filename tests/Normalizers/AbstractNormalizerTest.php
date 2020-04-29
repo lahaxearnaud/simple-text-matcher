@@ -18,6 +18,13 @@ abstract class AbstractNormalizerTest extends TestCase
      */
     protected $normalizer;
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->normalizer);
+    }
+
     /**
      * @return array
      */

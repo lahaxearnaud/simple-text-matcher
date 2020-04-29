@@ -27,6 +27,13 @@ class FirstnameExtractorTest extends TestCase
         $this->extractor = new FirstNameExtractor();
     }
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->extractor);
+    }
+
     /**
      *
      */

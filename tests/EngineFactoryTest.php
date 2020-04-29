@@ -11,12 +11,20 @@ use PHPUnit\Framework\TestCase;
  */
 class EngineFactoryTest extends TestCase
 {
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        (new EngineFactory(md5(__CLASS__)))->clearCache();
+    }
+
+
     /**
      *
      */
-    public function testPersistModel(): void
+    public function testBuildEngine(): void
     {
-        $factory = new EngineFactory();
+        $factory = new EngineFactory(md5(__CLASS__));
 
         $engine = $factory->build();
         $this->assertNotEmpty($engine->getNormalizers()->all());

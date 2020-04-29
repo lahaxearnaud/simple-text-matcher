@@ -26,6 +26,13 @@ class CountryExtractorTest extends TestCase
         $this->extractor = new CountryExtractor();
     }
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->extractor);
+    }
+
     /**
      *
      */

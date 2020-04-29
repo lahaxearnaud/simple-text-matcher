@@ -17,15 +17,30 @@ class MatchingTest extends TestCase
      */
     protected $engine;
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        (new EngineFactory(md5(__CLASS__)))->clearCache();
+    }
+
     protected function setUp():void
     {
         parent::setUp();
 
-        $this->engine = (new EngineFactory())->build('fr');
+        $this->engine = (new EngineFactory(md5(__CLASS__)))->build('fr');
         $model = require(__DIR__.'/model.php');
 
         $this->engine->prepare($model['training'], $model['synonyms'], $model['intentExtractors']);
     }
+
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->engine);
+    }
+
 
     public function matchingProvider()
     {
@@ -107,7 +122,7 @@ class MatchingTest extends TestCase
                 'dormir_dehors'
             ],
             [
-            'Je vais dormir dans un sous une tente au camping pendant 6 jours',
+                'Je vais dormir dans un sous une tente au camping pendant 6 jours',
                 'dormir_dehors'
             ],
             [

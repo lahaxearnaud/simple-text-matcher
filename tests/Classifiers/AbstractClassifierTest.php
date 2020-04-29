@@ -33,6 +33,14 @@ abstract class AbstractClassifierTest extends TestCase
      */
     protected $classifier;
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->classifier);
+    }
+
+
     /**
      * @return (null|string)[][]
      *

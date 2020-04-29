@@ -29,6 +29,13 @@ class InsultExtractorTest extends TestCase
         $this->extractor = new InsultExtractor();
     }
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->extractor);
+    }
+
     /**
      *
      */

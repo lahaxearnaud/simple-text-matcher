@@ -16,6 +16,10 @@ use Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * Class StemmerTest
+ * @package Alahaxe\SimpleTextMatcher\Tests
+ */
 class StemmerTest extends TestCase
 {
     const TRAINING_DATA_CACHE = '/tmp/cache.json';

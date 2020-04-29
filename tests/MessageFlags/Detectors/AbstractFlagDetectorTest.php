@@ -19,6 +19,13 @@ abstract class AbstractFlagDetectorTest extends TestCase
      */
     protected $detector;
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->detector);
+    }
+
     /**
      * @return array
      */

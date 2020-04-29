@@ -110,6 +110,8 @@ $training = [
         "à midi on va manger au ~resto",
         "au petit-déjeuner on va bruncher en couple",
         "au diner on va se faire au ~resto",
+        "~je vais ~manger chez les parents de jules",
+        "~je vais ~manger au ~resto avec les parents de alexi",
         "~je ~mange un ~plat"
     ],
     'dormir_maison' => [
@@ -126,9 +128,11 @@ $training = [
         '~je ~dormir au ~hotel',
         '~je ~dormir dans ~piece une ~hotel',
         '~je a ~dormir dans un petit ~hotel à Paris',
+        '~je a ~dormir dans un petit ~hotel qui est situé rue du pape',
         'faire ~dormir à l\'~hotel',
         '~je vais ~dormir à l\'~hotel',
         '~je vais ~dormir dans une ~piece d\'~hotel',
+        '~je vais camper dans les vosges'
     ],
     'dormir_amis' => [
         '~je ~vouloir ~dormir chez paul',

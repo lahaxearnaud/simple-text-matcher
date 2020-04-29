@@ -14,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ModelBuilderTest
- *
  * @package Alahaxe\SimpleTextMatcher\Tests
  */
 class ModelBuilderTest extends TestCase
@@ -39,6 +38,13 @@ class ModelBuilderTest extends TestCase
             ->add(new TypoNormalizer());
 
         $this->modelBuilder = new ModelBuilder($normalizerBag);
+    }
+
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->modelBuilder);
     }
 
 

@@ -2,6 +2,8 @@
 
 namespace alahaxe\SimpleTextMatcher\Tests\MessageFlags\Detectors;
 
+require_once __DIR__.'/AbstractFlagDetectorTest.php';
+
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\NegationFlagDetector;
 
 /**

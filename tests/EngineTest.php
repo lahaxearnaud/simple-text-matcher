@@ -9,6 +9,7 @@ use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\SmithWatermanGotohClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Engine;
+use Alahaxe\SimpleTextMatcher\EngineFactory;
 use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\EmailExtractor;
@@ -33,6 +34,10 @@ use Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * Class EngineTest
+ * @package Alahaxe\SimpleTextMatcher\Tests
+ */
 class EngineTest extends TestCase
 {
     const TRAINING_DATA_CACHE = '/tmp/cache.json';
@@ -57,6 +62,14 @@ class EngineTest extends TestCase
      * @var Engine
      */
     protected $engine;
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        (new EngineFactory())->clearCache();
+    }
+
 
     /**
      * @return Engine
@@ -132,6 +145,8 @@ class EngineTest extends TestCase
         if (file_exists(self::TRAINING_DATA_CACHE)) {
             unlink(self::TRAINING_DATA_CACHE);
         }
+
+        unset($this->engine);
     }
 
     /**
@@ -194,6 +209,7 @@ class EngineTest extends TestCase
 
         $secondEngine = $this->buildEngine();
         $secondEngine->prepare(self::TRAINING_DATA, []);
+        unset($secondEngine);
 
         foreach ($this->matchProvider() as list($question, $match)) {
             $result = $this->engine->predict($question);

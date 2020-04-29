@@ -26,6 +26,13 @@ class CarModelExtractorTest extends TestCase
         $this->extractor = new CarModelExtractor();
     }
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->extractor);
+    }
+
     /**
      *
      */

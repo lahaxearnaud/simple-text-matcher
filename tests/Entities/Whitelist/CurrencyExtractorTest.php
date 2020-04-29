@@ -26,6 +26,13 @@ class CurrencyExtractorTest extends TestCase
         $this->extractor = new CurrencyExtractor();
     }
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->extractor);
+    }
+
     /**
      *
      */

@@ -7,6 +7,10 @@ use Alahaxe\SimpleTextMatcher\Message;
 use Alahaxe\SimpleTextMatcher\QuestionSplitter;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class QuestionSplitterTest
+ * @package alahaxe\SimpleTextMatcher\Tests
+ */
 class QuestionSplitterTest extends TestCase
 {
 

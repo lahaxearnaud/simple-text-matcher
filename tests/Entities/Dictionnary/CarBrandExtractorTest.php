@@ -28,6 +28,13 @@ class CarBrandExtractorTest extends TestCase
         $this->extractor = new CarBrandExtractor();
     }
 
+    protected function tearDown():void
+    {
+        parent::tearDown();
+
+        unset($this->extractor);
+    }
+
     /**
      *
      */

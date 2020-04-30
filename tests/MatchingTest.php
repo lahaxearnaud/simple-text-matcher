@@ -74,10 +74,6 @@ class MatchingTest extends TestCase
                 'dormir_amis'
             ],
             [
-                'Bonjour, les parents de lucette vont venir me chercher en voiture pour que je dorme chez elle cette nuit',
-                'dormir_amis'
-            ],
-            [
                 'je viens de m acheter la dernière voiture de chez fiat',
                 'acheter_voiture'
             ],

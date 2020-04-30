@@ -177,7 +177,8 @@ $training = [
         'est-ce que tout vas bien',
         'tu es en forme ?',
         'est-ce que ~tu as la patate ?',
-        'est-ce que ~tu as la forme ?'
+        'est-ce que ~tu as la forme ?',
+        'et la santé ?'
     ],
     'chef' => [
         'qui es ton ~createur',
@@ -225,7 +226,9 @@ $training = [
         'faire ~dormir à l\'~hotel',
         '~je vais ~dormir à l\'~hotel',
         '~je vais ~dormir dans une ~piece d\'~hotel',
-        '~je vais camper dans les vosges'
+        '~je vais camper dans les vosges',
+        '~je vais dormir chez elle cette nuit',
+        'pourvu que cette nuit ~je dorme dans une bon ~hotel',
     ],
     'dormir_amis' => [
         '~je ~vouloir ~dormir chez paul',

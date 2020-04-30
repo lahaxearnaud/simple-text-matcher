@@ -116,7 +116,7 @@ class EngineFactory
             ->add(new PerfectMatchClassifier()) // faster one
             ->add(new NaiveBayesClassifier()) // fast and quite relevant
             ->add(new TrainedRegexClassifier()) // fast but a little bit less relevant than NaiveBayesClassifier
-            ->add(new SVCClassifier()) // slowest one but quite relevant
+        //    ->add(new SVCClassifier()) // slowest one but quite relevant, memory usage is important
         ;
 
         $normalizers = new NormalizersBag();

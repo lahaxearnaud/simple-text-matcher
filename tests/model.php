@@ -34,6 +34,7 @@ $synonyms = [
         'garage',
         'salon',
         'séjour',
+        'bureau'
     ],
     '~dormir' => [
         'dormir',
@@ -64,6 +65,10 @@ $synonyms = [
     '~je' => [
         'je',
         'moi'
+    ],
+    '~tu' => [
+        'tu',
+        'toi'
     ],
     '~voiture' => [
         'voiture',
@@ -98,6 +103,31 @@ $synonyms = [
         'dev',
         'développeur',
         'papa',
+    ],
+    '~nom' => [
+        'nom',
+        'prenom',
+        'identité',
+        'matricule',
+        'identifiant'
+    ],
+    '~raconter' => [
+        'raconter',
+        'raconte',
+        'racontait',
+        'racontent',
+        'dire',
+        'dit',
+        'dis',
+        'conter',
+        'conte',
+        'contera',
+    ],
+    '~blague' => [
+        'anecdote',
+        'blague',
+        'blaguoune',
+        'joke'
     ]
 ];
 
@@ -122,17 +152,32 @@ $training = [
         "~je vais ~manger au ~resto avec les parents de alexi",
         "~je ~mange un ~plat"
     ],
+    'question_nom' => [
+        'quel est ton ~nom',
+        'quel est ton petit ~nom',
+        'comment ~tu t\'appellles',
+        'comment ~tu te nommes',
+        'comment ~tu te nommes',
+        'quel ~nom t\'on donné tes parent',
+        '~je suis arnaud et toi ~tu es qui',
+        '~je suis raoul et toi c\'est comment'
+    ],
+    'blague' => [
+        '~raconter moi une ~blague',
+        '~raconter moi une petite ~blague',
+    ],
     'question_sante' => [
-        'comment tu vas',
-        'comment vas-tu',
+        'comment ~tu vas',
+        'comment vas-~tu',
+        'ça getz ?',
         'est-ce que tout va bien',
-        'tu vas bien ?',
+        '~tu vas bien ?',
         'tout vas bien ?',
-        'est-ce que tu vas bien',
+        'est-ce que ~tu vas bien',
         'est-ce que tout vas bien',
         'tu es en forme ?',
-        'est-ce que tu as la patate ?',
-        'est-ce que tu as la forme ?'
+        'est-ce que ~tu as la patate ?',
+        'est-ce que ~tu as la forme ?'
     ],
     'chef' => [
         'qui es ton ~createur',
@@ -142,7 +187,7 @@ $training = [
         'qui est ton ~createur',
         'c\'est qui ton ~createur',
         'c\'est qui ton ~createur',
-        'peux-tu me dire qui est ton ~createur'
+        'peux-~tu me dire qui est ton ~createur'
     ],
     'bonjour' => [
         'salut',
@@ -217,6 +262,9 @@ $intentExtractors = [
         \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CountryExtractor::class
     ],
     'dormir_amis' => [
+        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\FirstNameExtractor::class
+    ],
+    'question_nom' => [
         \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\FirstNameExtractor::class
     ],
     'acheter_voiture' => [

@@ -132,6 +132,34 @@ class MatchingTest extends TestCase
             [
                 'Je vais au lit',
                 'dormir_maison'
+            ],
+            [
+                'salut',
+                'bonjour'
+            ],
+            [
+                'bye',
+                'aurevoir'
+            ],
+            [
+                'comment vas-tu ?',
+                'question_sante'
+            ],
+            [
+                'quel est ton nom',
+                'question_nom'
+            ],
+            [
+                'raconte moi une blague',
+                'blague'
+            ],
+            [
+                'raconte moi une blagoune',
+                'blague'
+            ],
+            [
+                'c\'est qui ton créateur ?',
+                'chef'
             ]
         ];
     }

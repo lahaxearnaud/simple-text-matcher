@@ -172,7 +172,7 @@ class MatchingTest extends TestCase
      * @param $intent
      *
      * @dataProvider matchingProvider
-     *
+     * @coversNothing
      */
     public function testMatching(string $question, string  $intent)
     {

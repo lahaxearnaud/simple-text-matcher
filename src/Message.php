@@ -21,6 +21,11 @@ class Message implements \JsonSerializable
     protected $messageId;
 
     /**
+     * @var null|string
+     */
+    protected $parentMessageId;
+
+    /**
      * @var string
      */
     protected $rawMessage;
@@ -202,6 +207,10 @@ class Message implements \JsonSerializable
      */
     public function addSubMessages(array $messages):self
     {
+        foreach ($messages as $message) {
+            $message->setParentMessageId($this->messageId);
+        }
+
         $this->subMessages += $messages;
 
         return $this;
@@ -253,6 +262,24 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * @return string|null
+     */
+    public function getParentMessageId(): ?string
+    {
+        return $this->parentMessageId;
+    }
+
+    /**
+     * @param string|null $parentMessageId
+     * @return Message
+     */
+    public function setParentMessageId(?string $parentMessageId): Message
+    {
+        $this->parentMessageId = $parentMessageId;
+        return $this;
+    }
+
+    /**
      * @return int[]
      *
      * @psalm-return array{receivedAt: int, correctedAt: int, classifiedAt: int, correctionDuration: int, classificationDuration: int}
@@ -275,6 +302,7 @@ class Message implements \JsonSerializable
     {
         return [
             'messageId' => $this->messageId,
+            'parentMessageId' => $this->parentMessageId,
             'rawMessage' => $this->rawMessage,
             'normalizedMessage' => $this->normalizedMessage,
             'classification' => $this->classification,

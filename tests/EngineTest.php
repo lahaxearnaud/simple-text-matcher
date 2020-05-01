@@ -263,6 +263,9 @@ class EngineTest extends TestCase
 
         $this->assertEquals('acheter_voiture', $subMessages[0]->getIntentDetected());
         $this->assertEquals('dormir_dehors', $subMessages[1]->getIntentDetected());
+
+        $this->assertEquals($result->getMessageId(), $subMessages[0]->getParentMessageId());
+        $this->assertEquals($result->getMessageId(), $subMessages[1]->getParentMessageId());
     }
 
     /**

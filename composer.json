@@ -33,6 +33,7 @@
     },
     "scripts": {
         "test": "./vendor/bin/paratest -p6 tests --runner=WrapperRunner --max-batch-size=30",
+        "coverage": "./vendor/bin/paratest -p3 tests --runner=WrapperRunner --coverage-html=coverage --max-batch-size=20",
         "post-install-cmd": "./vendor/bin/cghooks add --ignore-lock",
         "post-update-cmd": "./vendor/bin/cghooks update",
         "check-style": "./vendor/bin/phpcs --standard=PSR2 tests src",

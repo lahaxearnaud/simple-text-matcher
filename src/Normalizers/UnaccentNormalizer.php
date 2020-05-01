@@ -24,7 +24,7 @@ class UnaccentNormalizer implements NormalizerInterface
     public function __construct()
     {
         $inflectorFactory = new InflectorFactory();
-        $this->inflector = $inflectorFactory(Language::ENGLISH);
+        $this->inflector = $inflectorFactory(Language::FRENCH);
     }
 
     /**
@@ -49,6 +49,6 @@ class UnaccentNormalizer implements NormalizerInterface
      */
     public function getPriority(): int
     {
-        return 240;
+        return 255;
     }
 }

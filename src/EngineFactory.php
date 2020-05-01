@@ -5,6 +5,7 @@ namespace Alahaxe\SimpleTextMatcher;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
+use Alahaxe\SimpleTextMatcher\Classifiers\NgramNaiveBayesClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\PerfectMatchClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\SVCClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
@@ -115,6 +116,7 @@ class EngineFactory
         $classifiers
             ->add(new PerfectMatchClassifier()) // faster one
             ->add(new NaiveBayesClassifier()) // fast and quite relevant
+            ->add(new NgramNaiveBayesClassifier()) // generate and works on bigrams
             ->add(new TrainedRegexClassifier()) // fast but a little bit less relevant than NaiveBayesClassifier
         //    ->add(new SVCClassifier()) // slowest one but quite relevant, memory usage is important
         ;

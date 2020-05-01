@@ -43,23 +43,34 @@ class NaiveBayesClassifier implements TrainingInterface
         $bag = new ClassificationResultsBag();
         $startTimer = microtime(true);
 
-        if (empty($question)) {
+        $normalizeQuestion = $this->prepareSentence($question);
+
+        if (empty($question) || empty($normalizeQuestion)) {
             return $bag;
         }
 
-        $result = $this->model->predict($this->stemTokens($this->tokenize($question)));
-
+        $result = $this->model->predict($normalizeQuestion);
         foreach ($result as $intent => $score) {
             if ($score < 0.26) {
                 continue;
             }
 
-            $bag->add(new ClassificationResult(__CLASS__, $intent, $score));
+            $bag->add(new ClassificationResult(get_class($this), $intent, round($score, 3)));
         }
 
         $bag->setExecutionTime(microtime(true) - $startTimer);
 
         return $bag;
+    }
+
+    /**
+     * @param string $sentence
+     *
+     * @return array
+     */
+    protected function prepareSentence(string $sentence):array
+    {
+        return $this->stemTokens($this->tokenize($sentence));
     }
 
     /**
@@ -94,7 +105,10 @@ class NaiveBayesClassifier implements TrainingInterface
 
         foreach ($trainingData as $intent => $phrases) {
             foreach ($phrases as $phrase) {
-                $this->model->train($intent, $this->stemTokens($this->tokenize($phrase)));
+                if (empty($phrase)) {
+                    continue;
+                }
+                $this->model->train($intent, $this->prepareSentence($phrase));
             }
         }
     }

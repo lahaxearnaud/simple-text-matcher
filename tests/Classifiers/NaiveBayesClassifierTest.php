@@ -16,16 +16,24 @@ class NaiveBayesClassifierTest extends AbstractClassifierTest
         "dormir_dehors" => [
             "dormir a l hotel",
             "je vais dormir dans une auberge",
-            "passer la nuit au camping"
+            "passer la nuit au camping",
+            "je vais dormir dans un hotel",
+            "j'ai passé la nuit à l'hotel",
+            "j'irais dormir à l'hotel",
+            "je vais aller à l hotel"
         ],
         "dormir_amis" => [
             "avec jean on va dormir chez ses parent",
             "je veux me coucher chez paul",
             "je dormir chez jean",
+            "je vais dormir dans un hotel",
+            "je vais dormir chez jean",
         ],
         "acheter_voiture" => [
             "je vais chez le concessionnaire",
-            "je ai repere une voiture je vais l'acheter",
+            "je ai repere une voiture je vais l acheter",
+            "je vais achter une voiture",
+            "acheter une voiture chez le concessionnaire"
         ]
     ];
 

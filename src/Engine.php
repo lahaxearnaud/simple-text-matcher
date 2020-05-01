@@ -161,7 +161,7 @@ class Engine
         foreach ($this->classifiers->all() as $classifier) {
             $bag->merge($classifier->classify($question->getNormalizedMessage()));
 
-            if ($bag->getResultsWithMinimumScore(1)->count() > 0) {
+            if ($bag->getResultsWithMinimumScore(1.)->count() > 0) {
                 break;
             }
         }

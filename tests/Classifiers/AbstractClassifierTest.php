@@ -74,8 +74,8 @@ abstract class AbstractClassifierTest extends TestCase
         $this->assertNotEmpty($result);
         $this->assertNotNull($result[0]);
         $this->assertEquals(
-            $result[0]->getIntent(),
             $match,
+            $result[0]->getIntent(),
             sprintf(
                 'Should match "%s" but match "%s" with score %f',
                 $match,

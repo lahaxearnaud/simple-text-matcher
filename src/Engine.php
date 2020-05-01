@@ -188,17 +188,17 @@ class Engine
             return $this->classifyMessage($question);
         }
 
+        $allSubQuestionClassified = true;
         /** @var Message $subQuestion */
         foreach ($subQuestions as $subQuestion) {
             $this->classifyMessage($subQuestion);
+            if ($subQuestion->getIntentDetected() === null) {
+                $allSubQuestionClassified = false;
+            }
         }
 
-        $nbIntentsDetected = count(array_filter($subQuestions, static function (Message $message) {
-            return $message->getIntentDetected() !== null;
-        }));
-
         // if we had only one part we may try to classify the full sentence
-        if ($nbIntentsDetected < $nbSubQuestions) {
+        if (!$allSubQuestionClassified) {
             $this->classifyMessage($question);
 
             // this should me more meaningfull

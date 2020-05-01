@@ -19,11 +19,6 @@ interface ClassifierInterface
     public function classify(string $question):ClassificationResultsBag;
 
     /**
-     * @return Stemmer
-     */
-    public function getStemmer():Stemmer;
-
-    /**
      * @param  Stemmer $stemmer
      * @return ClassifierInterface
      */

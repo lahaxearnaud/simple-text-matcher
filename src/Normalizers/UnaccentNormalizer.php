@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
+use Alahaxe\SimpleTextMatcher\StringUtils;
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Doctrine\Inflector\Language;
@@ -34,12 +35,12 @@ class UnaccentNormalizer implements NormalizerInterface
      */
     public function normalize(string $rawText): string
     {
-        $words = explode(' ', $rawText);
+        $words = StringUtils::words($rawText);
         foreach ($words as $index => $word) {
             $words[$index] = $this->inflector->unaccent($word);
         }
 
-        return implode(' ', $words);
+        return StringUtils::sentence($words);
     }
 
     /**

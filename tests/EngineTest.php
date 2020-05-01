@@ -23,15 +23,20 @@ use Alahaxe\SimpleTextMatcher\ModelBuilder;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\QuotesNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\ReplaceNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\StopwordsNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use Alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\Subscribers\ClassificationSubscriber;
+use Alahaxe\SimpleTextMatcher\Subscribers\EntitySubscriber;
+use Alahaxe\SimpleTextMatcher\Subscribers\LogSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\MessageSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\Test\TestLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -102,11 +107,17 @@ class EngineTest extends TestCase
             ->add(new UnaccentNormalizer())
             ->add(new UnpunctuateNormalizer())
             ->add(new QuotesNormalizer())
+            ->add(new ReplaceNormalizer([
+                'slt' => 'salut'
+            ]))
             ->add(new TypoNormalizer());
 
-        $this->assertEquals(6, $normalizerBag->count());
+        $this->assertEquals(7, $normalizerBag->count());
 
         $eventDispatcher = new EventDispatcher();
+        $eventDispatcher->addSubscriber(new ClassificationSubscriber());
+        $eventDispatcher->addSubscriber(new EntitySubscriber());
+        $eventDispatcher->addSubscriber(new LogSubscriber(new TestLogger()));
         $eventDispatcher->addSubscriber(new ModelCacheSubscriber(self::TRAINING_DATA_CACHE));
         $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber());
         $eventDispatcher->addSubscriber(new MessageSubscriber(new FlagDetectorBag([

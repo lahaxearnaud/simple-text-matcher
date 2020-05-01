@@ -2,7 +2,6 @@
 
 namespace Alahaxe\SimpleTextMatcher;
 
-use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifierInterface;
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
@@ -119,27 +118,20 @@ class Engine
 
         $modelSignature = $this->generateCacheSignature($training, $synonyms, $intentExtractors);
 
-        $modelUpToDate = !empty($this->classifierTrainedModels)
-            && !empty($this->model)
-            && isset($this->modelSignature)
-            && $this->modelSignature === $modelSignature // detect changes in data or configuration
-        ;
-
-        if (!$modelUpToDate) {
-            $this->modelSignature = $modelSignature;
+        if ($this->needToRebuildModel($modelSignature)) {
             $this->eventDispatcher->dispatch(new BeforeModelBuildEvent($this));
+            $this->modelSignature = $modelSignature;
             $this->modelBuilder->setNormalizers($this->normalizers);
             $this->model = $this->modelBuilder->build($training, $synonyms);
-            $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
+            $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
         }
-
-        $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
+        $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
 
         foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
             $classifier->setStemmer($this->stemmer);
-
-            if (isset($this->classifierTrainedModels[get_class($classifier)])) {
-                $classifier->reloadModel($this->classifierTrainedModels[get_class($classifier)]);
+            $classifierClass = get_class($classifier);
+            if (isset($this->classifierTrainedModels[$classifierClass])) {
+                $classifier->reloadModel($this->classifierTrainedModels[$classifierClass]);
             } else {
                 $classifier->prepareModel($this->model);
             }
@@ -152,54 +144,21 @@ class Engine
 
     /**
      * @param Message $question
-     *
-     * @return ClassificationResultsBag
-     */
-    protected function executeClassifiers(Message $question):ClassificationResultsBag
-    {
-        $bag = new ClassificationResultsBag();
-        foreach ($this->classifiers->all() as $classifier) {
-            $bag->merge($classifier->classify($question->getNormalizedMessage()));
-
-            if ($bag->getResultsWithMinimumScore(1.)->count() > 0) {
-                break;
-            }
-        }
-
-        return $bag;
-    }
-
-
-    /**
-     * @param Message $question
      * @return Message
      */
     protected function classifyMessage(Message $question):Message
     {
-        $this->eventDispatcher->dispatch(new MessageReceivedEvent($question));
+        // flag detection / normalisation is done on this event (see: MessageSubscriber)
+        $this->eventDispatcher->dispatch(new MessageReceivedEvent($question, $this));
 
-        $question->setNormalizedMessage($this->normalizers->apply($question->getRawMessage()));
+        // classification is done on this event (see: ClassificationSubscriber)
+        $this->eventDispatcher->dispatch(new MessageCorrectedEvent($question, $this));
 
-        $this->eventDispatcher->dispatch(new MessageCorrectedEvent($question));
+        // entity extraction is done on this event (see: EntitySubscriber)
+        $this->eventDispatcher->dispatch(new MessageClassifiedEvent($question, $this));
 
-        $bag = $this->executeClassifiers($question);
-        $question->setClassification($bag->getTopIntents(3, 0.3));
-
-        $bestResult = $question->getClassification()->offsetGet(0);
-        if ($bestResult !== null) {
-            $intent = $bestResult->getIntent();
-            $question->setIntentDetected($intent);
-
-            if (isset($this->intentExtractors[$intent])) {
-                $question->setEntities(
-                    $this->extractors->getByTypes($this->intentExtractors[$intent])->apply($question->getRawMessage())
-                );
-            }
-
-            $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
-        }
-
-        $this->eventDispatcher->dispatch(new MessageClassifiedEvent($question));
+        // final version of the message with intent, entities and flags
+        $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
 
         return $question;
     }
@@ -357,6 +316,27 @@ class Engine
         $this->modelSignature = $modelSignature;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIntentExtractors(): array
+    {
+        return $this->intentExtractors;
+    }
+
+    /**
+     * @param int $currentSignature
+     * @return bool
+     */
+    protected function needToRebuildModel(int $currentSignature):bool
+    {
+        return empty($this->classifierTrainedModels)
+            || empty($this->model)
+            || !isset($this->modelSignature)
+            || $this->modelSignature !== $currentSignature // detect changes in data or configuration
+        ;
     }
 
     /**

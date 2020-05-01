@@ -10,7 +10,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  *
  * @package Alahaxe\SimpleTextMatcher\Events
  */
-class EntitiesExtractedEvent extends Event
+class EntitiesExtractedEvent extends Event implements MessageEvent
 {
     /**
      * @var Message

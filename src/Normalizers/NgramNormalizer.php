@@ -4,6 +4,8 @@
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
 
+use Alahaxe\SimpleTextMatcher\StringUtils;
+
 /**
  * Class NgramGenerator
  *
@@ -37,7 +39,7 @@ class NgramNormalizer implements NormalizerInterface
      */
     public function normalize(string $rawText): string
     {
-        $words = explode(' ', $rawText);
+        $words = StringUtils::words($rawText);
 
         $nbWords = count($words);
 
@@ -50,7 +52,7 @@ class NgramNormalizer implements NormalizerInterface
             $ngram[$i] = $string;
         }
 
-        return implode(' ', $ngram);
+        return StringUtils::sentence($ngram);
     }
 
     /**

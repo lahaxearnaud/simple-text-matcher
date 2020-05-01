@@ -2,6 +2,8 @@
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
+use Alahaxe\SimpleTextMatcher\StringUtils;
+
 /**
  * Fix basic typo in a word
  *
@@ -48,7 +50,7 @@ class TypoNormalizer implements NormalizerInterface
      */
     public function normalize(string $rawText): string
     {
-        $words = explode(' ', $rawText.' ');
+        $words =StringUtils::words($rawText);
         foreach ($words as $index => $word) {
             if (in_array(strtolower($word), $this->ignoreWords, true)) {
                 continue;
@@ -60,7 +62,7 @@ class TypoNormalizer implements NormalizerInterface
             }
         }
 
-        return trim(implode(' ', $words));
+        return StringUtils::sentence($words);
     }
 
     /**

@@ -130,14 +130,6 @@ class NaiveBayesClassifier implements TrainingInterface
     }
 
     /**
-     * @return Stemmer
-     */
-    public function getStemmer(): Stemmer
-    {
-        return $this->stemmer;
-    }
-
-    /**
      * @param Stemmer $stemmer
      *
      * @return self

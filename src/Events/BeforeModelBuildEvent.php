@@ -13,7 +13,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  *
  * @package Alahaxe\SimpleTextMatcher\Events
  */
-class BeforeModelBuildEvent extends Event
+class BeforeModelBuildEvent extends Event implements EngineEvent
 {
     /**
      * @var Engine

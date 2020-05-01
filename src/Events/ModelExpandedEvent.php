@@ -9,7 +9,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  *
  * @package Alahaxe\SimpleTextMatcher\Events
  */
-class ModelExpandedEvent extends Event
+class ModelExpandedEvent extends Event implements ModelEvent
 {
     /**
      * @var array

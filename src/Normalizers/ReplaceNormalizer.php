@@ -2,6 +2,8 @@
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
+use Alahaxe\SimpleTextMatcher\StringUtils;
+
 /**
  * Class ReplaceNormalizer
  *
@@ -30,14 +32,14 @@ class ReplaceNormalizer implements NormalizerInterface
      */
     public function normalize(string $rawText): string
     {
-        $words = explode(' ', $rawText.' ');
+        $words = StringUtils::words($rawText.' ');
         foreach ($words as $index => $word) {
             if (isset($this->replacements[$word])) {
                 $words[$index] = $this->replacements[$word];
             }
         }
 
-        return trim(implode(' ', $words));
+        return StringUtils::sentence($words);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
+use Alahaxe\SimpleTextMatcher\StringUtils;
 use voku\helper\StopWords;
 use voku\helper\StopWordsLanguageNotExists;
 
@@ -43,14 +44,14 @@ class StopwordsNormalizer implements NormalizerInterface
             return $rawText;
         }
 
-        $words = explode(' ', $rawText.' ');
+        $words = StringUtils::words($rawText);
         foreach ($words as $index => $word) {
             if (in_array($word, $this->stopwords)) {
                 unset($words[$index]);
             }
         }
 
-        return trim(implode(' ', $words));
+        return StringUtils::sentence($words);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
 use Alahaxe\SimpleTextMatcher\Normalizers\NgramNormalizer;
 use Alahaxe\SimpleTextMatcher\Stemmer;
+use Alahaxe\SimpleTextMatcher\StringUtils;
 
 /**
  * Class NgramNaiveBayesClassifier
@@ -33,6 +34,6 @@ class NgramNaiveBayesClassifier extends NaiveBayesClassifier
      */
     protected function prepareSentence(string $sentence): array
     {
-        return explode(' ', $this->ngramNormalizer->normalize($this->stemmer->stemPhrase($sentence)));
+        return StringUtils::words($this->ngramNormalizer->normalize($this->stemmer->stemPhrase($sentence)));
     }
 }

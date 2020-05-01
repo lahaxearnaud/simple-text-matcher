@@ -3,6 +3,7 @@
 namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifierInterface;
+use Alahaxe\SimpleTextMatcher\Classifiers\TrainingInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -66,6 +67,8 @@ abstract class AbstractClassifierTest extends TestCase
     public function testMatch($question, $match)
     {
         $result = $this->classifier->classify($question)->getResultsWithMinimumScore();
+        var_dump($question);
+        var_dump($result);
         if ($match === null) {
             $this->assertEmpty($result);
             return;
@@ -83,5 +86,44 @@ abstract class AbstractClassifierTest extends TestCase
                 $result[0]->getScore()
             )
         );
+    }
+
+    public function testExportImportModel()
+    {
+        if ($this->classifier instanceof TrainingInterface) {
+            $exportedModel = $this->classifier->exportModel();
+            $this->assertNotEmpty($exportedModel);
+            $this->assertIsString(json_encode($exportedModel));
+
+            $this->classifier->reloadModel($exportedModel);
+
+            // should
+            $testMatch = [];
+            foreach ($this->matchProvider() as $testMatch) {
+                if ($testMatch[1] === null) {
+                    continue;
+                }
+
+                break;
+            }
+
+            if (empty($testMatch) || $testMatch[1] === null) {
+                return;
+            }
+
+            $result = $this->classifier->classify($testMatch[0])->getResultsWithMinimumScore();
+            $this->assertNotEmpty($result);
+            $this->assertNotNull($result[0]);
+            $this->assertEquals(
+                $testMatch[1],
+                $result[0]->getIntent(),
+                sprintf(
+                    'Should match "%s" but match "%s" with score %f',
+                    $testMatch[1],
+                    $result[0]->getIntent(),
+                    $result[0]->getScore()
+                )
+            );
+        }
     }
 }

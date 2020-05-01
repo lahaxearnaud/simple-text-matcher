@@ -92,7 +92,7 @@ class Message implements \JsonSerializable
         $this->receivedTimestamp = microtime(true);
         $this->entities = new EntityBag();
         $this->classification = new ClassificationResultsBag();
-        $this->words = explode(' ', $rawMessage);
+        $this->words = StringUtils::words($rawMessage);
         $this->nbWords = count($this->words);
         $this->flags = new FlagBag();
     }
@@ -196,16 +196,12 @@ class Message implements \JsonSerializable
     }
 
     /**
-     * @param Message|Message[] $messages
+     * @param Message[] $messages
      *
      * @return $this
      */
-    public function addSubMessages($messages):self
+    public function addSubMessages(array $messages):self
     {
-        if (!is_array($messages)) {
-            $messages = [$messages];
-        }
-
         $this->subMessages += $messages;
 
         return $this;

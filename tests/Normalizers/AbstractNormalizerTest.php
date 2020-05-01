@@ -40,4 +40,13 @@ abstract class AbstractNormalizerTest extends TestCase
     {
         $this->assertEquals($corrected, $this->normalizer->normalize($raw));
     }
+
+    /**
+     *
+     */
+    public function testPriority()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->normalizer->getPriority());
+        $this->assertLessThanOrEqual(255, $this->normalizer->getPriority());
+    }
 }

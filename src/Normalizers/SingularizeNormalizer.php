@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
+use Alahaxe\SimpleTextMatcher\StringUtils;
 use WhiteCube\Lingua\Service as Lingua;
 
 use Doctrine\Inflector\Inflector;
@@ -36,12 +37,12 @@ class SingularizeNormalizer implements NormalizerInterface
      */
     public function normalize(string $rawText): string
     {
-        $words = explode(' ', $rawText);
+        $words = StringUtils::words($rawText);
         foreach ($words as $index => $word) {
             $words[$index] = $this->inflector->singularize($word);
         }
 
-        return implode(' ', $words);
+        return StringUtils::sentence($words);
     }
 
     /**

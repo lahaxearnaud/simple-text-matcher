@@ -58,7 +58,7 @@ class Stemmer extends SnowballStemmer
                     return $this->stem($word);
                 },
                 array_filter(
-                    explode(' ', preg_replace('/\s+/', ' ', $phrase)),
+                    StringUtils::words(preg_replace('/\s+/', ' ', $phrase)),
                     static function ($word) {
 
                         return strlen($word) > 1;

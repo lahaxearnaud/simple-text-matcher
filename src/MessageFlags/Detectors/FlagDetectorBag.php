@@ -15,15 +15,6 @@ class FlagDetectorBag extends ArrayCollection
 {
 
     /**
-     * @inheritDoc
-     * @return  FlagDetectorInterface[]
-     */
-    public function all()
-    {
-        return $this->toArray();
-    }
-
-    /**
      * @param Message $message
      */
     public function apply(Message $message):void

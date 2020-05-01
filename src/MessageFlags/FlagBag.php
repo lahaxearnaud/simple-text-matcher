@@ -12,25 +12,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 class FlagBag extends ArrayCollection implements \JsonSerializable
 {
     /**
-     * @inheritDoc
-     * @return  Flag[]
-     */
-    public function all()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * @param $flag
+     * @param string $flag
      *
      * @return bool
      */
-    public function hasFlag($flag):bool
+    public function hasFlag(string $flag):bool
     {
-        if ($flag instanceof Flag) {
-            $flag = $flag->getName();
-        }
-
         return $this->filter(static function (Flag $flagItem) use ($flag) {
             return $flagItem->getName() === $flag;
         })->count() > 0;

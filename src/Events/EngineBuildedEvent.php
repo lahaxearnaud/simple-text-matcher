@@ -12,7 +12,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  *
  * @package Alahaxe\SimpleTextMatcher\Events
  */
-class EngineBuildedEvent extends Event
+class EngineBuildedEvent extends Event implements EngineEvent
 {
     /**
      * @var Engine

@@ -3,6 +3,9 @@
 namespace alahaxe\SimpleTextMatcher\Tests;
 
 use Alahaxe\SimpleTextMatcher\EngineFactory;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CarBrandExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CurrencyExtractor;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,8 +30,12 @@ class MatchingTest extends TestCase
     protected function setUp():void
     {
         parent::setUp();
-
         $this->engine = (new EngineFactory(md5(__CLASS__)))->build('fr');
+        $this->engine->getExtractors()
+            ->add(new CarBrandExtractor())
+            ->add(new CurrencyExtractor())
+            ->add(new NumberExtractor())
+        ;
         $model = require(__DIR__.'/model.php');
 
         $this->engine->prepare($model['training'], $model['synonyms'], $model['intentExtractors']);

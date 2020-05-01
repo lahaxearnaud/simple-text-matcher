@@ -4,6 +4,7 @@ namespace Alahaxe\SimpleTextMatcher\Tests;
 
 use Alahaxe\SimpleTextMatcher\EngineFactory;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class EngineFactoryTest
@@ -18,6 +19,21 @@ class EngineFactoryTest extends TestCase
         (new EngineFactory(md5(__CLASS__)))->clearCache();
     }
 
+    /**
+     *
+     */
+    public function testCacheClear(): void
+    {
+        $factory = new EngineFactory(md5(__CLASS__));
+        $cacheDir = $factory->getCachePath();
+        $this->assertTrue(is_dir($cacheDir));
+        $factory->clearCache();
+        $this->assertFalse(is_dir($cacheDir));
+
+        // test on clear on non existing folder
+        $factory->clearCache();
+        $this->assertFalse(is_dir($cacheDir));
+    }
 
     /**
      *
@@ -27,6 +43,7 @@ class EngineFactoryTest extends TestCase
         $factory = new EngineFactory(md5(__CLASS__));
 
         $engine = $factory->build();
+        $this->assertInstanceOf(EventDispatcher::class, $engine->getEventDispatcher());
         $this->assertNotEmpty($engine->getNormalizers()->all());
         $this->assertEmpty($engine->getExtractors()->all());
         $this->assertNotEmpty($engine->getClassifiers()->all());

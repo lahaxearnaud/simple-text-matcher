@@ -47,6 +47,13 @@ class MessageSubscriber implements EventSubscriberInterface
      */
     public function onMessageReceived(MessageReceivedEvent $event): void
     {
-        $this->flagDetectorBag->apply($event->getMessage());
+        $message = $event->getMessage();
+        $engine = $event->getEngine();
+
+        // flag detection (ex Negation, Question...)
+        $this->flagDetectorBag->apply($message);
+
+        // message normalization
+        $message->setNormalizedMessage($engine->getNormalizers()->apply($message->getRawMessage()));
     }
 }

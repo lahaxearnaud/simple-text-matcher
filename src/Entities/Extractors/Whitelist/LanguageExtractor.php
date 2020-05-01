@@ -2,6 +2,11 @@
 
 namespace Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist;
 
+use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
+use Alahaxe\SimpleTextMatcher\Normalizers\SingularizeNormalizer;
+use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+
 /**
  * Country list are from https://github.com/umpirsky/language-list/tree/master/data
  *
@@ -16,13 +21,19 @@ class LanguageExtractor extends WhiteListExtractor
      */
     public function __construct(string $languageFilePath = null)
     {
-        $languageFilePath = $languageFilePath ?? __DIR__ . '/../../Resources/dataset/fr/language.php';
+        $languageFilePath = $languageFilePath ?? __DIR__ . '/../../../../Resources/dataset/fr/language.php';
 
         $languages = [];
         if (file_exists($languageFilePath) && is_readable($languageFilePath)) {
-            $languages = array_reverse(include $languageFilePath);
+            $languages = array_flip(include $languageFilePath);
         }
 
         parent::__construct('LANGUAGE', $languages);
+
+        $this->normalizers = new NormalizersBag();
+        $this->normalizers
+            ->add(new LowerCaseNormalizer())
+            ->add(new UnaccentNormalizer())
+        ;
     }
 }

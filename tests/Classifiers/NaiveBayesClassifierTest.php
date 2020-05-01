@@ -20,7 +20,8 @@ class NaiveBayesClassifierTest extends AbstractClassifierTest
             "je vais dormir dans un hotel",
             "j'ai passé la nuit à l'hotel",
             "j'irais dormir à l'hotel",
-            "je vais aller à l hotel"
+            "je vais aller à l hotel",
+            '' // empty, should me removed from model
         ],
         "dormir_amis" => [
             "avec jean on va dormir chez ses parent",

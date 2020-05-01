@@ -8,6 +8,7 @@ use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use Alahaxe\SimpleTextMatcher\StringUtils;
 
 /**
  *
@@ -50,7 +51,7 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
 
         $normalizers = $this->getNormalizers();
         $question = $normalizers->apply($question);
-        $words = explode(' ', $question);
+        $words = StringUtils::words($question);
         $handle = fopen($this->dataFilePath, "r");
 
         $orderedEntities = [];

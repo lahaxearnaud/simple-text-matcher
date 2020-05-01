@@ -98,10 +98,6 @@ class ClassificationResultsBag extends ArrayCollection implements \JsonSerializa
         /** @var ClassificationResult $classificationResult */
         foreach ($this->getResultsWithMinimumScore($score)->toArray() as $classificationResult) {
             $key = $classificationResult->getIntent().'_'.$classificationResult->getClassifier();
-            if (isset($results[$key])) {
-                continue;
-            }
-
             $results[$key] = $classificationResult;
 
             if (count($results) >= $nb) {

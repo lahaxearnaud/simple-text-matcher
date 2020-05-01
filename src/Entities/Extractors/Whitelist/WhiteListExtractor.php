@@ -9,6 +9,7 @@ use Alahaxe\SimpleTextMatcher\Normalizers\LowerCaseNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Alahaxe\SimpleTextMatcher\Normalizers\SingularizeNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
+use Alahaxe\SimpleTextMatcher\StringUtils;
 
 /**
  * Class WhiteListExtractor
@@ -73,7 +74,7 @@ class WhiteListExtractor implements EntityExtractorInterface
     public function extract(string $question): EntityBag
     {
         $results = new EntityBag();
-        $words = explode(' ', $this->normalizers->apply($question));
+        $words = StringUtils::words($this->normalizers->apply($question));
         foreach ($words as $word) {
             if (isset($this->possibleValues[$word])) {
                 $results->add(new Entity($this->getTypeExtracted(), $this->possibleValues[$word]));

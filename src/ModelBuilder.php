@@ -97,7 +97,7 @@ class ModelBuilder
         foreach ($training as $intent => &$phrases) {
             $potentialSynonyms = [];
             foreach ($phrases as $phrase) {
-                $words = explode(' ', $phrase);
+                $words = StringUtils::words($phrase);
 
                 foreach ($words as $word) {
                     if (starts_with($word, $prefix)) {

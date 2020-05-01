@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Events;
 
+use Alahaxe\SimpleTextMatcher\Engine;
 use Alahaxe\SimpleTextMatcher\Message;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -10,7 +11,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  *
  * @package Alahaxe\SimpleTextMatcher\Events
  */
-class MessageClassifiedEvent extends Event
+class MessageClassifiedEvent extends Event implements EngineEvent, MessageEvent
 {
     /**
      * @var Message
@@ -18,13 +19,19 @@ class MessageClassifiedEvent extends Event
     protected $message;
 
     /**
-     * MessageReceivedEvent constructor.
-     *
-     * @param Message $message
+     * @var Engine
      */
-    public function __construct(Message $message)
+    protected $engine;
+
+    /**
+     * MessageClassifiedEvent constructor.
+     * @param Message $message
+     * @param Engine $engine
+     */
+    public function __construct(Message $message, Engine $engine)
     {
         $this->message = $message;
+        $this->engine = $engine;
     }
 
     /**
@@ -33,5 +40,13 @@ class MessageClassifiedEvent extends Event
     public function getMessage(): Message
     {
         return $this->message;
+    }
+
+    /**
+     * @return Engine
+     */
+    public function getEngine(): Engine
+    {
+        return $this->engine;
     }
 }

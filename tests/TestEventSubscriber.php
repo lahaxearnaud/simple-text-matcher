@@ -9,6 +9,7 @@ use Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageSplittedEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -52,6 +53,9 @@ class TestEventSubscriber implements EventSubscriberInterface
                 'onEvent'
             ],
             ModelExpandedEvent::class => [
+                'onEvent'
+            ],
+            MessageSplittedEvent::class => [
                 'onEvent'
             ]
         ];

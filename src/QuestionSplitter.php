@@ -61,7 +61,6 @@ class QuestionSplitter
 
         $rawMessage = $message->getRawMessage();
         $messageLength = strlen($rawMessage);
-
         if ($messageLength < $this->minimumSizeToSplit) {
             return [$message];
         }
@@ -71,10 +70,14 @@ class QuestionSplitter
         $maxAcceptable = $nbCharsMiddle * (1 + $this->searchRange);
 
         foreach ($this->splitWords as $splitWord) {
-            $splitWordPosition = strpos($rawMessage, $splitWord);
+            $splitWordPosition = strpos($rawMessage, ' '.$splitWord.' ');
+
             if ($splitWordPosition === false) {
                 continue;
             }
+
+            // space before the word
+            $splitWordPosition += 1;
 
             if ($splitWordPosition < $this->minimumCharFomEdge
                 || ($splitWordPosition + $this->minimumCharFomEdge) > $messageLength

@@ -16,8 +16,10 @@ use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageSplittedEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
+use Alahaxe\SimpleTextMatcher\Message;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -68,6 +70,15 @@ class EventsTest extends TestCase
                 "qu'est-ce que tu penses de la voiture que je viens d'acheter ?",
                 "je vais vous prendre cette voiture"
             ],
+            'manger' => [
+                "j'ai cuisiné on peux manger",
+                "à midi on va manger au restaurant",
+                "au petit-déjeuner on va bruncher en couple",
+                "au diner on va se faire au restaurant",
+                "je vais manger chez les parents de jules",
+                "je vais manger au restaurant avec les parents de alexi",
+                "je mange un plat"
+            ],
             'bonjour' => [
                 'salut',
                 'bonjour',
@@ -113,6 +124,8 @@ class EventsTest extends TestCase
             return get_class($event);
         }, $events);
 
+        $this->assertEquals(count($eventsClasses), count(array_unique($eventsClasses)));
+
         $this->assertNotEmpty($eventsClasses);
         $this->assertContains(BeforeModelBuildEvent::class, $eventsClasses);
         $this->assertContains(EngineBuildedEvent::class, $eventsClasses);
@@ -138,5 +151,32 @@ class EventsTest extends TestCase
                 $this->assertNotEmpty($event->getModel());
             }
         }
+    }
+
+
+    public function testEventSplit()
+    {
+        $question = 'je vais acheter une voiture de chez fiat et au diner on va se faire au restaurant';
+        $this->engine->predict($question, true);
+
+        $events = $this->testEventSubscriber->getCollectedEvents();
+        $eventsClasses = array_map(static function (Event $event) {
+            return get_class($event);
+        }, $events);
+
+        $this->assertNotEmpty($eventsClasses);
+        $this->assertContains(MessageSplittedEvent::class, $eventsClasses);
+
+        $nbSplitEvent = 0;
+        foreach ($events as $event) {
+            if ($event instanceof MessageSplittedEvent) {
+                $this->assertInstanceOf(Message::class, $event->getMessage());
+                $this->assertIsArray($event->getMessage()->getSubMessages());
+                $this->assertCount(2, $event->getMessage()->getSubMessages());
+                $nbSplitEvent++;
+            }
+        }
+
+        $this->assertEquals(1, $nbSplitEvent);
     }
 }

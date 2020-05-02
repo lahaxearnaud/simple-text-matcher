@@ -74,8 +74,7 @@ class StemmerTest extends TestCase
             $normalizerBag,
             $classifierBag,
             $extractorBag,
-            new Stemmer(),
-            self::TRAINING_DATA_CACHE
+            new Stemmer()
         );
         $engine->prepare(
             [
@@ -97,8 +96,7 @@ class StemmerTest extends TestCase
             $normalizerBag,
             $classifierBag,
             $extractorBag,
-            new Stemmer(),
-            self::TRAINING_DATA_CACHE
+            new Stemmer()
         );
 
         $cache = $engine->getStemmer()->getCache();

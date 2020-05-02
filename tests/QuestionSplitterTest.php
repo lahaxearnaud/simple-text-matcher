@@ -17,6 +17,7 @@ class QuestionSplitterTest extends TestCase
     public function questionProvider()
     {
         return [
+
             [
                 'je veux manger des pommes et des bananes',
                 1
@@ -40,6 +41,10 @@ class QuestionSplitterTest extends TestCase
             [
                 'tomtom et nana vont à la plage',
                 1
+            ],
+            [
+                'je vais acheter une voiture de chez fiat et au diner on va se faire au restaurant',
+                2
             ],
             [
                 'et',

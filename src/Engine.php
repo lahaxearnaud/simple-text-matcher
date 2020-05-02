@@ -12,6 +12,7 @@ use Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageSplittedEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizerInterface;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
@@ -79,6 +80,11 @@ class Engine
     protected $extractors;
 
     /**
+     * @var QuestionSplitter
+     */
+    protected $questionSplitter;
+
+    /**
      * Engine constructor.
      * @param EventDispatcherInterface $eventDispatcher
      * @param ModelBuilder $modelBuilder
@@ -86,6 +92,7 @@ class Engine
      * @param ClassifiersBag $classifiers
      * @param EntityExtractorsBag $extractors
      * @param Stemmer $stemmer
+     * @param QuestionSplitter|null $questionSplitter
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
@@ -93,7 +100,8 @@ class Engine
         NormalizersBag $normalizers,
         ClassifiersBag $classifiers,
         EntityExtractorsBag $extractors,
-        Stemmer $stemmer
+        Stemmer $stemmer,
+        QuestionSplitter $questionSplitter = null
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->modelBuilder = $modelBuilder;
@@ -101,6 +109,7 @@ class Engine
         $this->classifiers = $classifiers;
         $this->stemmer = $stemmer;
         $this->extractors = $extractors;
+        $this->questionSplitter = $questionSplitter ?? new QuestionSplitter();
 
         $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
     }
@@ -125,7 +134,6 @@ class Engine
             $this->model = $this->modelBuilder->build($training, $synonyms);
             $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
         }
-        $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
 
         foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
             $classifier->setStemmer($this->stemmer);
@@ -179,8 +187,7 @@ class Engine
             return $this->classifyMessage($question);
         }
 
-        $messageSplitter = new QuestionSplitter();
-        $subQuestions = $messageSplitter->splitQuestion($question);
+        $subQuestions = $this->questionSplitter->splitQuestion($question);
         $nbSubQuestions = count($subQuestions);
 
         // only one question detected fallback to legacy behavior
@@ -208,6 +215,8 @@ class Engine
         }
 
         $question->addSubMessages($subQuestions);
+
+        $this->eventDispatcher->dispatch(new MessageSplittedEvent($question));
 
         return $question;
     }

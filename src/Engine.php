@@ -128,23 +128,11 @@ class Engine
         $modelSignature = $this->generateCacheSignature($training, $synonyms, $intentExtractors);
 
         if ($this->needToRebuildModel($modelSignature)) {
-            $this->eventDispatcher->dispatch(new BeforeModelBuildEvent($this));
             $this->modelSignature = $modelSignature;
-            $this->modelBuilder->setNormalizers($this->normalizers);
-            $this->model = $this->modelBuilder->build($training, $synonyms);
-            $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
+            $this->prepareModel($training, $synonyms);
         }
 
-        foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
-            $classifier->setStemmer($this->stemmer);
-            $classifierClass = get_class($classifier);
-            if (isset($this->classifierTrainedModels[$classifierClass])) {
-                $classifier->reloadModel($this->classifierTrainedModels[$classifierClass]);
-            } else {
-                $classifier->prepareModel($this->model);
-            }
-        }
-
+        $this->prepareClassifiers();
         $this->eventDispatcher->dispatch(new EngineStartedEvent($this));
 
         return $this;
@@ -227,6 +215,34 @@ class Engine
     public function getStemmer(): Stemmer
     {
         return $this->stemmer;
+    }
+
+    /**
+     * @param array $training
+     * @param array $synonyms
+     */
+    protected function prepareModel(array $training, array $synonyms):void
+    {
+        $this->eventDispatcher->dispatch(new BeforeModelBuildEvent($this));
+        $this->modelBuilder->setNormalizers($this->normalizers);
+        $this->model = $this->modelBuilder->build($training, $synonyms);
+        $this->eventDispatcher->dispatch(new ModelExpandedEvent($this->model));
+    }
+
+    /**
+     *
+     */
+    protected function prepareClassifiers():void
+    {
+        foreach ($this->classifiers->classifiersWithTraining() as $classifier) {
+            $classifier->setStemmer($this->stemmer);
+            $classifierClass = get_class($classifier);
+            if (isset($this->classifierTrainedModels[$classifierClass])) {
+                $classifier->reloadModel($this->classifierTrainedModels[$classifierClass]);
+            } else {
+                $classifier->prepareModel($this->model);
+            }
+        }
     }
 
     /**

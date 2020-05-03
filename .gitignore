@@ -5,3 +5,4 @@ stemmer_cache.json
 coverage
 .idea
 cghooks.lock
+phpmetrics

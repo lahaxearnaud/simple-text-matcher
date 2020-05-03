@@ -95,44 +95,83 @@ class ModelBuilder
         $synonyms =  array_merge($this->globalLanguageSynonyms, $synonyms);
         $canAutoExpand = $this->autoExpandGlobalWord;
         foreach ($training as $intent => &$phrases) {
-            $potentialSynonyms = [];
-            foreach ($phrases as $phrase) {
-                $words = StringUtils::words($phrase);
+            $potentialSynonyms = $this->extractCandidateToExpand($phrases, $synonyms, $prefix, $canAutoExpand);
+            $canAutoExpand = false;
 
-                foreach ($words as $word) {
-                    if (starts_with($word, $prefix)) {
-                        $potentialSynonyms[] = $word;
-                    } elseif ($canAutoExpand && strlen($word) > $this->minimumSizeForAutoExpand) {
-                        $potentialSynonyms[] = $word;
-                    }
+            foreach ($potentialSynonyms as $synonym) {
+                $training[$intent] = $this->replaceSynonymsInPhrases($phrases, $synonym, $synonyms, $prefix);
+            }
+        }
+
+        return $this->removePhrasesWithMissingSynonyms($training, $prefix);
+    }
+
+    /**
+     * @param array $phrases
+     * @param string $synonymWord
+     * @param array $synonyms
+     * @param string $prefix
+     *
+     * @return array
+     */
+    protected function replaceSynonymsInPhrases(array $phrases, string $synonymWord, array $synonyms, string $prefix):array
+    {
+        foreach ($phrases as $index => $phrase) {
+            $needToDeleteCurrent = false;
+            $synonymKey = starts_with($synonymWord, $prefix) ? $synonymWord : $prefix.$synonymWord;
+
+            foreach ($synonyms[$synonymKey] as $replacement) {
+                if (preg_match('/'.$synonymWord.'/', $phrase)) {
+                    $phrases[] = str_replace($synonymWord, $replacement, $phrase);
+                    $needToDeleteCurrent = true;
                 }
             }
 
-            $canAutoExpand = false;
-            $potentialSynonyms = array_filter($potentialSynonyms, static function ($synonym) use ($synonyms, $prefix) {
-                $synonymKey = starts_with($synonym, $prefix) ? $synonym : $prefix.$synonym;
-                return isset($synonyms[$synonymKey]);
-            });
+            if ($needToDeleteCurrent) {
+                unset($phrases[$index]);
+            }
+        }
 
-            foreach ($potentialSynonyms as $synonym) {
-                foreach ($phrases as $index => $phrase) {
-                    $needToDeleteCurrent = false;
-                    $synonymKey = starts_with($synonym, $prefix) ? $synonym : $prefix.$synonym;
+        return $phrases;
+    }
 
-                    foreach ($synonyms[$synonymKey] as $replacement) {
-                        if (preg_match('/'.$synonym.'/', $phrase)) {
-                            $phrases[] = str_replace($synonym, $replacement, $phrase);
-                            $needToDeleteCurrent = true;
-                        }
-                    }
+    /**
+     * @param array $phrases
+     * @param array $synonyms
+     * @param string $prefix
+     * @param bool $canAutoExpand
+     * @return array
+     */
+    public function extractCandidateToExpand(array $phrases, array $synonyms, string $prefix, bool $canAutoExpand)
+    {
+        $potentialSynonyms = [];
+        foreach ($phrases as $phrase) {
+            $words = StringUtils::words($phrase);
 
-                    if ($needToDeleteCurrent) {
-                        unset($phrases[$index]);
-                    }
+            foreach ($words as $word) {
+                if (starts_with($word, $prefix)) {
+                    $potentialSynonyms[] = $word;
+                } elseif ($canAutoExpand && strlen($word) > $this->minimumSizeForAutoExpand) {
+                    $potentialSynonyms[] = $word;
                 }
             }
         }
 
+        $potentialSynonyms = array_filter($potentialSynonyms, static function ($synonym) use ($synonyms, $prefix) {
+            $synonymKey = starts_with($synonym, $prefix) ? $synonym : $prefix.$synonym;
+            return isset($synonyms[$synonymKey]);
+        });
+
+        return $potentialSynonyms;
+    }
+
+    /**
+     * @param array $training
+     * @param string $prefix
+     * @return array
+     */
+    protected function removePhrasesWithMissingSynonyms(array $training, string $prefix)
+    {
         foreach ($training as $intent => &$phrases) {
             $phrases = array_values(
                 array_unique(

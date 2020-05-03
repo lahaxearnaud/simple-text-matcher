@@ -67,8 +67,6 @@ abstract class AbstractClassifierTest extends TestCase
     public function testMatch($question, $match)
     {
         $result = $this->classifier->classify($question)->getResultsWithMinimumScore();
-        var_dump($question);
-        var_dump($result);
         if ($match === null) {
             $this->assertEmpty($result);
             return;

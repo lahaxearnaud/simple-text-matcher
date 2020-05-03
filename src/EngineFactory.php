@@ -35,6 +35,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * Class EngineFactory
  *
  * @package Alahaxe\SimpleTextMatcher
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class EngineFactory
 {

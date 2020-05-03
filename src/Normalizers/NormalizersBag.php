@@ -55,8 +55,8 @@ class NormalizersBag extends ArrayCollection
 
         usort(
             $elements,
-            static function (NormalizerInterface $a, NormalizerInterface $b) {
-                return $a->getPriority() > $b->getPriority();
+            static function (NormalizerInterface $normalizerA, NormalizerInterface $normalizerB) {
+                return $normalizerA->getPriority() > $normalizerB->getPriority();
             }
         );
 

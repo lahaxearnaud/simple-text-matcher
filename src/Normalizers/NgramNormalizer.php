@@ -16,7 +16,7 @@ class NgramNormalizer implements NormalizerInterface
     /**
      * @var int
      */
-    protected $n;
+    protected $sizeOfNGram;
 
     /**
      * @var int
@@ -25,11 +25,11 @@ class NgramNormalizer implements NormalizerInterface
 
     /**
      * NgramNormalizer constructor.
-     * @param int $n
+     * @param int $sizeOfNGram
      */
-    public function __construct(int $n = 3)
+    public function __construct(int $sizeOfNGram = 3)
     {
-        $this->n = $n;
+        $this->sizeOfNGram = $sizeOfNGram;
     }
 
     /**
@@ -44,9 +44,9 @@ class NgramNormalizer implements NormalizerInterface
         $nbWords = count($words);
 
         $ngram = [];
-        for ($i = 0; $i + $this->n <= $nbWords; $i++) {
+        for ($i = 0; $i + $this->sizeOfNGram <= $nbWords; $i++) {
             $string = "";
-            for ($j = 0; $j < $this->n; $j++) {
+            for ($j = 0; $j < $this->sizeOfNGram; $j++) {
                 $string .= $words[$j + $i];
             }
             $ngram[$i] = $string;

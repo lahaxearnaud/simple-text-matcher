@@ -64,7 +64,7 @@ class LogSubscriber implements EventSubscriberInterface
      */
     public function onEngineBuilded(EngineBuildedEvent $event): void
     {
-        $this->logger->debug('Engine builded');
+        $this->logger->debug('Engine builded', [get_class($event)]);
     }
 
     /**
@@ -74,7 +74,7 @@ class LogSubscriber implements EventSubscriberInterface
      */
     public function onEngineStarted(EngineStartedEvent $event): void
     {
-        $this->logger->debug('Engine started');
+        $this->logger->debug('Engine started', [get_class($event)]);
     }
 
     /**

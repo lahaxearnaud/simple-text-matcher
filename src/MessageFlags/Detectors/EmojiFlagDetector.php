@@ -30,6 +30,7 @@ class EmojiFlagDetector extends AbstractFlagDetector
     public function detect(Message $question):bool
     {
         foreach ($this->regexes as $regex) {
+            $matches = null;
             if (preg_match($regex, $question->getRawMessage(), $matches)) {
                 return true;
             }

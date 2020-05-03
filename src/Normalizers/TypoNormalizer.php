@@ -15,7 +15,7 @@ class TypoNormalizer implements NormalizerInterface
     /**
      * @var
      */
-    protected $dictonnary;
+    protected $dictionary;
 
     /**
      * list of words that must not be corrected
@@ -32,7 +32,7 @@ class TypoNormalizer implements NormalizerInterface
      */
     public function __construct(array $ignoreWords = [], $language = 'fr')
     {
-        $this->dictonnary = pspell_new('fr');
+        $this->dictionary = pspell_new($language);
 
         $this->ignoreWords = array_map(
             static function ($word) {
@@ -56,8 +56,8 @@ class TypoNormalizer implements NormalizerInterface
                 continue;
             }
 
-            if (!pspell_check($this->dictonnary, $word)) {
-                $suggestions = pspell_suggest($this->dictonnary, $word);
+            if (!pspell_check($this->dictionary, $word)) {
+                $suggestions = pspell_suggest($this->dictionary, $word);
                 $words[$index] = current($suggestions);
             }
         }

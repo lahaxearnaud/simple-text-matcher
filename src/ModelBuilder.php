@@ -94,7 +94,7 @@ class ModelBuilder
     {
         $synonyms =  array_merge($this->globalLanguageSynonyms, $synonyms);
         $canAutoExpand = $this->autoExpandGlobalWord;
-        foreach ($training as $intent => &$phrases) {
+        foreach ($training as $intent => $phrases) {
             $potentialSynonyms = $this->extractCandidateToExpand($phrases, $synonyms, $prefix, $canAutoExpand);
             $canAutoExpand = false;
 
@@ -114,7 +114,7 @@ class ModelBuilder
      *
      * @return array
      */
-    protected function replaceSynonymsInPhrases(array $phrases, string $synonymWord, array $synonyms, string $prefix):array
+    protected function replaceSynonymsInPhrases(array &$phrases, string $synonymWord, array $synonyms, string $prefix):array
     {
         foreach ($phrases as $index => $phrase) {
             $needToDeleteCurrent = false;
@@ -172,7 +172,7 @@ class ModelBuilder
      */
     protected function removePhrasesWithMissingSynonyms(array $training, string $prefix)
     {
-        foreach ($training as $intent => &$phrases) {
+        foreach ($training as &$phrases) {
             $phrases = array_values(
                 array_unique(
                     array_filter(

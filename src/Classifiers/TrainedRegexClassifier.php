@@ -27,18 +27,18 @@ class TrainedRegexClassifier implements TrainingInterface
     /**
      * @var int
      */
-    protected $sizeOfChunkToBuildRegexes;
+    protected $sizeOfRegexesChunk;
 
     /**
      * TrainedRegexClassifier constructor.
      *
      * @param Stemmer|null $stemmer
-     * @param int $sizeOfChunkToBuildRegexes
+     * @param int $sizeOfRegexesChunk
      */
-    public function __construct(Stemmer $stemmer = null, int $sizeOfChunkToBuildRegexes = 20)
+    public function __construct(Stemmer $stemmer = null, int $sizeOfRegexesChunk = 20)
     {
         $this->stemmer = $stemmer;
-        $this->sizeOfChunkToBuildRegexes = $sizeOfChunkToBuildRegexes;
+        $this->sizeOfRegexesChunk = $sizeOfRegexesChunk;
     }
 
     /**
@@ -99,7 +99,7 @@ class TrainedRegexClassifier implements TrainingInterface
 
         foreach ($trainingData as $intent => $phrases) {
             $this->regexes[$intent] = [];
-            foreach (array_chunk($phrases, $this->sizeOfChunkToBuildRegexes) as $chunk) {
+            foreach (array_chunk($phrases, $this->sizeOfRegexesChunk) as $chunk) {
                 $this->regexes[$intent][] = $builder->build($chunk);
             }
         }

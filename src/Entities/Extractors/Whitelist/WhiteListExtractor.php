@@ -53,9 +53,11 @@ class WhiteListExtractor implements EntityExtractorInterface
             foreach ($possibleValues as $possibleValue) {
                 $this->possibleValues[$this->normalizers->apply($possibleValue)] = $possibleValue;
             }
-        } else {
-            $this->possibleValues = $possibleValues;
+
+            return;
         }
+
+        $this->possibleValues = $possibleValues;
     }
 
     /**

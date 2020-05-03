@@ -35,6 +35,7 @@ abstract class AbstractRegexExtractor implements EntityExtractorInterface
     public function extract(string $question): EntityBag
     {
         $result = new EntityBag();
+        $matches = null;
         foreach ($this->getRegexes() as $regex) {
             preg_match_all($regex, $question, $matches);
             $result->add(array_map(function ($value) {

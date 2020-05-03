@@ -6,3 +6,5 @@ coverage
 .idea
 cghooks.lock
 phpmetrics
+phpmd.html
+

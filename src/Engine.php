@@ -22,6 +22,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
  * Class Engine
  *
  * @package Alahaxe\SimpleTextMatcher
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Engine
 {
@@ -239,9 +240,10 @@ class Engine
             $classifierClass = get_class($classifier);
             if (isset($this->classifierTrainedModels[$classifierClass])) {
                 $classifier->reloadModel($this->classifierTrainedModels[$classifierClass]);
-            } else {
-                $classifier->prepareModel($this->model);
+                continue;
             }
+
+            $classifier->prepareModel($this->model);
         }
     }
 

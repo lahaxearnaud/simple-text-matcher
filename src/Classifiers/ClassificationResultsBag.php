@@ -78,8 +78,8 @@ class ClassificationResultsBag extends ArrayCollection implements \JsonSerializa
 
         usort(
             $results,
-            static function (ClassificationResult $a, ClassificationResult $b) {
-                return $a->getScore() < $b->getScore();
+            static function (ClassificationResult $classificationA, ClassificationResult $classificationB) {
+                return $classificationA->getScore() < $classificationB->getScore();
             }
         );
 
@@ -87,12 +87,12 @@ class ClassificationResultsBag extends ArrayCollection implements \JsonSerializa
     }
 
     /**
-     * @param  int $nb
+     * @param  int $nbIntents
      * @param  float $score
      *
      * @return ClassificationResultsBag
      */
-    public function getTopIntents(int $nb, float $score):self
+    public function getTopIntents(int $nbIntents, float $score):self
     {
         $results = [];
         /** @var ClassificationResult $classificationResult */
@@ -100,7 +100,7 @@ class ClassificationResultsBag extends ArrayCollection implements \JsonSerializa
             $key = $classificationResult->getIntent().'_'.$classificationResult->getClassifier();
             $results[$key] = $classificationResult;
 
-            if (count($results) >= $nb) {
+            if (count($results) >= $nbIntents) {
                 break;
             }
         }

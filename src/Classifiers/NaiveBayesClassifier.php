@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
+use Alahaxe\SimpleTextMatcher\Message;
 use Alahaxe\SimpleTextMatcher\Stemmer;
 use TextAnalysis\Classifiers\NaiveBayes;
 use TextAnalysis\Tokenizers\GeneralTokenizer;
@@ -35,14 +36,15 @@ class NaiveBayesClassifier implements TrainingInterface
     }
 
     /**
-     * @param  string $question
+     * @param  Message $question
      * @return ClassificationResultsBag
      */
-    public function classify(string $question): ClassificationResultsBag
+    public function classify(Message $question): ClassificationResultsBag
     {
         $bag = new ClassificationResultsBag();
         $startTimer = microtime(true);
 
+        $question = $question->getNormalizedMessage();
         $normalizeQuestion = $this->prepareSentence($question);
 
         if (empty($question) || empty($normalizeQuestion)) {

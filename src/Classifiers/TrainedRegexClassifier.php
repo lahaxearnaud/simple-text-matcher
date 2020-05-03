@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
+use Alahaxe\SimpleTextMatcher\Message;
 use Alahaxe\SimpleTextMatcher\Stemmer;
 use s9e\RegexpBuilder\Builder;
 
@@ -42,14 +43,15 @@ class TrainedRegexClassifier implements TrainingInterface
     }
 
     /**
-     * @param  string $question
+     * @param  Message $question
      * @return ClassificationResultsBag
      */
-    public function classify(string $question): ClassificationResultsBag
+    public function classify(Message $question): ClassificationResultsBag
     {
         $bag = new ClassificationResultsBag();
         $startTimer = microtime(true);
 
+        $question = $question->getNormalizedMessage();
         $question = $this->stemmer->stemPhrase($question);
 
         foreach ($this->regexes as $intent => $regexes) {

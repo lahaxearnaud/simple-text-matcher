@@ -4,11 +4,14 @@
 namespace Alahaxe\SimpleTextMatcher;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\InsultClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\NgramNaiveBayesClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\PerfectMatchClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
+use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
+use Alahaxe\SimpleTextMatcher\Handlers\ClosureHandler;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\EmojiFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\FlagDetectorBag;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\InsultFlagDetector;
@@ -96,25 +99,32 @@ class EngineFactory
     {
         $eventDispatcher = $eventDispatcher ?? new EventDispatcher();
 
+        $eventDispatcher->addSubscriber(new ClassificationSubscriber());
+        $eventDispatcher->addSubscriber(new EntitySubscriber());
+        $eventDispatcher->addSubscriber(new HandlerSubscriber($eventDispatcher));
+        $eventDispatcher->addSubscriber(new MessageSubscriber(new FlagDetectorBag([
+            new NegationFlagDetector(),
+            new InsultFlagDetector($lang),
+            new QuestionFlagDetector(),
+            new EmojiFlagDetector(),
+        ])));
+
+        $eventDispatcher->addSubscriber(new ClosureHandler(AbstractHandler::INSULT_INTENT_NAME, static function (Message $message) {
+            $message->setResponses([
+                '...'
+            ]);
+        }));
+
         if ($cache) {
             $tmpCacheFolder = $this->getCachePath();
-            $eventDispatcher->addSubscriber(new ClassificationSubscriber());
-            $eventDispatcher->addSubscriber(new EntitySubscriber());
-            $eventDispatcher->addSubscriber(new HandlerSubscriber($eventDispatcher));
             $eventDispatcher->addSubscriber(new ModelCacheSubscriber($tmpCacheFolder . '/model_cache.json'));
             $eventDispatcher->addSubscriber(new StemmerCacheSubscriber($tmpCacheFolder . '/stemmer_cache.json'));
             $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber($tmpCacheFolder . '/synonymes'));
-
-            $eventDispatcher->addSubscriber(new MessageSubscriber(new FlagDetectorBag([
-                new NegationFlagDetector(),
-                new InsultFlagDetector($lang),
-                new QuestionFlagDetector(),
-                new EmojiFlagDetector(),
-            ])));
         }
 
         $classifiers = new ClassifiersBag();
         $classifiers
+            ->add(new InsultClassifier()) // based on flag (set by InsultFlagDetector)
             ->add(new PerfectMatchClassifier()) // faster one
             ->add(new NaiveBayesClassifier()) // fast and quite relevant
             ->add(new NgramNaiveBayesClassifier()) // generate and works on bigrams

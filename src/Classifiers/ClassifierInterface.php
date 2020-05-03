@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
+use Alahaxe\SimpleTextMatcher\Message;
 use Alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
@@ -13,10 +14,10 @@ interface ClassifierInterface
 {
 
     /**
-     * @param  string $question
+     * @param  Message $question
      * @return ClassificationResultsBag
      */
-    public function classify(string $question):ClassificationResultsBag;
+    public function classify(Message $question):ClassificationResultsBag;
 
     /**
      * @param  Stemmer $stemmer

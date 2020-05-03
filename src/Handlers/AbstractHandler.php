@@ -12,6 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 abstract class AbstractHandler implements EventSubscriberInterface
 {
     const DEFAULT_INTENT_NAME = 'default';
+    const INSULT_INTENT_NAME = 'insult';
 
     /**
      * @return string

@@ -15,6 +15,7 @@ use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageSplittedEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
 use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
+use Alahaxe\SimpleTextMatcher\Loader\LoaderInterface;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizerInterface;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -115,6 +116,21 @@ class Engine
         $this->questionSplitter = $questionSplitter ?? new QuestionSplitter();
 
         $this->eventDispatcher->dispatch(new EngineBuildedEvent($this));
+    }
+
+    /**
+     * @param LoaderInterface $loader
+     *
+     * @return $this
+     */
+    public function prepareWithLoader(LoaderInterface $loader):self
+    {
+        $model = $loader->load();
+        foreach ($model->getIntentHandlers() as $intentHandler) {
+            $this->getEventDispatcher()->addSubscriber($intentHandler);
+        }
+
+        return $this->prepare($model->getTraining(), $model->getSynonyms(), $model->getIntentExtractors());
     }
 
     /**

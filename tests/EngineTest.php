@@ -3,6 +3,7 @@
 namespace Alahaxe\SimpleTextMatcher\Tests;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
+use Alahaxe\SimpleTextMatcher\Classifiers\InsultClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\JaroWinklerClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\LevenshteinClassifier;
 use Alahaxe\SimpleTextMatcher\Classifiers\NaiveBayesClassifier;
@@ -93,13 +94,14 @@ class EngineTest extends TestCase
             ;
 
         $classifierBag
+            ->add(new InsultClassifier())
             ->add(new TrainedRegexClassifier($stemmer))
             ->add(new NaiveBayesClassifier($stemmer))
             ->add(new JaroWinklerClassifier($stemmer))
             ->add(new LevenshteinClassifier($stemmer))
             ->add(new SmithWatermanGotohClassifier($stemmer));
 
-        $this->assertEquals(5, $classifierBag->count());
+        $this->assertEquals(6, $classifierBag->count());
 
         $normalizerBag
             ->add(new LowerCaseNormalizer())

@@ -35,7 +35,7 @@ class ClassificationSubscriber implements EventSubscriberInterface
 
         $bag = new ClassificationResultsBag();
         foreach ($engine->getClassifiers()->all() as $classifier) {
-            $bag->merge($classifier->classify($question->getNormalizedMessage()));
+            $bag->merge($classifier->classify($question));
 
             // classifier score is at max, no need to continue
             if ($bag->getResultsWithMinimumScore(1.)->count() > 0) {

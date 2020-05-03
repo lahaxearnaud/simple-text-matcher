@@ -4,6 +4,7 @@ namespace Alahaxe\SimpleTextMatcher\Tests\Classifiers;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifierInterface;
 use Alahaxe\SimpleTextMatcher\Classifiers\TrainingInterface;
+use Alahaxe\SimpleTextMatcher\Message;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -66,7 +67,7 @@ abstract class AbstractClassifierTest extends TestCase
      */
     public function testMatch($question, $match)
     {
-        $result = $this->classifier->classify($question)->getResultsWithMinimumScore();
+        $result = $this->classifier->classify(new Message($question))->getResultsWithMinimumScore();
         if ($match === null) {
             $this->assertEmpty($result);
             return;
@@ -109,7 +110,7 @@ abstract class AbstractClassifierTest extends TestCase
                 return;
             }
 
-            $result = $this->classifier->classify($testMatch[0])->getResultsWithMinimumScore();
+            $result = $this->classifier->classify(new Message($testMatch[0]))->getResultsWithMinimumScore();
             $this->assertNotEmpty($result);
             $this->assertNotNull($result[0]);
             $this->assertEquals(

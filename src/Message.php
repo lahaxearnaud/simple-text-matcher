@@ -98,6 +98,7 @@ class Message implements \JsonSerializable
     public function __construct(string $rawMessage)
     {
         $this->rawMessage = $rawMessage;
+        $this->normalizedMessage = $rawMessage;
         $this->messageId = uniqid(date('YmdHisu').'_', true);
         $this->receivedTimestamp = microtime(true);
         $this->entities = new EntityBag();

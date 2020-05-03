@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
+use Alahaxe\SimpleTextMatcher\Message;
 use Alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
@@ -21,13 +22,14 @@ class PerfectMatchClassifier implements TrainingInterface
     protected $stemmer;
 
     /**
-     * @param string $question
+     * @param Message $question
      * @return ClassificationResultsBag
      */
-    public function classify(string $question): ClassificationResultsBag
+    public function classify(Message $question): ClassificationResultsBag
     {
         $bag = new ClassificationResultsBag();
         $startTimer = microtime(true);
+        $question = $question->getNormalizedMessage();
         $question = $this->stemmer->stemPhrase($question);
 
         if (isset($this->model[$question])) {

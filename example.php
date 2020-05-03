@@ -19,18 +19,13 @@ $engine->getNormalizers()
 ;
 
 $modelFileLoader = new \Alahaxe\SimpleTextMatcher\Loader\FileLoader(__DIR__.'/example');
-$model = $modelFileLoader->load();
 
-foreach ($model['intentHandlers'] as $intentHandler) {
-    $engine->getEventDispatcher()->addSubscriber($intentHandler);
-}
-
-$engine->prepare($model['training'], $model['synonyms'], $model['intentExtractors']);
+$engine->prepareWithLoader($modelFileLoader);
 echo 'Memory: '.(number_format(memory_get_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
 echo 'Memory Peak: '.(number_format(memory_get_peak_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
 
 $options = getopt('d');
-$debug = $options['d'] ?? false;
+$debug = isset($options['d']);
 
 while (($question = readline("Question : ")) !== '') {
     $message = new \Alahaxe\SimpleTextMatcher\Message($question);

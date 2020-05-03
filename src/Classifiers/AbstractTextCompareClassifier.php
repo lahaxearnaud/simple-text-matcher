@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Classifiers;
 
+use Alahaxe\SimpleTextMatcher\Message;
 use Alahaxe\SimpleTextMatcher\Stemmer;
 
 /**
@@ -37,14 +38,14 @@ abstract class AbstractTextCompareClassifier implements TrainingInterface
     protected $maxTrainingSize = 200;
 
     /**
-     * @param  string $question
+     * @param  Message $question
      * @return ClassificationResultsBag
      */
-    public function classify(string $question): ClassificationResultsBag
+    public function classify(Message $question): ClassificationResultsBag
     {
         $startTimer = microtime(true);
 
-        $question = $this->stemmer->stemPhrase($question);
+        $question = $this->stemmer->stemPhrase($question->getNormalizedMessage());
 
         $bag = new ClassificationResultsBag();
         foreach ($this->model as $intent => $phrases) {

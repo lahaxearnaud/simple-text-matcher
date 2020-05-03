@@ -19,6 +19,7 @@
         "psr/log": "^1.1",
         "s9e/regexp-builder": "^1.4",
         "symfony/event-dispatcher": "^5.0",
+        "symfony/finder": "^5.0",
         "voku/stop-words": "^2.0",
         "whitecube/lingua": "^1.0",
         "yooper/php-text-analysis": "^1.5"

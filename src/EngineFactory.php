@@ -24,6 +24,7 @@ use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use Alahaxe\SimpleTextMatcher\Subscribers\ClassificationSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\EntitySubscriber;
+use Alahaxe\SimpleTextMatcher\Subscribers\HandlerSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\MessageSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
@@ -99,6 +100,7 @@ class EngineFactory
             $tmpCacheFolder = $this->getCachePath();
             $eventDispatcher->addSubscriber(new ClassificationSubscriber());
             $eventDispatcher->addSubscriber(new EntitySubscriber());
+            $eventDispatcher->addSubscriber(new HandlerSubscriber($eventDispatcher));
             $eventDispatcher->addSubscriber(new ModelCacheSubscriber($tmpCacheFolder . '/model_cache.json'));
             $eventDispatcher->addSubscriber(new StemmerCacheSubscriber($tmpCacheFolder . '/stemmer_cache.json'));
             $eventDispatcher->addSubscriber(new ModelBuilderSynonymsLoaderSubscriber($tmpCacheFolder . '/synonymes'));

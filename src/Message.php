@@ -86,6 +86,11 @@ class Message implements \JsonSerializable
     protected $flags;
 
     /**
+     * @var mixed[]
+     */
+    protected $responses = [];
+
+    /**
      * Message constructor.
      *
      * @param string $rawMessage
@@ -113,7 +118,7 @@ class Message implements \JsonSerializable
     /**
      * @return string
      */
-    public function getNormalizedMessage(): string
+    public function getNormalizedMessage(): ?string
     {
         return $this->normalizedMessage;
     }
@@ -280,12 +285,59 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * @return mixed[]
+     */
+    public function getResponses(): array
+    {
+        if (!$this->hasSubMessages()) {
+            return $this->responses;
+        }
+
+        $responses = [];
+        foreach ($this->getSubMessages() as $subMessage) {
+            $responses = array_merge($responses, $subMessage->getResponses());
+        }
+
+        return $responses;
+    }
+
+    /**
+     * @param mixed[] $responses
+     * @return Message
+     */
+    public function setResponses(array $responses): Message
+    {
+        $this->responses = $responses;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasResponses():bool
+    {
+        if ($this->hasSubMessages()) {
+            foreach ($this->getSubMessages() as $message) {
+                if ($message->hasResponses()) {
+                    return true;
+                }
+            }
+        }
+
+        return count($this->responses) > 0;
+    }
+
+    /**
      * @return int[]
      *
      * @psalm-return array{receivedAt: int, correctedAt: int, classifiedAt: int, correctionDuration: int, classificationDuration: int}
      */
     public function getPerformance():array
     {
+        if ($this->hasSubMessages()) {
+            return end($this->subMessages)->getPerformance();
+        }
+
         return [
             'receivedAt' => $this->receivedTimestamp,
             'correctedAt' => $this->correctedTimestamp,
@@ -310,6 +362,7 @@ class Message implements \JsonSerializable
             'intentDetected' => $this->intentDetected,
             'nbWords' => $this->nbWords,
             'flags' => $this->flags,
+            'responses' => $this->responses,
             'performance' => $this->getPerformance()
         ];
     }

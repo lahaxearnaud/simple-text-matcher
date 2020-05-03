@@ -14,14 +14,16 @@ use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageSplittedEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
+use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizerInterface;
 use Alahaxe\SimpleTextMatcher\Normalizers\NormalizersBag;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Engine
  *
  * @package Alahaxe\SimpleTextMatcher
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Engine
@@ -71,7 +73,7 @@ class Engine
     protected $stemmer;
 
     /**
-     * @var EventDispatcherInterface
+     * @var EventDispatcher
      */
     protected $eventDispatcher;
 
@@ -87,7 +89,7 @@ class Engine
 
     /**
      * Engine constructor.
-     * @param EventDispatcherInterface $eventDispatcher
+     * @param EventDispatcher $eventDispatcher
      * @param ModelBuilder $modelBuilder
      * @param NormalizersBag $normalizers
      * @param ClassifiersBag $classifiers
@@ -96,7 +98,7 @@ class Engine
      * @param QuestionSplitter|null $questionSplitter
      */
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
+        EventDispatcher $eventDispatcher,
         ModelBuilder $modelBuilder,
         NormalizersBag $normalizers,
         ClassifiersBag $classifiers,
@@ -303,9 +305,9 @@ class Engine
     }
 
     /**
-     * @return EventDispatcherInterface
+     * @return EventDispatcher
      */
-    public function getEventDispatcher(): EventDispatcherInterface
+    public function getEventDispatcher(): EventDispatcher
     {
         return $this->eventDispatcher;
     }
@@ -389,5 +391,17 @@ class Engine
 
         // faster than hash
         return crc32($cacheKey);
+    }
+
+    /**
+     * @param AbstractHandler $abstractHandler
+     *
+     * @return $this
+     */
+    public function registerHandler(AbstractHandler $abstractHandler):self
+    {
+        $this->getEventDispatcher()->addSubscriber($abstractHandler);
+
+        return $this;
     }
 }

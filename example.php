@@ -18,35 +18,62 @@ $engine->getNormalizers()
     ]))
 ;
 
-$model = require(__DIR__.'/tests/model.php');
+$modelFileLoader = new \Alahaxe\SimpleTextMatcher\Loader\FileLoader(__DIR__.'/example');
+$model = $modelFileLoader->load();
+
+foreach ($model['intentHandlers'] as $intentHandler) {
+    $engine->getEventDispatcher()->addSubscriber($intentHandler);
+}
 
 $engine->prepare($model['training'], $model['synonyms'], $model['intentExtractors']);
 echo 'Memory: '.(number_format(memory_get_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
 echo 'Memory Peak: '.(number_format(memory_get_peak_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
 
+$options = getopt('d');
+$debug = $options['d'] ?? false;
+
 while (($question = readline("Question : ")) !== '') {
     $message = new \Alahaxe\SimpleTextMatcher\Message($question);
-    $engine->predict($message);
-    echo 'Normalized: ' . $message->getNormalizedMessage() . PHP_EOL;
-    echo 'Flags: ' . json_encode($message->getFlags()) . PHP_EOL;
-    echo 'Intent: ' . $message->getIntentDetected() . PHP_EOL;
+    $engine->predict($message, true);
+    if ($debug) {
 
-    foreach ($message->getClassification()->all() as $classificationResult) {
-        echo sprintf(
-            "    - %s %s %f en %s", $classificationResult->getIntent(), $classificationResult->getClassifier(),
-            $classificationResult->getScore(), $classificationResult->getDuration()
-        ) . PHP_EOL;
+        /** @var \Alahaxe\SimpleTextMatcher\Message $messageItem */
+        foreach (array_merge([$message], $message->getSubMessages()) as $messageItem) {
+            echo "------------" . PHP_EOL;
+            echo 'Raw: ' . $messageItem->getRawMessage() . PHP_EOL;
+            echo 'Normalized: ' . $messageItem->getNormalizedMessage() . PHP_EOL;
+            echo 'Flags: ' . json_encode($messageItem->getFlags()) . PHP_EOL;
+            echo 'Intent: ' . $messageItem->getIntentDetected() . PHP_EOL;
+
+            foreach ($messageItem->getClassification()->all() as $classificationResult) {
+                echo sprintf(
+                        "    - %s %s %f en %s", $classificationResult->getIntent(),
+                        $classificationResult->getClassifier(),
+                        $classificationResult->getScore(), $classificationResult->getDuration()
+                    ) . PHP_EOL;
+            }
+
+            echo 'Entities: ' . PHP_EOL;
+            foreach ($messageItem->getEntities()->all() as $entity) {
+                echo sprintf(
+                        "    - %s %s ", $entity->getType(), $entity->getValue(),
+            ) . PHP_EOL;
+            }
+        }
+        echo "------------" . PHP_EOL;
+        echo "" . PHP_EOL;
     }
 
-    echo 'Entities: ' .PHP_EOL;
-    foreach ($message->getEntities()->all() as $entity) {
+    echo 'Responses: ' .PHP_EOL;
+    foreach ($message->getResponses() as $response) {
         echo sprintf(
-                "    - %s %s ", $entity->getType(), $entity->getValue(),
+                "    - %s", json_encode($response),
             ) . PHP_EOL;
     }
 
-
-    echo 'Performance: '.var_export($message->jsonSerialize()['performance'], true).PHP_EOL;
-    echo 'Memory: '.(number_format(memory_get_usage()/(1024*1024), 2)).'Mb'.PHP_EOL;
+    if ($debug) {
+        echo 'Performance: ' . var_export($message->jsonSerialize()['performance'], true) . PHP_EOL;
+        echo 'Memory: ' . (number_format(memory_get_usage() / (1024 * 1024), 2)) . 'Mb' . PHP_EOL;
+    }
     echo "==========" . PHP_EOL;
 }

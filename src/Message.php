@@ -61,21 +61,6 @@ class Message implements \JsonSerializable
     protected $words = [];
 
     /**
-     * @var int
-     */
-    private $receivedTimestamp = 0;
-
-    /**
-     * @var int
-     */
-    private $correctedTimestamp = 0;
-
-    /**
-     * @var int
-     */
-    private $classifiedTimestamp = 0;
-
-    /**
      * @var Message[]
      */
     protected $subMessages = [];
@@ -91,6 +76,11 @@ class Message implements \JsonSerializable
     protected $responses = [];
 
     /**
+     * @var array
+     */
+    protected $performance = [];
+
+    /**
      * Message constructor.
      *
      * @param string $rawMessage
@@ -100,7 +90,6 @@ class Message implements \JsonSerializable
         $this->rawMessage = $rawMessage;
         $this->normalizedMessage = $rawMessage;
         $this->messageId = uniqid(date('YmdHisu').'_', true);
-        $this->receivedTimestamp = microtime(true);
         $this->entities = new EntityBag();
         $this->classification = new ClassificationResultsBag();
         $this->words = StringUtils::words($rawMessage);
@@ -130,7 +119,6 @@ class Message implements \JsonSerializable
     public function setNormalizedMessage(string $normalizedMessage): void
     {
         $this->normalizedMessage = $normalizedMessage;
-        $this->correctedTimestamp = microtime(true);
     }
 
     /**
@@ -163,7 +151,6 @@ class Message implements \JsonSerializable
     public function setClassification(ClassificationResultsBag $classification): void
     {
         $this->classification = $classification;
-        $this->classifiedTimestamp = microtime(true);
     }
 
     /**
@@ -329,23 +316,22 @@ class Message implements \JsonSerializable
     }
 
     /**
-     * @return int[]
-     *
-     * @psalm-return array{receivedAt: int, correctedAt: int, classifiedAt: int, correctionDuration: int, classificationDuration: int}
+     * @return array
      */
-    public function getPerformance():array
+    public function getPerformance(): array
     {
-        if ($this->hasSubMessages()) {
-            return end($this->subMessages)->getPerformance();
-        }
+        return $this->performance;
+    }
 
-        return [
-            'receivedAt' => $this->receivedTimestamp,
-            'correctedAt' => $this->correctedTimestamp,
-            'classifiedAt' => $this->classifiedTimestamp,
-            'correctionDuration' => $this->correctedTimestamp - $this->receivedTimestamp,
-            'classificationDuration' => $this->classifiedTimestamp - $this->correctedTimestamp,
-        ];
+    /**
+     * @param array $performance
+     * @return Message
+     */
+    public function setPerformance(array $performance): Message
+    {
+        $this->performance = $performance;
+
+        return $this;
     }
 
     /**

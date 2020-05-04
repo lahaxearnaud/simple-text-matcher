@@ -31,6 +31,7 @@ use Alahaxe\SimpleTextMatcher\Subscribers\HandlerSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\MessageSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelBuilderSynonymsLoaderSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\ModelCacheSubscriber;
+use Alahaxe\SimpleTextMatcher\Subscribers\PerformanceSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\StemmerCacheSubscriber;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -99,6 +100,7 @@ class EngineFactory
     {
         $eventDispatcher = $eventDispatcher ?? new EventDispatcher();
 
+        $eventDispatcher->addSubscriber(new PerformanceSubscriber());
         $eventDispatcher->addSubscriber(new ClassificationSubscriber());
         $eventDispatcher->addSubscriber(new EntitySubscriber());
         $eventDispatcher->addSubscriber(new HandlerSubscriber($eventDispatcher));

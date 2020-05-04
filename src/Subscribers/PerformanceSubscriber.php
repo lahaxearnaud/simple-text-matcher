@@ -64,6 +64,12 @@ class PerformanceSubscriber implements EventSubscriberInterface
                 'correction' => 0,
                 'classification' => 0,
                 'entitiesExtraction' => 0,
+            ],
+            'memory' => [
+                'received' => memory_get_usage(),
+                'corrected' => 0,
+                'classified' => 0,
+                'entitiesExtracted' => 0,
             ]
         ];
     }
@@ -77,6 +83,7 @@ class PerformanceSubscriber implements EventSubscriberInterface
     {
         $message = $event->getMessage();
         $this->performanceCollector[$message->getMessageId()]['time']['corrected'] = microtime(true);
+        $this->performanceCollector[$message->getMessageId()]['memory']['corrected'] = memory_get_usage();
     }
 
     /**
@@ -88,6 +95,7 @@ class PerformanceSubscriber implements EventSubscriberInterface
     {
         $message = $event->getMessage();
         $this->performanceCollector[$message->getMessageId()]['time']['classified'] = microtime(true);
+        $this->performanceCollector[$message->getMessageId()]['memory']['classified'] = memory_get_usage();
     }
     /**
      * @param EntitiesExtractedEvent $event
@@ -98,6 +106,7 @@ class PerformanceSubscriber implements EventSubscriberInterface
     {
         $message = $event->getMessage();
         $this->performanceCollector[$message->getMessageId()]['time']['entitiesExtracted'] = microtime(true);
+        $this->performanceCollector[$message->getMessageId()]['memory']['entitiesExtracted'] = memory_get_usage();
 
         $times = $this->performanceCollector[$message->getMessageId()]['time'];
 

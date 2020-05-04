@@ -112,8 +112,8 @@ class PerformanceSubscriber implements EventSubscriberInterface
 
         $this->performanceCollector[$message->getMessageId()]['duration'] = [
             'correction' => $times['corrected'] - $times['received'],
-            'classification' => $times['classified'] - $times['received'],
-            'entitiesExtraction' => $times['entitiesExtracted'] - $times['received'],
+            'classification' => $times['classified'] - $times['corrected'],
+            'entitiesExtraction' => $times['entitiesExtracted'] - $times['classified'],
         ];
 
         $message->setPerformance($this->performanceCollector[$message->getMessageId()]);

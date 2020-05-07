@@ -55,7 +55,6 @@ class ConversationTest extends TestCase
         $this->assertStringContainsString($answer, $message->getResponses()[0]);
         $this->assertStringContainsString('Gagné', $message->getResponses()[1]);
         $this->assertFalse($message->isExpectAnswer());
-
     }
 
     public function testCancelConversation()

@@ -31,7 +31,6 @@ class HandlerConfigurationTest extends TestCase
         $this->assertIsArray($message->getResponses());
         $this->assertNotEmpty($message->getResponses());
         $this->assertEquals('test', $message->getResponses()[0]);
-
     }
 
     public function testClosureHandler()

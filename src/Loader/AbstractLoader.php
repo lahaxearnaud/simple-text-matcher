@@ -3,7 +3,6 @@
 
 namespace Alahaxe\SimpleTextMatcher\Loader;
 
-
 use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
 use Alahaxe\SimpleTextMatcher\Handlers\ClosureHandler;
 use Alahaxe\SimpleTextMatcher\Message;

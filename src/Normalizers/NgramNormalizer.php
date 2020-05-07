@@ -3,7 +3,6 @@
 
 namespace Alahaxe\SimpleTextMatcher\Normalizers;
 
-
 use Alahaxe\SimpleTextMatcher\StringUtils;
 
 /**

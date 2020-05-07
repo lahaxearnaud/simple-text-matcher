@@ -44,7 +44,7 @@ class HandlerSubscriber implements EventSubscriberInterface
     /**
      * @param EntitiesExtractedEvent $event
      */
-    public function onEntitiesExtractedEvent (EntitiesExtractedEvent $event)
+    public function onEntitiesExtractedEvent(EntitiesExtractedEvent $event)
     {
         $message = $event->getMessage();
 

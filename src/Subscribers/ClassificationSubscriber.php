@@ -3,7 +3,6 @@
 
 namespace Alahaxe\SimpleTextMatcher\Subscribers;
 
-
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
 use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

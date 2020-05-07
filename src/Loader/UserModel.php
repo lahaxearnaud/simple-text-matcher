@@ -3,7 +3,6 @@
 
 namespace Alahaxe\SimpleTextMatcher\Loader;
 
-
 use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
 
 class UserModel

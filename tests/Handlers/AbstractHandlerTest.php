@@ -3,7 +3,6 @@
 
 namespace alahaxe\SimpleTextMatcher\Tests\Handlers;
 
-
 use Alahaxe\SimpleTextMatcher\Engine;
 use Alahaxe\SimpleTextMatcher\EngineFactory;
 use Alahaxe\SimpleTextMatcher\Message;
@@ -57,12 +56,12 @@ abstract class AbstractHandlerTest extends TestCase
         return 'je vais chez le concessionnaire';
     }
 
-    public abstract function registerHandler():void;
+    abstract public function registerHandler():void;
 
     /**
      * @param Message $message
      */
-    public abstract function checkResponse(Message $message):void;
+    abstract public function checkResponse(Message $message):void;
 
     public function testHandler()
     {

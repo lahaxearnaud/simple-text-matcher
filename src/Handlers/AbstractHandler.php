@@ -17,7 +17,7 @@ abstract class AbstractHandler implements EventSubscriberInterface
     /**
      * @return string
      */
-    protected abstract static function intentName():string;
+    abstract protected static function intentName():string;
 
     /**
      * @inheritDoc
@@ -36,5 +36,5 @@ abstract class AbstractHandler implements EventSubscriberInterface
      *
      * @return mixed
      */
-    public abstract function handle(Message $message);
+    abstract public function handle(Message $message);
 }

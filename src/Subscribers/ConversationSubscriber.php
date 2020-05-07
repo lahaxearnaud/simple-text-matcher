@@ -3,7 +3,6 @@
 
 namespace Alahaxe\SimpleTextMatcher\Subscribers;
 
-
 use Alahaxe\SimpleTextMatcher\Conversation\Conversation;
 use Alahaxe\SimpleTextMatcher\Events\ConversationMessageReceivedEvent;
 use Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;

@@ -24,7 +24,7 @@ class InsultClassifier implements ClassifierInterface
         $startTimer = microtime(true);
 
         if ($question->getFlags()->hasFlag(InsultFlagDetector::getFlagName())) {
-            $bag->add(new ClassificationResult(__CLASS__, AbstractHandler::INSULT_INTENT_NAME,  1));
+            $bag->add(new ClassificationResult(__CLASS__, AbstractHandler::INSULT_INTENT_NAME, 1));
         }
         $bag->setExecutionTime(microtime(true) - $startTimer);
 

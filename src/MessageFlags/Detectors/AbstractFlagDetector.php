@@ -21,5 +21,5 @@ abstract class AbstractFlagDetector implements FlagDetectorInterface
     /**
      * @return string
      */
-    public abstract static function getFlagName(): string;
+    abstract public static function getFlagName(): string;
 }

@@ -71,5 +71,4 @@ class FileLoader extends AbstractLoader
 
         return new UserModel($training, $synonyms, $intentExtractors, $intentHandlers);
     }
-
 }

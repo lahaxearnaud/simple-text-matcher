@@ -3,7 +3,6 @@
 
 namespace Alahaxe\SimpleTextMatcher\Conversation;
 
-
 use Alahaxe\SimpleTextMatcher\Entities\Entity;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CancelExtractor;

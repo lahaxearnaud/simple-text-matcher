@@ -178,7 +178,6 @@ class Engine
             // final version of the message with intent, entities and flags
             $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
         } else {
-
             // bypass classification and load conversation context / invoke handler
             $this->eventDispatcher->dispatch(new ConversationMessageReceivedEvent($question, $this));
         }

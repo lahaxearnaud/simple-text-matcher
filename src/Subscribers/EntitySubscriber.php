@@ -46,6 +46,5 @@ class EntitySubscriber implements EventSubscriberInterface
                 $engine->getExtractors()->getByTypes($intentExtractors[$intent])->apply($question->getRawMessage(), $intentExtractors[$intent])
             );
         }
-
     }
 }

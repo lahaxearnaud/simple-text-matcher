@@ -3,7 +3,6 @@
 
 namespace Alahaxe\SimpleTextMatcher\Tests\Loader;
 
-
 use Alahaxe\SimpleTextMatcher\EngineFactory;
 use Alahaxe\SimpleTextMatcher\Loader\FileLoader;
 use Alahaxe\SimpleTextMatcher\Loader\LoaderException;

@@ -8,6 +8,8 @@ use Alahaxe\SimpleTextMatcher\Entities\Entity;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorInterface;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CancelExtractor;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\NumberExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\PercentageExtractor;
+use Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\UrlExtractor;
 use Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\YesNoExtractor;
 use Alahaxe\SimpleTextMatcher\Message;
 
@@ -142,6 +144,28 @@ class ConversationHelper
     public function askNumber(string $entityName, string $entityQuestion):bool
     {
         return $this->askEntity($entityName, $entityQuestion, new NumberExtractor());
+    }
+
+    /**
+     * @param string $entityName
+     * @param string $entityQuestion
+     *
+     * @return bool
+     */
+    public function askUrl(string $entityName, string $entityQuestion):bool
+    {
+        return $this->askEntity($entityName, $entityQuestion, new UrlExtractor());
+    }
+
+    /**
+     * @param string $entityName
+     * @param string $entityQuestion
+     *
+     * @return bool
+     */
+    public function askPercentage(string $entityName, string $entityQuestion):bool
+    {
+        return $this->askEntity($entityName, $entityQuestion, new PercentageExtractor());
     }
 
     /**

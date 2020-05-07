@@ -33,6 +33,28 @@ class ConversationHelperTest extends TestCase
         $this->assertTrue($value);
     }
 
+    public function testUrl()
+    {
+        $message = new Message('https://httpbin.org/get');
+        $conversationHelper = new ConversationHelper($message);
+
+        $conversationHelper->askUrl('url', 'URL ?');
+        $this->assertGreaterThan(0, $message->getEntities()->count());
+        $value = $message->getEntities()->getByName('url')->first()->getValue();
+        $this->assertEquals('https://httpbin.org/get', $value);
+    }
+
+    public function testPercentage()
+    {
+        $message = new Message('6,87 %');
+        $conversationHelper = new ConversationHelper($message);
+
+        $conversationHelper->askPercentage('percentage', 'Pourcentage ?');
+        $this->assertGreaterThan(0, $message->getEntities()->count());
+        $value = $message->getEntities()->getByName('percentage')->first()->getValue();
+        $this->assertEquals(6.87, $value);
+    }
+
     public function testNotMatch()
     {
         $message = new Message('pouet');

@@ -27,9 +27,14 @@ echo 'Memory Peak: '.(number_format(memory_get_peak_usage()/(1024*1024), 2)).'Mb
 $options = getopt('d');
 $debug = isset($options['d']);
 
+$conversationToken = null;
 while (($question = readline("Question : ")) !== '') {
     $message = new \Alahaxe\SimpleTextMatcher\Message($question);
+    $message->setConversationToken($conversationToken);
+
     $engine->predict($message, true);
+
+    $conversationToken = $message->getConversationToken();
     if ($debug) {
 
         /** @var \Alahaxe\SimpleTextMatcher\Message $messageItem */
@@ -39,6 +44,8 @@ while (($question = readline("Question : ")) !== '') {
             echo 'Normalized: ' . $messageItem->getNormalizedMessage() . PHP_EOL;
             echo 'Flags: ' . json_encode($messageItem->getFlags()) . PHP_EOL;
             echo 'Intent: ' . $messageItem->getIntentDetected() . PHP_EOL;
+            echo 'Conversation token: ' . $messageItem->getConversationToken() . PHP_EOL;
+            echo 'Expect answer: ' . ($messageItem->isExpectAnswer()?'Y':'N') . PHP_EOL;
 
             foreach ($messageItem->getClassification()->all() as $classificationResult) {
                 echo sprintf(
@@ -51,7 +58,7 @@ while (($question = readline("Question : ")) !== '') {
             echo 'Entities: ' . PHP_EOL;
             foreach ($messageItem->getEntities()->all() as $entity) {
                 echo sprintf(
-                        "    - %s %s ", $entity->getType(), $entity->getValue(),
+                        "    - %s %s %s ", $entity->getName(), $entity->getType(), $entity->getValue(),
             ) . PHP_EOL;
             }
         }

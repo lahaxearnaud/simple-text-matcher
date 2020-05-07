@@ -6,12 +6,14 @@ use Alahaxe\SimpleTextMatcher\Classifiers\ClassifierInterface;
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassifiersBag;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Events\BeforeModelBuildEvent;
+use Alahaxe\SimpleTextMatcher\Events\ConversationMessageReceivedEvent;
 use Alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
 use Alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
 use Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageCorrectedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageReceivedEvent;
+use Alahaxe\SimpleTextMatcher\Events\MessageRespondedEvent;
 use Alahaxe\SimpleTextMatcher\Events\MessageSplittedEvent;
 use Alahaxe\SimpleTextMatcher\Events\ModelExpandedEvent;
 use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
@@ -166,14 +168,23 @@ class Engine
         // flag detection / normalisation is done on this event (see: MessageSubscriber)
         $this->eventDispatcher->dispatch(new MessageReceivedEvent($question, $this));
 
-        // classification is done on this event (see: ClassificationSubscriber)
-        $this->eventDispatcher->dispatch(new MessageCorrectedEvent($question, $this));
+        if ($question->getConversationToken() === null) {
+            // classification is done on this event (see: ClassificationSubscriber)
+            $this->eventDispatcher->dispatch(new MessageCorrectedEvent($question, $this));
 
-        // entity extraction is done on this event (see: EntitySubscriber)
-        $this->eventDispatcher->dispatch(new MessageClassifiedEvent($question, $this));
+            // entity extraction is done on this event (see: EntitySubscriber)
+            $this->eventDispatcher->dispatch(new MessageClassifiedEvent($question, $this));
 
-        // final version of the message with intent, entities and flags
-        $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
+            // final version of the message with intent, entities and flags
+            $this->eventDispatcher->dispatch(new EntitiesExtractedEvent($question));
+        } else {
+
+            // bypass classification and load conversation context / invoke handler
+            $this->eventDispatcher->dispatch(new ConversationMessageReceivedEvent($question, $this));
+        }
+
+        // after intent handler
+        $this->eventDispatcher->dispatch(new MessageRespondedEvent($question));
 
         return $question;
     }
@@ -190,7 +201,7 @@ class Engine
             $question = new Message($question);
         }
 
-        if (!$allowSplit) {
+        if (!$allowSplit || $question->getConversationToken() !== null) {
             return $this->classifyMessage($question);
         }
 

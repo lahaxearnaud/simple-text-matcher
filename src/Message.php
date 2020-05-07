@@ -4,6 +4,7 @@
 namespace Alahaxe\SimpleTextMatcher;
 
 use Alahaxe\SimpleTextMatcher\Classifiers\ClassificationResultsBag;
+use Alahaxe\SimpleTextMatcher\Conversation\Conversation;
 use Alahaxe\SimpleTextMatcher\Entities\EntityBag;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Flag;
 use Alahaxe\SimpleTextMatcher\MessageFlags\FlagBag;
@@ -81,6 +82,16 @@ class Message implements \JsonSerializable
     protected $performance = [];
 
     /**
+     * @var bool
+     */
+    protected $expectAnswer = false;
+
+    /**
+     * @var Conversation
+     */
+    protected $conversation;
+
+    /**
      * Message constructor.
      *
      * @param string $rawMessage
@@ -132,7 +143,7 @@ class Message implements \JsonSerializable
     /**
      * @param string $intentDetected
      */
-    public function setIntentDetected(string $intentDetected): void
+    public function setIntentDetected(?string $intentDetected): void
     {
         $this->intentDetected = $intentDetected;
     }
@@ -335,6 +346,69 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function isExpectAnswer(): bool
+    {
+        return $this->expectAnswer;
+    }
+
+    /**
+     * @param bool $expectAnswer
+     * @return Message
+     */
+    public function setExpectAnswer(bool $expectAnswer): Message
+    {
+        $this->expectAnswer = $expectAnswer;
+        return $this;
+    }
+
+    /**
+     * @return Conversation|null
+     */
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    /**
+     * @param Conversation|null $conversation
+     * @return Message
+     */
+    public function setConversation(?Conversation $conversation): Message
+    {
+        $this->conversation = $conversation;
+        return $this;
+    }
+
+
+    /**
+     * @param string|null $conversationToken
+     * @return $this
+     */
+    public function setConversationToken(?string $conversationToken): self
+    {
+        if ($conversationToken === null) {
+            return $this;
+        }
+
+        $this->conversation = Conversation::buildFromToken($conversationToken);
+
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getConversationToken(): ?string
+    {
+        if ($this->conversation === null) {
+            return null;
+        }
+
+        return $this->conversation->getToken();
+    }
+
+    /**
      * @inheritDoc
      */
     public function jsonSerialize()
@@ -350,6 +424,8 @@ class Message implements \JsonSerializable
             'nbWords' => $this->nbWords,
             'flags' => $this->flags,
             'responses' => $this->responses,
+            'expectAnswer' => $this->expectAnswer,
+            'conversationToken' => $this->getConversationToken(),
             'performance' => $this->getPerformance()
         ];
     }

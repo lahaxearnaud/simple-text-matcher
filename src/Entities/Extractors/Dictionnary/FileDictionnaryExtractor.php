@@ -64,8 +64,7 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
         }
         fclose($handle);
 
-        $nbWords = count($words);
-        for ($i = 0; $i < $nbWords; $i++) {
+        for ($i = 0; $i <= count($words); $i++) {
             if (!isset($orderedEntities[$i])) {
                 continue;
             }
@@ -85,6 +84,10 @@ abstract class FileDictionnaryExtractor implements EntityExtractorInterface
      */
     public function testValue(string $dictionaryValue, array $words, string $question)
     {
+        if (strcasecmp($question, $dictionaryValue) === 0) {
+            return 1;
+        }
+
         if (strpos($dictionaryValue, ' ') === false) {
             return array_search($dictionaryValue, $words, true);
         }

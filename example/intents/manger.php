@@ -3,9 +3,9 @@
 return [
     'name' => 'manger',
     'extractors' => [
-        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CityExtractor::class,
-        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CountryExtractor::class,
-        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\ZipCodeExtractor::class,
+        'city' => \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\CityExtractor::class,
+        'country' => \Alahaxe\SimpleTextMatcher\Entities\Extractors\Whitelist\CountryExtractor::class,
+        'zipCode' => \Alahaxe\SimpleTextMatcher\Entities\Extractors\Regex\ZipCodeExtractor::class,
     ],
     'handler' => [
         'directAnswer' => [

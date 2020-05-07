@@ -22,7 +22,8 @@
         "symfony/finder": "^5.0",
         "voku/stop-words": "^2.0",
         "whitecube/lingua": "^1.0",
-        "yooper/php-text-analysis": "^1.5"
+        "yooper/php-text-analysis": "^1.5",
+        "ext-zlib": "*"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",

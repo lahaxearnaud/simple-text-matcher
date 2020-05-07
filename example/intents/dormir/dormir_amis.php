@@ -3,14 +3,12 @@
 return [
     'name' => 'dormir_amis',
     'extractors' => [
-        \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\FirstNameExtractor::class
+        'firstname' => \Alahaxe\SimpleTextMatcher\Entities\Extractors\Dictionnary\FirstNameExtractor::class
     ],
     'handler' => [
         'handlerClosure' => function (\Alahaxe\SimpleTextMatcher\Message $message) {
-            /** @var \Alahaxe\SimpleTextMatcher\Entities\Entity[] $nameDetected */
-            $nameDetected = $message->getEntities()->filter(static function (\Alahaxe\SimpleTextMatcher\Entities\Entity $entity) {
-                return $entity->getType() === 'FIRSTNAME';
-            })->map(static function (\Alahaxe\SimpleTextMatcher\Entities\Entity $entity) {
+
+            $nameDetected = $message->getEntities()->getByName('firstname')->map(static function (\Alahaxe\SimpleTextMatcher\Entities\Entity $entity) {
                 return $entity->getValue();
             })->toArray();
 

@@ -42,4 +42,28 @@ class EntitiesBagTest extends TestCase
         unset($bag['11']);
         $this->assertFalse(isset($bag[11]));
     }
+
+    public function testGetByName():void
+    {
+        $bag = new EntityBag();
+        $bag->add(new Entity('aaa', 'bbb', 'foo'));
+        $this->assertEquals('bbb', $bag->getByName('foo')->first()->getValue());
+    }
+
+    public function testReplace():void
+    {
+        $bag = new EntityBag();
+        $bag->add(new Entity('aaa', 'bbb', 'foo'));
+        $bag->replace(new Entity('aaa', 'ccc', 'foo'));
+        $this->assertEquals('ccc', $bag->getByName('foo')->first()->getValue());
+    }
+
+    public function testRemove():void
+    {
+        $bag = new EntityBag();
+        $entity = new Entity('aaa', 'bbb', 'foo');
+        $bag->add($entity);
+        $bag->removeEntity($entity);
+        $this->assertEquals(0, $bag->count());
+    }
 }

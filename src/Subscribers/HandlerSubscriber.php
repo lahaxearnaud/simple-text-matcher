@@ -3,7 +3,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Subscribers;
 
-use Alahaxe\SimpleTextMatcher\Events\MessageClassifiedEvent;
+use Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;
 use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -35,16 +35,16 @@ class HandlerSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            MessageClassifiedEvent::class => [
-                'onMessageClassified'
+            EntitiesExtractedEvent::class => [
+                'onEntitiesExtractedEvent'
             ]
         ];
     }
 
     /**
-     * @param MessageClassifiedEvent $event
+     * @param EntitiesExtractedEvent $event
      */
-    public function onMessageClassified (MessageClassifiedEvent $event)
+    public function onEntitiesExtractedEvent (EntitiesExtractedEvent $event)
     {
         $message = $event->getMessage();
 

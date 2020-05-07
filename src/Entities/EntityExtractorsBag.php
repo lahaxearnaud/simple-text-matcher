@@ -58,15 +58,25 @@ class EntityExtractorsBag extends ArrayCollection
 
     /**
      * @param string $question
-     *
+     * @param array $entityNames
      * @return EntityBag
      */
-    public function apply(string $question):EntityBag
+    public function apply(string $question, array $entityNames = []):EntityBag
     {
         $result = new EntityBag();
         /** @var EntityExtractorInterface $extractor */
         foreach ($this->toArray() as $extractor) {
-            $result->merge($extractor->extract($question));
+            $name = array_search(get_class($extractor), $entityNames);
+
+            $result->merge(
+                $extractor->extract($question)->map(function (Entity $entity) use ($name) {
+                    if (is_string($name)) {
+                        $entity->setName($name);
+                    }
+
+                    return $entity;
+                })
+            );
         }
 
         return $result;

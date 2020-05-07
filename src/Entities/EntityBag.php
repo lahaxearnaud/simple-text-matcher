@@ -63,4 +63,54 @@ class EntityBag extends ArrayCollection implements \JsonSerializable
     {
         return $this->toArray();
     }
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function getByName(string $name):self
+    {
+        $bag = new EntityBag();
+        /** @var Entity $entity */
+        foreach ($this->toArray() as $entity) {
+            if ($entity->getName() === $name) {
+                $bag->add($entity);
+            }
+        }
+
+        return $bag;
+    }
+
+    /**
+     * @param Entity $item
+     *
+     * @return $this
+     */
+    public function removeEntity(Entity $item):self
+    {
+        /** @var Entity $entity */
+        foreach ($this->toArray() as $key => $entity) {
+            if ($entity->getName() === $item->getName()) {
+                $this->offsetUnset($key);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Entity $item
+     *
+     * @return $this
+     */
+    public function replace(Entity $item):self
+    {
+
+        $this->removeEntity($item);
+        $this->add($item);
+
+        return $this;
+    }
 }

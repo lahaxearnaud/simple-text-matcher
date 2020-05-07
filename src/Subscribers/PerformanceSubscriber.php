@@ -2,6 +2,7 @@
 
 namespace Alahaxe\SimpleTextMatcher\Subscribers;
 
+use Alahaxe\SimpleTextMatcher\Events\ConversationMessageReceivedEvent;
 use Alahaxe\SimpleTextMatcher\Events\EngineBuildedEvent;
 use Alahaxe\SimpleTextMatcher\Events\EngineStartedEvent;
 use Alahaxe\SimpleTextMatcher\Events\EntitiesExtractedEvent;

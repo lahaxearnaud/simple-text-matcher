@@ -12,6 +12,7 @@ use Alahaxe\SimpleTextMatcher\Classifiers\TrainedRegexClassifier;
 use Alahaxe\SimpleTextMatcher\Entities\EntityExtractorsBag;
 use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
 use Alahaxe\SimpleTextMatcher\Handlers\ClosureHandler;
+use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\CancelFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\EmojiFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\FlagDetectorBag;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\InsultFlagDetector;
@@ -26,6 +27,7 @@ use Alahaxe\SimpleTextMatcher\Normalizers\TypoNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnaccentNormalizer;
 use Alahaxe\SimpleTextMatcher\Normalizers\UnpunctuateNormalizer;
 use Alahaxe\SimpleTextMatcher\Subscribers\ClassificationSubscriber;
+use Alahaxe\SimpleTextMatcher\Subscribers\ConversationSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\EntitySubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\HandlerSubscriber;
 use Alahaxe\SimpleTextMatcher\Subscribers\MessageSubscriber;
@@ -101,11 +103,13 @@ class EngineFactory
         $eventDispatcher = $eventDispatcher ?? new EventDispatcher();
 
         $eventDispatcher->addSubscriber(new PerformanceSubscriber());
+        $eventDispatcher->addSubscriber(new ConversationSubscriber());
         $eventDispatcher->addSubscriber(new ClassificationSubscriber());
         $eventDispatcher->addSubscriber(new EntitySubscriber());
         $eventDispatcher->addSubscriber(new HandlerSubscriber($eventDispatcher));
         $eventDispatcher->addSubscriber(new MessageSubscriber(new FlagDetectorBag([
             new NegationFlagDetector(),
+            new CancelFlagDetector(),
             new InsultFlagDetector($lang),
             new QuestionFlagDetector(),
             new EmojiFlagDetector(),

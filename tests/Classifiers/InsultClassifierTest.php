@@ -7,6 +7,7 @@ use Alahaxe\SimpleTextMatcher\Handlers\AbstractHandler;
 use Alahaxe\SimpleTextMatcher\Message;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Detectors\InsultFlagDetector;
 use Alahaxe\SimpleTextMatcher\MessageFlags\Flag;
+use Alahaxe\SimpleTextMatcher\Stemmer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,6 +32,7 @@ class InsultClassifierTest extends TestCase
     {
         $message = new Message('dormir a l hotel');
         $classifier = new InsultClassifier();
+        $classifier->setStemmer(new Stemmer());
         $result = $classifier->classify($message);
         $this->assertEquals(0, $result->count());
     }

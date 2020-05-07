@@ -55,15 +55,19 @@ class ExtractorsBagTest extends TestCase
         $this->assertEquals(0, $bag->count());
         $bag['11'] = new NumberExtractor();
 
-        $result = $bag->apply('je paie 13,87 euros');
+        $result = $bag->apply('je paie 13,87 euros', [
+            'price' => NumberExtractor::class
+        ]);
 
         $this->assertInstanceOf(EntityBag::class, $result);
         $this->assertNotEmpty($result->all());
         $this->assertInstanceOf(Entity::class, $result[0]);
+        $this->assertEquals('price', $result[0]->getName());
 
         $json = $result[0]->jsonSerialize();
         $this->assertIsArray($json);
         $this->assertArrayHasKey('type', $json);
+        $this->assertArrayHasKey('name', $json);
         $this->assertArrayHasKey('value', $json);
     }
 }

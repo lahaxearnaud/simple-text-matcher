@@ -43,7 +43,7 @@ class EntitySubscriber implements EventSubscriberInterface
         $intentExtractors = $engine->getIntentExtractors();
         if (isset($intentExtractors[$question->getIntentDetected()])) {
             $question->setEntities(
-                $engine->getExtractors()->getByTypes($intentExtractors[$intent])->apply($question->getRawMessage())
+                $engine->getExtractors()->getByTypes($intentExtractors[$intent])->apply($question->getRawMessage(), $intentExtractors[$intent])
             );
         }
 

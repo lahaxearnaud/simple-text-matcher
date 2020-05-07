@@ -1,0 +1,33 @@
+<?php
+
+return array(
+    'oui' => true,
+    'yep' => true,
+    'ouai' => true,
+    "absolument" => true,
+    "affirmatif" => true,
+    "entendu" => true,
+    "assurement" => true,
+    "tout a fait" => true,
+    "bien" => true,
+    "bien sur" => true,
+    "certainement" => true,
+    "certes" => true,
+    "accord" => true,
+    "ok" => true,
+    "parfait" => true,
+    "parfaitement" => true,
+    "tres bien" => true,
+    "je confirme" => true,
+
+    'non' => false,
+    'niet' => false,
+    'nenni' => false,
+    'nope' => false,
+    'ko' => false,
+    'annuler' => false,
+    'jamais' => false,
+    'point' => false,
+    'va chier' => false,
+    'merde' => false,
+);
